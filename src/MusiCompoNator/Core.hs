@@ -1,34 +1,40 @@
 
 module MusiCompoNator.Core where
 
--- * Basic constructs.
-
--- | From second version of Fb.
-type Pitch = Rational
-type Beat  = Rational
+-- * Abstract purely harmonic datastructures.
 
 -- | Inspired from "an algebra of music".
-infixr 4 :=:
+infixr 5 :=:
+infixr 4 :+:
+infixr 3 :.:
 
--- | Simultaneous music event.
-data Simultanity a =
+-- We distinguish between musical events that are truely parallel
+-- (have same duration, and
+
+data Simultanity pitch =
     Silence
-  | Sound a
-  | (Simultanity a) :=: (Simultanity a)
-  deriving (Show)
+  | Sound       pitch
+  | Simultanity pitch :=: Simultanity pitch -- truely parallel.
+
+data Sequence pitch =
+    Empty
+  | Simultanity pitch :+: Sequence pitch    -- truely sequential.
+  | Sequence    pitch :.: Sequence pitch    -- composed sequences.
 
 instance Functor Simultanity where
   fmap _ Silence   = Silence
-  fmap f (Sound a) = Sound (f a)
-  fmap f (a :=: b) = (fmap f a) :=: (fmap f b)
+  fmap f (Sound a) = Sound $ f a
+  fmap f (a :=: b) = fmap f a :=: fmap f b
 
--- | A simple rhythm
-type Rhythm = [Beat]
+instance Functor Sequence where
+  fmap _ Empty           = Empty
+  fmap f (s :+: equence) = fmap f s :+: fmap f equence
+  fmap f (s :.: equence) = fmap f s :.: fmap f equence
 
--- | A scale spelled out in a single octave.
-type Scale = [Pitch]
+-- * Inhabitants for the parameter a
 
--- * Simple scale arithmetic.
+-- | From second version of Fb.
+type Pitch = Rational
 
 -- | Movements.
 up, down, sharp, flat :: Pitch -> Pitch
@@ -37,10 +43,9 @@ down  = flip (-) 12
 sharp = (+) 1
 flat  = flip (-) 1
 
-(<~) :: (a -> b) -> (b -> b) -> (a -> b)
-(<~) = flip (.)
+-- | A scale spelled out in a single octave.
+type Scale = [Pitch]
 
--- | The root note.
 root :: Scale -> Pitch
 root = head
 
@@ -56,6 +61,29 @@ step n s = if   n < 0
            then step (n + 1) (invertl s)
            else step (n - 1) (invertr s)
 
--- | Invert scale n steps.
-steps :: Int -> Scale -> Scale
-steps = step . (+1)
+index :: Int -> Scale -> Scale
+index = step . (+1)
+
+-- * Abstract purely rhythmical datastructures.
+
+type Beat  = Rational
+type Meter = (Int, Int)
+data Signature =
+    Times Int Meter
+  | Shift Signature Signature
+
+infixr 3 :|:
+
+data Rhythm beat =
+    Measure Meter [beat]
+  | Repeat  (Rhythm beat)
+  | (Rhythm beat) :|: (Rhythm beat)
+
+instance Functor Rhythm where
+  fmap f (Measure m bs) = Measure m $ map f bs
+  fmap f (Repeat  r)    = Repeat $ fmap f r
+  fmap f (r1 :|: r2)    = fmap f r1 :|: fmap f r2
+
+instance Show Signature where
+  show (Times i (m,n)) = show i ++ "x" ++ "(" ++ show m ++ "/" ++ show n ++ ")"
+  show (Shift s s') = show s ++ " || " ++ show s'
