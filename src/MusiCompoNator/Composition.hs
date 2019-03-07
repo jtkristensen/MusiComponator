@@ -1,130 +1,128 @@
+{-# LANGUAGE TypeSynonymInstances #-}
 
 module MusiCompoNator.Composition where
 
 import MusiCompoNator.Core
-import Control.Arrow (second)
-import Data.Ratio
+import Control.Arrow (first, second)
+-- import Control.Monad
+-- import Data.Ratio
 
 -- * Harmonic construction.
 
--- | Everything is constructed from abstractions on scales.
-data Primitive =
+-- | Everything is constructed from primitive abstractions on scales.
+data Prim =
     Voicing [(Scale -> Pitch)]
-  | View     (Scale -> Scale) Primitive
+  | Mode     (Scale -> Scale) Prim
+
+-- | Transposing a primitive harmonic structure.
+transpose :: Pitch -> Prim -> Prim
+transpose p = Mode $ map (+p)
+
+-- | Shift a primitiv inside the scale.
+shift :: Int -> Prim -> Prim
+shift i = Mode $ index i
 
 -- | Single pich drawn from some scale.
-pitch :: Int -> Primitive
-pitch i = Pitch $ root . (step i)
+pitch :: Int -> Prim
+pitch i = Voicing . return $ root . (step i)
 
 -- | Chord voicing, picked from a scale.
-chord :: Int -> [(Scale -> Pitch)] -> Primitive
-chord i = View (step i) . Voicing
+chord :: Int -> [(Scale -> Pitch)] -> (Sequence Prim)
+chord i fs = Mode (step i) (Voicing fs) :+: Empty
 
--- -- | Named pitch.
--- c, d, e, f, g, a, b :: Pitch
--- c = 0; d = 2; e = 4; f = 5; g = 7; a = 9; b = 11;
+-- | A line defined in terms of abstract scale steps.
+line :: [Scale -> Pitch] -> (Sequence Prim)
+line = foldr (\f xs -> Voicing [f] :+: xs) Empty
 
--- -- | The root note at step n. (should probably not be exported).
--- get :: Int -> Scale -> Pitch
--- get n = root . step n
+-- | An arpeggio is a line viewed relative to some chord.
+arpeggio :: Int -> [Scale -> Pitch] -> (Sequence Prim)
+arpeggio i fs = fmap (Mode $ step i) $ line fs
 
--- -- | Named step abstaction.
--- i, ii, iii, iv, v, vi, vii, viii, ix, x, xi, xii, xiii :: Scale -> Pitch
--- i  = get  1;  ii = get  2;  iii = get  3; iv = get 4; v = get  5
--- vi = get  6; vii = get  7; viii = get  8; ix = get 9; x = get 10
--- xi = get 11; xii = get 12; xiii = get 13
+-- | Derive a musical event from a primitive in some scale
+derive :: Scale -> Prim -> Simultanity Pitch
+derive s (Mode  i v) = derive (i s) v
+derive s (Voicing v) = foldr (\x xs -> Sound (x s) :=: xs) Silence v
 
--- -- | A diatonic mode (relative to the c-major scale).
--- ionian, dorian, phrygian, lydian, mixolydian, aeolian, locrian :: Pitch -> Scale
--- ionian     q = map ((+) q) [c, d, e, f, g, a, b]
--- dorian     q = step 2 $ ionian (q - d)
--- phrygian   q = step 3 $ ionian (q - e)
--- lydian     q = step 4 $ ionian (q - f)
--- mixolydian q = step 5 $ ionian (q - g)
--- aeolian    q = step 6 $ ionian (q - a)
--- locrian    q = step 7 $ ionian (q - b)
+infixr 3 :+
+infix  2 :<
 
--- -- | Derive a musical event from a primitive in some scale
--- derive :: Scale -> Primitive -> Simultanity Pitch
--- derive s (Pitch f)    = Sound (f s)
--- derive s (Chord i fs) = foldr (:=:) Silence $ map (derive (i s) . Pitch) fs
+-- | In the following code entities are both functors on a harmonic
+--   and a rhythmic part.
+class HR hr where
+  hmap :: (a -> b) -> hr a r -> hr b r
+  rmap :: (a -> b) -> hr h a -> hr h b
 
--- -- | Inspired from "an algebra of music".
--- infixr 4 :+:
+-- | A motif, is a sequence of primitives played with a rhythm.
+data Motif h r =
+    (Sequence h) :< (Rhythm r)
+  | (Motif h r)  :+ (Motif h r)
 
--- -- | A motif, is a sequence of primitives played with a rhythm.
--- data Motif a = Motif [a] Rhythm | (Motif a) :+: (Motif a)
+appH :: (Sequence a -> Sequence b) -> Motif a r -> Motif b r
+appH f (h  :< r ) = f h :< r
+appH f (m0 :+ m1) = appH f m0 :+ appH f m1
 
--- instance Functor Motif where
---   fmap f (Motif a b) = Motif (fmap f a) b
---   fmap f (m1 :+: m2) = fmap f m1 :+: fmap f m2
+appR :: (Rhythm   a -> Rhythm   b) -> Motif h a -> Motif h b
+appR f (h  :< r ) = h         :< f r
+appR f (m0 :+ m1) = appR f m0 :+ appR f m1
 
--- -- * Basic rhythmic transformations
+-- to do liftH, liftR.
+instance HR Motif where
+  hmap = appH . fmap
+  rmap = appR . fmap
 
--- -- | Generalized tuplet (borrowed from Hudak).
--- tuplet :: Integer -> Integer -> (Motif a) -> (Motif a)
--- tuplet n m (Motif h r) = Motif h (map ((*) (n % m)) r)
--- tuplet n m (m1 :+: m2) = tuplet n m m1 :+: tuplet n m m2
+-- * The simplest of motifs.
 
--- -- | Simple rhythmic transformations
--- dotted, triplet :: (Motif a) -> (Motif a)
--- dotted  = tuplet 3 2
--- triplet = tuplet 2 3
--- -- no shuffle (yet).
+note :: (Scale -> Pitch) -> Beat -> Motif Prim Beat
+note p b = (Voicing [p] :+: Empty) :< (beat b)
 
--- -- | Named beats (traditional western).
--- wn, hn, qn, en, sn :: Beat
--- wn = 1; hn = 1 % 2; qn = 1 % 4; en = 1 % 8; sn = 1 % 16
+rest :: Beat -> Motif Prim Beat
+rest = (:<) (Voicing [] :+: Empty) . beat
 
--- -- * The simplest of motifs.
+-- * Constructing phrases from motifs.
 
--- note :: (Scale -> Pitch) -> Beat -> Motif Primitive
--- note p = Motif [Pitch p] . return
+-- A phrase adds a dymanic part which we shall refer to as 'phrasing'
+data Phrase h r d = Phrase (Motif (d, h) r)
 
--- -- | The silent motif
--- rest :: Beat -> Motif Primitive
--- rest = chord 1 []
+-- So now 'phrase' <$> 'effect' adds an effect.
+instance Functor (Phrase h r) where
+  fmap f (Phrase p) = Phrase $ hmap (first f) p
 
--- -- | The i'th chord in some scale, voiced as fs.
--- chord :: Int -> [Scale -> Pitch] -> Beat -> Motif Primitive
--- chord i fs = Motif [voicing i fs] . return
+-- For the sake of lifting to a Phrase to HR.
+-- Is there a more elegant way of doing this?
+data HRPhrase d h r = HRP (Phrase h r d)
+instance HR (HRPhrase d) where
+  hmap f (HRP (Phrase m)) = HRP $ Phrase $ hmap (second f) m
+  rmap f (HRP (Phrase m)) = HRP $ Phrase $ rmap f m
 
--- -- | The i'th chord, but broken into an arpeggio.
--- arpeggio :: Int -> [Scale -> Pitch] -> [Primitive]
--- arpeggio i fs = foldr (\x xs -> voicing i [x] : xs) [] fs
+(+^) :: Phrase h r a -> Phrase h r a -> Phrase h r a
+(+^) (Phrase p) (Phrase q) = Phrase $ p :+ q
 
--- -- | Then a line is just a special case of arpeggio.
--- line :: [Scale -> Pitch] -> [Primitive]
--- line fs = arpeggio 1 fs
+opensWith, endsWith ::  Phrase h r a -> (a -> a) -> Phrase h r a
 
--- -- | An abstract phrase `with` a rhythm.
--- with :: [Primitive] -> Rhythm -> Motif Primitive
--- with = Motif
+opensWith (Phrase p) f = Phrase $ (appH . appHead . first) f p
+  where appHead _ Empty = Empty
+        appHead f (s  :+: eq) = f s :+: eq
+        appHead f (s1 :.: s2) = appHead f s1 :.: appHead f s2
 
--- -- * Constructing phrases from motifs.
+endsWith (Phrase p) f = Phrase $ (appH . appTail . first) f p
+  where appTail _ Empty = Empty
+        appTail f (s  :+: Empty) = f s :+: Empty
+        appTail f (s1 :+: s2)    = s1 :+: appTail f s2
+        appTail f (s1 :.: s2)    = appTail f s1 :.: appTail f s2
 
--- type Phrase a = Scale -> Motif (Simultanity Pitch, [a])
+connect :: (a -> a) -> (a -> a) -> Phrase h r a -> Phrase h r a -> Phrase h r a
+connect f g p1 p2 = (p1 `endsWith` f) +^ (p2 `opensWith` g)
 
--- before :: Phrase a -> Phrase a -> Phrase a
--- before ph1 ph2 = \s -> ph1 s :+: ph2 s
+dub :: Monoid d => (Sequence h) -> Phrase h r d -> Phrase h r d
+dub s (Phrase m) = Phrase $ appH (\s' -> s' :.: fmap ((,) mempty) s) m
 
--- -- | We can simply play the motif.
--- play :: Motif Primitive -> Phrase a
--- play motif = \s -> fmap (\h -> (derive s h, [])) motif
+-- What about percussion ?
 
--- -- | We can add 'effects' (for instance midi controller events).
--- effect :: a -> Phrase a -> Phrase a
--- effect a ph = \s -> fmap (second (a:)) $ ph s
+-- Now, what is a voice ?
+-- "Scale -> Phrase h r d ?"
 
--- -- | We can change mode relative to the current tonality.
--- mode :: (Scale -> Scale) -> Phrase a -> Phrase a
--- mode m ph = \s -> ph (m s)
-
--- -- | Now transposition is just a mode translation.
--- transpose :: Pitch -> Phrase a -> Phrase a
--- transpose q = mode (map (+q))
-
--- data Voice a =  Voice Scale (Phrase a)
+-- -- A voice is composed of phrases and
+-- data Voice a = Voice (Phrase Prim Beat a)
 
 -- instance Functor Voice where
 --   fmap f (Voice s ph) = Voice s $ fmap (second (fmap f)) . ph
