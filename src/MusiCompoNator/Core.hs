@@ -1,19 +1,13 @@
 
-{-# LANGUAGE FlexibleContexts #-}
-
 module MusiCompoNator.Core where
 
 import Data.Ratio ((%), numerator, denominator)
-import Control.Arrow (first)
 
 -- * Abstract purely harmonic datastructures.
 
 -- Inspired from "an algebra of music".
 infixr 5 :=:
 infixr 4 :+:
-
--- We distinguish between musical events that are truely parallel
--- and truely sequential.
 
 data Simultanity pitch =
     Silence
@@ -119,6 +113,10 @@ data Signature =
     Times Int Meter
   | Shift Signature Signature
 
+instance Show Signature where
+  show (Times i (m,n)) = show i ++ "x" ++ "(" ++ show m ++ "/" ++ show n ++ ")"
+  show (Shift s s') = show s ++ " || " ++ show s'
+
 tuplet :: Integer -> Integer -> Beat -> Beat
 tuplet n d = (*)(n % d)
 
@@ -147,10 +145,6 @@ instance Functor Rhythm where
   fmap f (Repeat i r)   = Repeat i $ fmap f r
   fmap f (r1 :|: r2)    = fmap f r1 :|: fmap f r2
   fmap f (r1 :-: r2)    = fmap f r1 :-: fmap f r2
-
-instance Show Signature where
-  show (Times i (m,n)) = show i ++ "x" ++ "(" ++ show m ++ "/" ++ show n ++ ")"
-  show (Shift s s') = show s ++ " || " ++ show s'
 
 -- * Simple rhythms
 
@@ -204,57 +198,6 @@ signature = collect . meters
       else Shift (Times n k) $ collect (Times m k' : s)
     collect _ = error "impossible by construction."
 
--- 'fmap' can change time throw time signatures off.
--- A way of fixing this can be to let 'beat' and 'meater' implement
--- a class, and then let 'rhythm' be parameterized by the class.
--- but this makes the data type confusing i think.
-updateSig :: Rhythm Beat -> Rhythm Beat
-updateSig (Measure _ bs) = measure bs
-updateSig (Repeat  n r ) = Repeat n (updateSig r)
-updateSig (r1 :|: r2)    = updateSig r1 :|: updateSig r2
-updateSig (r1 :-: r2)    = updateSig r1 :-: updateSig r2
-
--- We dedicate the name of this transformation to the great J Dilla {^o^}.
--- b a beat, ks proportions, r a rhythm
--- jSigna  :  Subdivision time signature.
--- jTuplet :  Global time scale.
--- jScale  :  Local time scale operation.
--- s       :  Original time signature.
--- s'      :  Globally transformed time signature.
--- l       :  Lenght of ks as an integral.
--- k       :  smallest subdivision (correct ?)
--- (n, d)  :  The (numerator , denominator) of m.
--- TODO -  1) Prove that "signature jDilla m ks r = signature r"
---            for all m > 0 and ks nonempty.
---         2) Check for errors (swing, quintuplets, ..)
---         3) Prove correctness (in what sense?).
---         4) Write better documentation {^_^}.
-jDilla :: Meter -> [Integer] -> (Rhythm Beat -> Rhythm Beat)
-jDilla m ks r =
-  fromTime s $ fst $ jScale (concat (repeat ks)) $ jTuplet $ fromTime s' r
-  where
-    (n, d) = m
-    k      = numerator $ (foldl lcm d $ map denominator jSigna) % d
-    l   = (fromIntegral $ length ks)
-    s   = signature r
-    s'  = Shift (signature $ beat $ ((meter2beat m) / l)) s'
-    jSigna  = map (\k -> k % (sum ks) * (meter2beat m)) ks
-    jTuplet = updateSig . (fmap $ tuplet n k)
-    jScale (n : ns) (Measure _ bs) = (measure $ map ((*) $ fromIntegral n) bs, ns)
-    jScale ns (Repeat 0 _)   = (measure [], ns)
-    jScale ns (Repeat l r)   =
-      let (rb, ns') = jScale ns r in  first (rb:|:) $ jScale ns' (Repeat (l - 1) r)
-    jScale ns (r1 :|: r2)    =
-      let (rb, ns') = jScale ns r1 in  first (rb:|:) $ jScale ns' r2
-    jScale ns (r1 :-: r2)    =
-      let (rb, ns') = jScale ns r1 in  first (rb:-:) $ jScale ns' r2
-    jScale _ _ = error "does not happen by construction."
-
--- Common shuffles
-shuffle8, shuffle16 :: Rhythm Beat -> Rhythm Beat
-shuffle8  = jDilla (2,  8) [2, 1]
-shuffle16 = jDilla (2, 16) [2, 1]
-
 -- | Some named infinite rhythms.
 wns, hns, qns, ens, sns :: Rhythm Beat
 wns = beat wn :|: wns
@@ -262,3 +205,17 @@ hns = beat hn :|: hns
 qns = beat qn :|: qns
 ens = beat en :|: ens
 sns = beat sn :|: sns
+
+
+-- TODO:
+-- In the future, I would like liftH and liftR to live in this module.
+-- class Harmonic h where
+--   liftH :: (a -> b) -> h a -> h b
+-- instance Harmonic Simultanity where
+--   liftH = fmap
+-- instance Harmonic Sequence where
+--   liftH = fmap
+-- class Rhythmic r where
+--   liftR :: (a -> b) -> r a -> r b
+-- instance Rhythmic Rhythm where
+--   liftR = fmap

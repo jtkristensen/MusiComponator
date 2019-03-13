@@ -1,9 +1,10 @@
-{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
 
 module MusiCompoNator.Composition where
 
 import MusiCompoNator.Core
-import Control.Arrow (first, second)
+import Data.Bifunctor
+
 -- import Control.Monad
 -- import Data.Ratio
 
@@ -43,14 +44,8 @@ derive :: Scale -> Prim -> Simultanity Pitch
 derive s (Mode  i v) = derive (i s) v
 derive s (Voicing v) = foldr (\x xs -> Sound (x s) :=: xs) Silence v
 
-infixr 3 :+
-infix  2 :<
-
--- | In the following code entities are both functors on a harmonic
---   and a rhythmic part.
-class HR hr where
-  hmap :: (a -> b) -> hr a r -> hr b r
-  rmap :: (a -> b) -> hr h a -> hr h b
+infixr 4 :+
+infix  3 :<
 
 -- | A motif, is a sequence of primitives played with a rhythm.
 data Motif h r =
@@ -65,10 +60,10 @@ appR :: (Rhythm   a -> Rhythm   b) -> Motif h a -> Motif h b
 appR f (h  :< r ) = h         :< f r
 appR f (m0 :+ m1) = appR f m0 :+ appR f m1
 
--- to do liftH, liftR.
-instance HR Motif where
-  hmap = appH . fmap
-  rmap = appR . fmap
+instance Bifunctor Motif where
+  bimap f g = (appH $ fmap f) . (appR $ fmap g)
+
+class HRF f where -- functor on harmony and rhythm
 
 -- * The simplest of motifs.
 
@@ -78,86 +73,87 @@ note p b = (Voicing [p] :+: Empty) :< (beat b)
 rest :: Beat -> Motif Prim Beat
 rest = (:<) (Voicing [] :+: Empty) . beat
 
--- * Constructing phrases from motifs.
+-- -- * Constructing phrases from motifs.
 
 -- infixr 3 :.:
 
--- A phrase adds a dymanic part which we shall refer to as 'phrasing'
-data Phrase h r d = Phrase (Motif (d, h) r)
+-- A phrase adds a dymanic parts which we shall refer to as 'phrasing'.
+-- data Phrase hd rd h r =
+--     Phrase (Motif (h, hd) (r, rd))
+--   | Phrase hd rd h r :.: Phrase hd rd h r
 
--- So now 'phrase' <$> 'effect' adds an effect.
-instance Functor (Phrase h r) where
-  fmap f (Phrase p) = Phrase $ hmap (first f) p
+-- instance HRF (Phrase a b) where
+--   liftH f (Phrase m) = Phrase $ liftH . first . f $ m
 
--- For the sake of lifting to a Phrase to HR.
--- Is there a more elegant way of doing this?
-data HRPhrase d h r = HRP (Phrase h r d)
-instance HR (HRPhrase d) where
-  hmap f (HRP (Phrase m)) = HRP $ Phrase $ hmap (second f) m
-  rmap f (HRP (Phrase m)) = HRP $ Phrase $ rmap f m
+-- -- For the sake of lifting to a Phrase to HR.
+-- -- Is there a more elegant way of doing this?
+-- data HRPhrase d h r = HRP (Phrase h r d)
+-- instance HR (HRPhrase d) where
+--   hmap f (HRP (Phrase m)) = HRP $ Phrase $ hmap (second f) m
+--   rmap f (HRP (Phrase m)) = HRP $ Phrase $ rmap f m
 
-(+^) :: Phrase h r a -> Phrase h r a -> Phrase h r a
-(+^) (Phrase p) (Phrase q) = Phrase $ p :+ q
+-- (+^) :: Phrase h r a -> Phrase h r a -> Phrase h r a
+-- (+^) (Phrase p) (Phrase q) = Phrase $ p :+ q
 
-opensWith, endsWith ::  Phrase h r a -> (a -> a) -> Phrase h r a
+-- opensWith, endsWith ::  Phrase h r a -> (a -> a) -> Phrase h r a
 
-opensWith (Phrase p) f = Phrase $ (appH . appHead . first) f p
-  where appHead _ Empty = Empty
-        appHead f (s  :+: eq) = f s :+: eq
-        appHead f (s1 :.: s2) = appHead f s1 :.: appHead f s2
+-- opensWith (Phrase p) f = Phrase $ (appH . appHead . first) f p
+--   where appHead _ Empty = Empty
+--         appHead f (s  :+: eq) = f s :+: eq
+--         appHead f (s1 :.: s2) = appHead f s1 :.: appHead f s2
 
-endsWith (Phrase p) f = Phrase $ (appH . appTail . first) f p
-  where appTail _ Empty = Empty
-        appTail f (s  :+: Empty) = f s :+: Empty
-        appTail f (s1 :+: s2)    = s1 :+: appTail f s2
-        appTail f (s1 :.: s2)    = appTail f s1 :.: appTail f s2
+-- endsWith (Phrase p) f = Phrase $ (appH . appTail . first) f p
+--   where appTail _ Empty = Empty
+--         appTail f (s  :+: Empty) = f s :+: Empty
+--         appTail f (s1 :+: s2)    = s1 :+: appTail f s2
+--         appTail f (s1 :.: s2)    = appTail f s1 :.: appTail f s2
 
-connect :: (a -> a) -> (a -> a) -> Phrase h r a -> Phrase h r a -> Phrase h r a
-connect f g p1 p2 = (p1 `endsWith` f) +^ (p2 `opensWith` g)
+-- connect :: (a -> a) -> (a -> a) -> Phrase h r a -> Phrase h r a -> Phrase h r a
+-- connect f g p1 p2 = (p1 `endsWith` f) +^ (p2 `opensWith` g)
 
-dub :: Monoid d => (Sequence h) -> Phrase h r d -> Phrase h r d
-dub s (Phrase m) = Phrase $ appH (\s' -> s' :.: fmap ((,) mempty) s) m
+-- dub :: Monoid d => (Sequence h) -> Phrase h r d -> Phrase h r d
+-- dub s (Phrase m) = Phrase $ appH (\s' -> s' :.: fmap ((,) mempty) s) m
 
--- What about percussion ?
+-- -- What about percussion ?
 
--- Now, what is a voice ?
--- "Scale -> Phrase h r d ?"
+-- -- Now, what is a voice ?
+-- -- "Scale -> Phrase h r d ?"
 
--- -- A voice is composed of phrases and
--- data Voice a = Voice (Phrase Prim Beat a)
+-- -- -- A voice is composed of phrases and
+-- -- data Voice a = Voice (Phrase Prim Beat a)
 
--- instance Functor Voice where
---   fmap f (Voice s ph) = Voice s $ fmap (second (fmap f)) . ph
+-- -- instance Functor Voice where
+-- --   fmap f (Voice s ph) = Voice s $ fmap (second (fmap f)) . ph
 
--- data Player a b =
---   Player { name    :: String
---          , perform :: Voice a -> b
---          }
+-- -- data Player a b =
+-- --   Player { name    :: String
+-- --          , perform :: Voice a -> b
+-- --          }
 
--- data Composition a b =
---   Composition { title  ::  String
---               , tempo  ::  Int
---               , key    ::  Scale
---               , voices :: [(Player a b, Voice a)]
---               }
+-- -- data Composition a b =
+-- --   Composition { title  ::  String
+-- --               , tempo  ::  Int
+-- --               , key    ::  Scale
+-- --               , voices :: [(Player a b, Voice a)]
+-- --               }
 
--- instance Semigroup (Composition a b) where
---   c1 <> c2 = c1 { voices = voices c1 <> voices c2 }
+-- -- instance Semigroup (Composition a b) where
+-- --   c1 <> c2 = c1 { voices = voices c1 <> voices c2 }
 
--- new :: String -> Composition a b
--- new name =
---   Composition { title  = name
---               , tempo  = 120
---               , key    = (ionian c)
---               , voices = []
---               }
+-- -- new :: String -> Composition a b
+-- -- new name =
+-- --   Composition { title  = name
+-- --               , tempo  = 120
+-- --               , key    = (ionian c)
+-- --               , voices = []
+-- --               }
 
--- setTempo :: Int -> Composition a b -> Composition a b
--- setTempo meter c = c { tempo = meter }
+-- -- setTempo :: Int -> Composition a b -> Composition a b
+-- -- setTempo meter c = c { tempo = meter }
 
--- setKey :: Scale -> Composition a b -> Composition a b
--- setKey k c = c { key = k }
+-- -- setKey :: Scale -> Composition a b -> Composition a b
+-- -- setKey k c = c { key = k }
 
--- on :: Voice a -> Player a b -> Composition a b
--- on v p = (new "Voice") { voices = [(p, v)]}
+-- -- on :: Voice a -> Player a b -> Composition a b
+-- -- on v p = (new "Voice") { voices = [(p, v)]}
 
