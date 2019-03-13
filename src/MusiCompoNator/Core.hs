@@ -6,8 +6,8 @@ import Data.Ratio ((%), numerator, denominator)
 -- * Abstract purely harmonic datastructures.
 
 -- Inspired from "an algebra of music".
-infixr 5 :=:
-infixr 4 :+:
+infixr 6 :=:
+infixr 5 :+:
 
 data Simultanity pitch =
     Silence
@@ -133,6 +133,7 @@ wn = 1; hn = 1 % 2; qn = 1 % 4; en = 1 % 8; sn = 1 % 16
 infixr 3 :|: -- bar
 infixr 3 :-: -- tie
 
+-- Rhythm may be parameterized
 data Rhythm beat =
     Measure Meter [beat]
   | Repeat  Int (Rhythm beat)
@@ -145,6 +146,9 @@ instance Functor Rhythm where
   fmap f (Repeat i r)   = Repeat i $ fmap f r
   fmap f (r1 :|: r2)    = fmap f r1 :|: fmap f r2
   fmap f (r1 :-: r2)    = fmap f r1 :-: fmap f r2
+
+instance Semigroup (Rhythm beat) where
+  (<>) = (:|:)
 
 -- * Simple rhythms
 
@@ -198,6 +202,9 @@ signature = collect . meters
       else Shift (Times n k) $ collect (Times m k' : s)
     collect _ = error "impossible by construction."
 
+duration :: Rhythm Beat -> Rational
+duration = sum . unmeasure
+
 -- | Some named infinite rhythms.
 wns, hns, qns, ens, sns :: Rhythm Beat
 wns = beat wn :|: wns
@@ -205,7 +212,6 @@ hns = beat hn :|: hns
 qns = beat qn :|: qns
 ens = beat en :|: ens
 sns = beat sn :|: sns
-
 
 -- TODO:
 -- In the future, I would like liftH and liftR to live in this module.

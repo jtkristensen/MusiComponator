@@ -5,9 +5,6 @@ module MusiCompoNator.Composition where
 import MusiCompoNator.Core
 import Data.Bifunctor
 
--- import Control.Monad
--- import Data.Ratio
-
 -- * Harmonic construction.
 
 -- | Everything is constructed from primitive abstractions on scales.
@@ -24,8 +21,8 @@ shift :: Int -> Prim -> Prim
 shift i = Mode $ index i
 
 -- | Single pich drawn from some scale.
-pitch :: Int -> Prim
-pitch i = Voicing . return $ root . (step i)
+pitch :: Int -> (Sequence Prim)
+pitch i = (Voicing . return $ root . (step i)) :+: Empty
 
 -- | Chord voicing, picked from a scale.
 chord :: Int -> [(Scale -> Pitch)] -> (Sequence Prim)
@@ -44,80 +41,50 @@ derive :: Scale -> Prim -> Simultanity Pitch
 derive s (Mode  i v) = derive (i s) v
 derive s (Voicing v) = foldr (\x xs -> Sound (x s) :=: xs) Silence v
 
-infixr 4 :+
-infix  3 :<
+infix 4 :<:
 
 -- | A motif, is a sequence of primitives played with a rhythm.
-data Motif h r =
-    (Sequence h) :< (Rhythm r)
-  | (Motif h r)  :+ (Motif h r)
-
-appH :: (Sequence a -> Sequence b) -> Motif a r -> Motif b r
-appH f (h  :< r ) = f h :< r
-appH f (m0 :+ m1) = appH f m0 :+ appH f m1
-
-appR :: (Rhythm   a -> Rhythm   b) -> Motif h a -> Motif h b
-appR f (h  :< r ) = h         :< f r
-appR f (m0 :+ m1) = appR f m0 :+ appR f m1
+data Motif h r = (Sequence h) :<: (Rhythm r)
 
 instance Bifunctor Motif where
-  bimap f g = (appH $ fmap f) . (appR $ fmap g)
-
-class HRF f where -- functor on harmony and rhythm
+  bimap f g (h :<: r) = fmap f h :<: fmap g r
 
 -- * The simplest of motifs.
 
 note :: (Scale -> Pitch) -> Beat -> Motif Prim Beat
-note p b = (Voicing [p] :+: Empty) :< (beat b)
+note p b = (Voicing [p] :+: Empty) :<: (beat b)
 
 rest :: Beat -> Motif Prim Beat
-rest = (:<) (Voicing [] :+: Empty) . beat
+rest = (:<:) (Voicing [] :+: Empty) . beat
 
--- -- * Constructing phrases from motifs.
+-- * Constructing phrases from motifs.
 
--- infixr 3 :.:
+-- Where ??
+-- infixr 3 :..:
+-- infixr 2 :++:
+-- t m d :..: t m d
+-- t m d :++: t m d
 
--- A phrase adds a dymanic parts which we shall refer to as 'phrasing'.
--- data Phrase hd rd h r =
---     Phrase (Motif (h, hd) (r, rd))
---   | Phrase hd rd h r :.: Phrase hd rd h r
+-- A phrase is a special motif, that has a concrete musical meaning,
+-- and which parameterizes rhythms with dynamic properties that we
+-- shall refer to as 'phrasing'.
+data Phrase m d = Phrase m d
 
--- instance HRF (Phrase a b) where
---   liftH f (Phrase m) = Phrase $ liftH . first . f $ m
+instance Bifunctor Phrase where
+  bimap f g (Phrase m d) = Phrase (f m) (g d)
 
--- -- For the sake of lifting to a Phrase to HR.
--- -- Is there a more elegant way of doing this?
--- data HRPhrase d h r = HRP (Phrase h r d)
--- instance HR (HRPhrase d) where
---   hmap f (HRP (Phrase m)) = HRP $ Phrase $ hmap (second f) m
---   rmap f (HRP (Phrase m)) = HRP $ Phrase $ rmap f m
+-- data Voice =
+--     Voice (Scale -> Motif (Simultanity Pitch) (Beat, Phrasing))
+  -- | Voice :.: Voice -- polyphonic composition. ??
 
--- (+^) :: Phrase h r a -> Phrase h r a -> Phrase h r a
--- (+^) (Phrase p) (Phrase q) = Phrase $ p :+ q
+-- What about percussion ?
 
--- opensWith, endsWith ::  Phrase h r a -> (a -> a) -> Phrase h r a
+-- Now, what is a voice ?
+-- "Scale -> Phrase h r d ?"
 
--- opensWith (Phrase p) f = Phrase $ (appH . appHead . first) f p
---   where appHead _ Empty = Empty
---         appHead f (s  :+: eq) = f s :+: eq
---         appHead f (s1 :.: s2) = appHead f s1 :.: appHead f s2
 
--- endsWith (Phrase p) f = Phrase $ (appH . appTail . first) f p
---   where appTail _ Empty = Empty
---         appTail f (s  :+: Empty) = f s :+: Empty
---         appTail f (s1 :+: s2)    = s1 :+: appTail f s2
---         appTail f (s1 :.: s2)    = appTail f s1 :.: appTail f s2
-
--- connect :: (a -> a) -> (a -> a) -> Phrase h r a -> Phrase h r a -> Phrase h r a
--- connect f g p1 p2 = (p1 `endsWith` f) +^ (p2 `opensWith` g)
-
--- dub :: Monoid d => (Sequence h) -> Phrase h r d -> Phrase h r d
--- dub s (Phrase m) = Phrase $ appH (\s' -> s' :.: fmap ((,) mempty) s) m
-
--- -- What about percussion ?
-
--- -- Now, what is a voice ?
--- -- "Scale -> Phrase h r d ?"
+-- data Voice a =
+--   Single
 
 -- -- -- A voice is composed of phrases and
 -- -- data Voice a = Voice (Phrase Prim Beat a)
