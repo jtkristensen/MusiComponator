@@ -1,4 +1,6 @@
 
+{-# LANGUAGE FlexibleContexts #-}
+
 module MusiCompoNator.Core where
 
 import Data.Ratio ((%), numerator, denominator)
@@ -8,33 +10,52 @@ import Control.Arrow (first)
 
 -- Inspired from "an algebra of music".
 infixr 5 :=:
+infixr 4 :+:
 
 -- We distinguish between musical events that are truely parallel
--- (have same duration, and
+-- and truely sequential.
 
 data Simultanity pitch =
     Silence
   | Sound       pitch
   | Simultanity pitch :=: Simultanity pitch -- truely parallel.
-
--- Inspired from "an algebra of music".
-infixr 4 :+:
-infixr 3 :.:
-
-data Sequence harmony =
-    Empty
-  |           harmony :+: Sequence harmony  -- truely sequential.
-  | Sequence  harmony :.: Sequence harmony  -- composed sequences.
+  deriving(Show)
 
 instance Functor Simultanity where
   fmap _ Silence   = Silence
   fmap f (Sound a) = Sound $ f a
   fmap f (a :=: b) = fmap f a :=: fmap f b
 
+instance Semigroup (Simultanity pitch) where
+  (<>) = (:=:)
+
+instance Monoid (Simultanity pitch) where
+  mempty  = Silence
+  mappend = (<>)
+
+instance Foldable Simultanity where
+  foldMap _ (Silence) = mempty
+  foldMap f (Sound p) = f p
+  foldMap f (a :=: b) = foldMap f a <> foldMap f b
+
+data Sequence harmony =
+  Empty | harmony :+: Sequence harmony    -- truely sequential.
+
 instance Functor Sequence where
   fmap _ Empty           = Empty
-  fmap f (s :+: equence) =      f s :+: fmap f equence
-  fmap f (s :.: equence) = fmap f s :.: fmap f equence
+  fmap f (s :+: equence) = f s :+: fmap f equence
+
+instance Semigroup (Sequence harmony) where
+  Empty         <> s2 = s2
+  (harm :+: s1) <> s2 = harm :+: (s1 <> s2)
+
+instance Monoid (Sequence harmony) where
+  mempty  = Empty
+  mappend = (<>)
+
+instance Foldable Sequence where
+  foldr _ e (Empty  ) = e
+  foldr f e (p :+: s) = f p $ foldr f e s
 
 -- * Inhabitants for the parameter 'pitch'.
 
@@ -110,14 +131,15 @@ triplet = tuplet 2 3
 wn, hn, qn, en, sn :: Beat
 wn = 1; hn = 1 % 2; qn = 1 % 4; en = 1 % 8; sn = 1 % 16
 
-infixr 3 :|:
-infixr 3 :-:
+-- Measures can be separated in two ways.
+infixr 3 :|: -- bar
+infixr 3 :-: -- tie
 
 data Rhythm beat =
     Measure Meter [beat]
   | Repeat  Int (Rhythm beat)
-  | (Rhythm beat) :|: (Rhythm beat) -- bar
-  | (Rhythm beat) :-: (Rhythm beat) -- tie
+  | (Rhythm beat) :|: (Rhythm beat)
+  | (Rhythm beat) :-: (Rhythm beat)
     deriving(Show)
 
 instance Functor Rhythm where

@@ -80,6 +80,8 @@ rest = (:<) (Voicing [] :+: Empty) . beat
 
 -- * Constructing phrases from motifs.
 
+-- infixr 3 :.:
+
 -- A phrase adds a dymanic part which we shall refer to as 'phrasing'
 data Phrase h r d = Phrase (Motif (d, h) r)
 
