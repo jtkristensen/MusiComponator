@@ -5,7 +5,6 @@ import MusiCompoNator.Core
 -- TODO : updata sig.
 
 
-
 -- TODO : Better version.
 -- We dedicate the name of this transformation to the great J Dilla {^o^}.
 -- b a beat, ks proportions, r a rhythm

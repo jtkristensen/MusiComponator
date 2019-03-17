@@ -14,7 +14,7 @@ data Prim =
 
 -- | Transposing a primitive harmonic structure.
 transpose :: Pitch -> Prim -> Prim
-transpose p = Mode $ map (+p)
+transpose p = Mode $ fmap (+p)
 
 -- | Shift a primitiv inside the scale.
 shift :: Int -> Prim -> Prim
@@ -24,9 +24,12 @@ shift i = Mode $ index i
 pitch :: Int -> (Sequence Prim)
 pitch i = (Voicing . return $ root . (step i)) :+: Empty
 
+mode :: (Scale -> Scale) -> [Scale -> Pitch] -> (Sequence Prim)
+mode f fs = Mode f (Voicing fs) :+: Empty
+
 -- | Chord voicing, picked from a scale.
 chord :: Int -> [(Scale -> Pitch)] -> (Sequence Prim)
-chord i fs = Mode (step i) (Voicing fs) :+: Empty
+chord = mode . step
 
 -- | A line defined in terms of abstract scale steps.
 line :: [Scale -> Pitch] -> (Sequence Prim)
@@ -41,41 +44,30 @@ derive :: Scale -> Prim -> Simultanity Pitch
 derive s (Mode  i v) = derive (i s) v
 derive s (Voicing v) = foldr (\x xs -> Sound (x s) :=: xs) Silence v
 
-infix 4 :<:
-
--- | A motif, is a sequence of primitives played with a rhythm.
-data Motif h r = (Sequence h) :<: (Rhythm r)
+infixr 4 :<:
+data Motif harmony rhythm = harmony :<: rhythm
 
 instance Bifunctor Motif where
-  bimap f g (h :<: r) = fmap f h :<: fmap g r
+  bimap f g (h :<: r) = f h :<: g r
 
--- * The simplest of motifs.
+-- A musical phrase, is the composition of a harmonic sequence with a rhythm.
+-- Additionally, a phrase may contain information about performance.
+data Phrase h r d = Segment (Motif h r) d
 
-note :: (Scale -> Pitch) -> Beat -> Motif Prim Beat
-note p b = (Voicing [p] :+: Empty) :<: (beat b)
+-- liftH :: (a -> b) -> Phrase a r d -> Phrase b r d
+-- liftH f (Segment m d) = Segment (first f m) d
 
-rest :: Beat -> Motif Prim Beat
-rest = (:<:) (Voicing [] :+: Empty) . beat
+-- liftR :: (a -> b) -> Phrase h a d -> Phrase h b d
+-- liftR f (Segment m d) = Segment (second f m) d
 
--- * Constructing phrases from motifs.
+-- phrase :: Monoid d => Motif h r -> Phrase h r d
+-- phrase m = Segment m mempty
 
--- Where ??
--- infixr 3 :..:
--- infixr 2 :++:
--- t m d :..: t m d
--- t m d :++: t m d
+-- note :: Monoid d => (Scale -> Pitch) -> Beat -> Phrase Prim Beat d
+-- note p b = phrase $ (Voicing [p] :+: Empty) :<: beat b
 
--- A phrase is a special motif, that has a concrete musical meaning,
--- and which parameterizes rhythms with dynamic properties that we
--- shall refer to as 'phrasing'.
-data Phrase m d = Phrase m d
-
-instance Bifunctor Phrase where
-  bimap f g (Phrase m d) = Phrase (f m) (g d)
-
--- data Voice =
---     Voice (Scale -> Motif (Simultanity Pitch) (Beat, Phrasing))
-  -- | Voice :.: Voice -- polyphonic composition. ??
+-- rest :: Monoid d => Beat -> Phrase Prim Beat d
+-- rest = phrase . (:<:) (Voicing [] :+: Empty) . beat
 
 -- What about percussion ?
 

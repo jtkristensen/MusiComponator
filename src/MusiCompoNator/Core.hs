@@ -6,8 +6,8 @@ import Data.Ratio ((%), numerator, denominator)
 -- * Abstract purely harmonic datastructures.
 
 -- Inspired from "an algebra of music".
-infixr 6 :=:
-infixr 5 :+:
+infixr 5 :=:
+infixr 4 :+:
 
 data Simultanity pitch =
     Silence
@@ -117,23 +117,23 @@ instance Show Signature where
   show (Times i (m,n)) = show i ++ "x" ++ "(" ++ show m ++ "/" ++ show n ++ ")"
   show (Shift s s') = show s ++ " || " ++ show s'
 
-tuplet :: Integer -> Integer -> Beat -> Beat
-tuplet n d = (*)(n % d)
+tuplet :: Integer -> Integer -> Rhythm Beat -> Rhythm Beat
+tuplet n d = fmap $ (*)(n % d)
 
-dotted, triplet :: Beat -> Beat
+dotted, triplet :: Rhythm Beat -> Rhythm Beat
 dotted  = tuplet 3 2
 triplet = tuplet 2 3
 -- shuffle goes into rhythm.
 
 -- | Named beats (traditional western).
-wn, hn, qn, en, sn :: Beat
-wn = 1; hn = 1 % 2; qn = 1 % 4; en = 1 % 8; sn = 1 % 16
+wn, hn, qn, en, sn :: Rhythm Beat
+wn = beat $ 1 % 1; hn = beat $ 1 %  2; qn = beat $ 1 % 4
+en = beat $ 1 % 8; sn = beat $ 1 % 16;
 
 -- Measures can be separated in two ways.
 infixr 3 :|: -- bar
 infixr 3 :-: -- tie
 
--- Rhythm may be parameterized
 data Rhythm beat =
     Measure Meter [beat]
   | Repeat  Int (Rhythm beat)
@@ -147,7 +147,7 @@ instance Functor Rhythm where
   fmap f (r1 :|: r2)    = fmap f r1 :|: fmap f r2
   fmap f (r1 :-: r2)    = fmap f r1 :-: fmap f r2
 
-instance Semigroup (Rhythm beat) where
+instance Semigroup (Rhythm a) where
   (<>) = (:|:)
 
 -- * Simple rhythms
@@ -206,12 +206,12 @@ duration :: Rhythm Beat -> Rational
 duration = sum . unmeasure
 
 -- | Some named infinite rhythms.
-wns, hns, qns, ens, sns :: Rhythm Beat
-wns = beat wn :|: wns
-hns = beat hn :|: hns
-qns = beat qn :|: qns
-ens = beat en :|: ens
-sns = beat sn :|: sns
+wns, hns, qns, ens, sns :: Int -> Rhythm Beat
+wns n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure wn
+hns n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure hn
+qns n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure qn
+ens n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure en
+sns n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure sn
 
 -- TODO:
 -- In the future, I would like liftH and liftR to live in this module.
