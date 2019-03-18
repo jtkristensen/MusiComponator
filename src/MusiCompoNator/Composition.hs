@@ -3,7 +3,6 @@
 module MusiCompoNator.Composition where
 
 import MusiCompoNator.Core
-import Data.Bifunctor
 
 -- * Harmonic construction.
 
@@ -45,20 +44,20 @@ derive s (Mode  i v) = derive (i s) v
 derive s (Voicing v) = foldr (\x xs -> Sound (x s) :=: xs) Silence v
 
 infixr 4 :<:
-data Motif harmony rhythm = harmony :<: rhythm
-
-instance Bifunctor Motif where
-  bimap f g (h :<: r) = f h :<: g r
+infixr 3 :++:
 
 -- A musical phrase, is the composition of a harmonic sequence with a rhythm.
 -- Additionally, a phrase may contain information about performance.
-data Phrase h r d = Segment (Motif h r) d
+data Phrase h r = h :<: r -- A simple motif.
+                | Phrase h r :++: Phrase h r
 
--- liftH :: (a -> b) -> Phrase a r d -> Phrase b r d
--- liftH f (Segment m d) = Segment (first f m) d
+liftH :: (a -> b) -> Phrase a r -> Phrase b r
+liftH f (h :<: r) = f h :<: r
+liftH f (Control d ph) = Control d (liftH f ph)
 
--- liftR :: (a -> b) -> Phrase h a d -> Phrase h b d
--- liftR f (Segment m d) = Segment (second f m) d
+liftR :: (a -> b) -> Phrase h a d -> Phrase h b d
+liftR f (h :<: r) = h :<: f r
+liftR f (Control d ph) = Control d (liftR f ph)
 
 -- phrase :: Monoid d => Motif h r -> Phrase h r d
 -- phrase m = Segment m mempty

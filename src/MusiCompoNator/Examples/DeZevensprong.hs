@@ -6,7 +6,7 @@ import MusiCompoNator.Core
 
 swing8 = id -- todo
 
-rhythm = fromTime (Times 9 (4,4)) $
+rhythm = withSignature (Times 9 (4,4)) $
   bar1 :|: bar2 :|: bar3 :|: bar4 :|:
   bar5 :|: bar6 :|: bar7 :|: bar8 :|:
   (qns 2 <> wn)

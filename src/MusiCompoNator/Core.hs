@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleInstances #-}
 
 module MusiCompoNator.Core where
 
@@ -173,34 +174,36 @@ unmeasure (r1 :-: r2)    = unmeasure r1 `tie` unmeasure r2
         tie [x] (h : t) = (x + h : t)
         tie (x : xs) t  = x : tie xs t
 
-fromTime :: Signature -> Rhythm Beat -> Rhythm Beat
-fromTime s r = aquire [] (meters s) (unmeasure r)
-  where
-    meters (Times n   m) = map (const $ fst m % snd m) [1..n]
-    meters (Shift s0 s1) = meters s0 ++ meters s1
-    aquire m _        [      ] = measure (reverse m)
-    aquire m [      ] _        = measure (reverse m)
-    aquire m (q : qs) (b : bs) =
-      case q `compare` b of
-        EQ -> measure (reverse $ b : m) :|: aquire [     ] qs           bs
-        LT -> measure (reverse $ q : m) :-: aquire [     ] qs  (b - q : bs)
-        GT ->                               aquire (b : m) (q - b : qs) bs
+class Mesurable m where
+  withSignature :: Signature -> m -> m
+  signature     :: m -> Signature
 
-signature :: Rhythm Beat -> Signature
-signature = collect . meters
-  where
-    meters (Measure (0, 1) _) = []
-    meters (Measure     m _ ) = [Times 1 m]
-    meters (Repeat      0 _ ) = []
-    meters (Repeat      n r ) = meters r ++ meters (Repeat (n - 1) r)
-    meters (r1 :|: r2)        = meters r1 ++ meters r2
-    meters (r1 :-: r2)        = meters r1 ++ meters r2
-    collect [s] = s
-    collect (Times n k : Times m k' : s) =
-      if   k == k'
-      then collect (Times (n + m) k : s)
-      else Shift (Times n k) $ collect (Times m k' : s)
-    collect _ = error "impossible by construction."
+instance Mesurable (Rhythm Beat) where
+  withSignature s r = aquire [] (meters s) (unmeasure r)
+    where
+      meters (Times n   m) = map (const $ fst m % snd m) [1..n]
+      meters (Shift s0 s1) = meters s0 ++ meters s1
+      aquire m _        [      ] = measure (reverse m)
+      aquire m [      ] _        = measure (reverse m)
+      aquire m (q : qs) (b : bs) =
+        case q `compare` b of
+          EQ -> measure (reverse $ b : m) :|: aquire [     ] qs           bs
+          LT -> measure (reverse $ q : m) :-: aquire [     ] qs  (b - q : bs)
+          GT ->                               aquire (b : m) (q - b : qs) bs
+  signature = collect . meters
+    where
+      meters (Measure (0, 1) _) = []
+      meters (Measure     m _ ) = [Times 1 m]
+      meters (Repeat      0 _ ) = []
+      meters (Repeat      n r ) = meters r ++ meters (Repeat (n - 1) r)
+      meters (r1 :|: r2)        = meters r1 ++ meters r2
+      meters (r1 :-: r2)        = meters r1 ++ meters r2
+      collect [s] = s
+      collect (Times n k : Times m k' : s) =
+        if   k == k'
+        then collect (Times (n + m) k : s)
+        else Shift (Times n k) $ collect (Times m k' : s)
+      collect _ = error "impossible by construction."
 
 duration :: Rhythm Beat -> Rational
 duration = sum . unmeasure
