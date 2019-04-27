@@ -2,18 +2,18 @@
 
 module MusiCompoNator.Core where
 
-import Data.Ratio ((%), numerator, denominator)
+import Data.Ratio ((%))
 
--- * Abstract purely harmonic datastructures.
+-- * Purely harmonic abstractions.
 
--- Inspired from "an algebra of music".
+-- Inspired from "an algebra of music", but concerns itself with
+-- parallel composition only.
 infixr 5 :=:
-infixr 4 :+:
 
 data Simultanity pitch =
     Silence
   | Sound       pitch
-  | Simultanity pitch :=: Simultanity pitch -- truely parallel.
+  | Simultanity pitch :=: Simultanity pitch
   deriving(Show)
 
 instance Functor Simultanity where
@@ -33,39 +33,16 @@ instance Foldable Simultanity where
   foldMap f (Sound p) = f p
   foldMap f (a :=: b) = foldMap f a <> foldMap f b
 
-data Sequence harmony =
-  Empty | harmony :+: Sequence harmony    -- truely sequential.
+type Sequence harmony = [harmony]
+type Pitch            = Rational
+type Scale            = [Pitch]
 
-instance Functor Sequence where
-  fmap _ Empty           = Empty
-  fmap f (s :+: equence) = f s :+: fmap f equence
-
-instance Semigroup (Sequence harmony) where
-  Empty         <> s2 = s2
-  (harm :+: s1) <> s2 = harm :+: (s1 <> s2)
-
-instance Monoid (Sequence harmony) where
-  mempty  = Empty
-  mappend = (<>)
-
-instance Foldable Sequence where
-  foldr _ e (Empty  ) = e
-  foldr f e (p :+: s) = f p $ foldr f e s
-
--- * Inhabitants for the parameter 'pitch'.
-
--- | From second version of Fb.
-type Pitch = Rational
-
--- | Movements.
+-- | Scale movements.
 up, down, sharp, flat :: Pitch -> Pitch
 up    = (+) 12
 down  = flip (-) 12
 sharp = (+) 1
 flat  = flip (-) 1
-
--- | A scale spelled out in a single octave.
-type Scale = [Pitch]
 
 root :: Scale -> Pitch
 root = head
@@ -106,16 +83,13 @@ locrian    q = step 7 $ ionian (q - 11)
 
 -- TODO : primary scales from chords.
 
--- * Abstract purely rhythmical datastructures.
+-- * Purely rhythmical abstractions.
 
-type Beat  = Rational
-type Meter = (Integer, Integer)
-data Signature =
-    Times Int Meter
-  | Shift Signature Signature
+type Beat      = Rational
+data Signature = Times Int Rational | Shift Signature Signature
 
 instance Show Signature where
-  show (Times i (m,n)) = show i ++ "x" ++ "(" ++ show m ++ "/" ++ show n ++ ")"
+  show (Times i  m) = show i ++ "x" ++ "(" ++ show m ++ ")"
   show (Shift s s') = show s ++ " || " ++ show s'
 
 tuplet :: Integer -> Integer -> Rhythm Beat -> Rhythm Beat
@@ -127,26 +101,25 @@ triplet = tuplet 2 3
 -- shuffle goes into rhythm.
 
 -- | Named beats (traditional western).
-wn, hn, qn, en, sn :: Rhythm Beat
-wn = beat $ 1 % 1; hn = beat $ 1 %  2; qn = beat $ 1 % 4
-en = beat $ 1 % 8; sn = beat $ 1 % 16;
+wn, hn, qn, en, sn :: Beat
+wn = 1 % 1; hn = 1 %  2; qn = 1 % 4; en = 1 % 8; sn = 1 % 16;
 
 -- Measures can be separated in two ways.
 infixr 3 :|: -- bar
 infixr 3 :-: -- tie
 
 data Rhythm beat =
-    Measure Meter [beat]
+    Measure [beat]
   | Repeat  Int (Rhythm beat)
   | (Rhythm beat) :|: (Rhythm beat)
   | (Rhythm beat) :-: (Rhythm beat)
     deriving(Show)
 
 instance Functor Rhythm where
-  fmap f (Measure m bs) = Measure m $ map f bs
-  fmap f (Repeat i r)   = Repeat i $ fmap f r
-  fmap f (r1 :|: r2)    = fmap f r1 :|: fmap f r2
-  fmap f (r1 :-: r2)    = fmap f r1 :-: fmap f r2
+  fmap f (Measure bs) = Measure $ map f bs
+  fmap f (Repeat i r) = Repeat i $ fmap f r
+  fmap f (r1 :|: r2)  = fmap f r1 :|: fmap f r2
+  fmap f (r1 :-: r2)  = fmap f r1 :-: fmap f r2
 
 instance Semigroup (Rhythm a) where
   (<>) = (:|:)
@@ -156,17 +129,11 @@ instance Semigroup (Rhythm a) where
 beat :: Beat -> Rhythm Beat
 beat b = measure [b]
 
-beat2meter :: Beat -> Meter
-beat2meter b = (numerator b, denominator b)
-
-meter2beat :: Meter -> Beat
-meter2beat m = fst m % snd m
-
 measure :: [Beat] -> Rhythm Beat
-measure bs = Measure (beat2meter (foldl (+) 0 bs)) bs
+measure = Measure
 
 unmeasure :: Rhythm Beat -> [Beat]
-unmeasure (Measure _ bs) = bs
+unmeasure (Measure bs)   = bs
 unmeasure (Repeat  i rh) = foldr (++) [] (map (const $ unmeasure rh) [1..i])
 unmeasure (r1 :|: r2)    = unmeasure r1 ++ unmeasure r2
 unmeasure (r1 :-: r2)    = unmeasure r1 `tie` unmeasure r2
@@ -181,7 +148,7 @@ class Mesurable m where
 instance Mesurable (Rhythm Beat) where
   withSignature s r = aquire [] (meters s) (unmeasure r)
     where
-      meters (Times n   m) = map (const $ fst m % snd m) [1..n]
+      meters (Times n   m) = map (const m) [1..n]
       meters (Shift s0 s1) = meters s0 ++ meters s1
       aquire m _        [      ] = measure (reverse m)
       aquire m [      ] _        = measure (reverse m)
@@ -192,8 +159,7 @@ instance Mesurable (Rhythm Beat) where
           GT ->                               aquire (b : m) (q - b : qs) bs
   signature = collect . meters
     where
-      meters (Measure (0, 1) _) = []
-      meters (Measure     m _ ) = [Times 1 m]
+      meters (Measure      bs ) = [Times 1 $ sum bs]
       meters (Repeat      0 _ ) = []
       meters (Repeat      n r ) = meters r ++ meters (Repeat (n - 1) r)
       meters (r1 :|: r2)        = meters r1 ++ meters r2
@@ -210,11 +176,11 @@ duration = sum . unmeasure
 
 -- | Some named infinite rhythms.
 wns, hns, qns, ens, sns :: Int -> Rhythm Beat
-wns n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure wn
-hns n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure hn
-qns n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure qn
-ens n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure en
-sns n = measure $ take n $ foldr (++) [] $ repeat $ unmeasure sn
+wns n = measure $ take n $ repeat wn
+hns n = measure $ take n $ repeat hn
+qns n = measure $ take n $ repeat qn
+ens n = measure $ take n $ repeat en
+sns n = measure $ take n $ repeat sn
 
 -- TODO:
 -- In the future, I would like liftH and liftR to live in this module.
