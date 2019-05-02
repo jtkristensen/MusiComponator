@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: add0b2403898f46e62daea720b123295fef4292ff5e6e7fa22462f5ebf96cea7
+-- hash: 3f04a11a0dcfe59a35f2b77da4abf1cc5aee32a1a03e74d2bcdfd2dd083325c5
 
 name:           MusiCompoNator
 version:        0.1.0.0
@@ -28,13 +28,18 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      MusiCompoNator.Composition
+      MusiCompoNator.Core
+      MusiCompoNator.Examples.DeZevensprong
+      MusiCompoNator.GeneralMidi
+      MusiCompoNator.Lib.Rhythm
   other-modules:
       Paths_MusiCompoNator
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , mtl
     , zmidi-core
   default-language: Haskell2010
 
@@ -49,6 +54,7 @@ test-suite MusiCompoNator-test
   build-depends:
       MusiCompoNator
     , base >=4.7 && <5
+    , mtl
     , process
     , zmidi-core
   default-language: Haskell2010

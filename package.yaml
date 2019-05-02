@@ -18,6 +18,7 @@ description: Please consult ./README.md
 dependencies:
 - base >= 4.7 && < 5
 - zmidi-core
+- mtl
 
 library:
   source-dirs: src

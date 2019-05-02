@@ -37,6 +37,10 @@ type Sequence harmony = [harmony]
 type Pitch            = Rational
 type Scale            = [Pitch]
 
+-- | Named Pitches.
+c, d, e, f, g, a, b :: Pitch
+c = 0; d = 2; e = 4; f = 5; g = 7; a = 9; b = 11
+
 -- | Scale movements.
 up, down, sharp, flat :: Pitch -> Pitch
 up    = (+) 12
@@ -85,10 +89,10 @@ locrian    q = step 7 $ ionian (q - 11)
 
 -- * Purely rhythmical abstractions.
 
-type Beat      = Rational
-data Signature = Times Int Rational | Shift Signature Signature
+type Beat        = Rational
+data Signature a = Times Int a | Shift (Signature a) (Signature a)
 
-instance Show Signature where
+instance Show a => Show (Signature a) where
   show (Times i  m) = show i ++ "x" ++ "(" ++ show m ++ ")"
   show (Shift s s') = show s ++ " || " ++ show s'
 
@@ -121,31 +125,21 @@ instance Functor Rhythm where
   fmap f (r1 :|: r2)  = fmap f r1 :|: fmap f r2
   fmap f (r1 :-: r2)  = fmap f r1 :-: fmap f r2
 
-instance Semigroup (Rhythm a) where
+instance Semigroup (Rhythm b) where
   (<>) = (:|:)
 
 -- * Simple rhythms
 
-beat :: Beat -> Rhythm Beat
+beat :: (Num b, Ord b) => b -> Rhythm b
 beat b = measure [b]
 
-measure :: [Beat] -> Rhythm Beat
-measure = Measure
-
-unmeasure :: Rhythm Beat -> [Beat]
-unmeasure (Measure bs)   = bs
-unmeasure (Repeat  i rh) = foldr (++) [] (map (const $ unmeasure rh) [1..i])
-unmeasure (r1 :|: r2)    = unmeasure r1 ++ unmeasure r2
-unmeasure (r1 :-: r2)    = unmeasure r1 `tie` unmeasure r2
-  where tie []  r2      = r2
-        tie [x] (h : t) = (x + h : t)
-        tie (x : xs) t  = x : tie xs t
-
 class Mesurable m where
-  withSignature :: Signature -> m -> m
-  signature     :: m -> Signature
+  withSignature :: (Num a, Ord a) => (Signature a) -> (m a) -> (m a)
+  signature     :: (Num a, Ord a) => (m a) -> (Signature a)
+  measure       :: (Num a, Ord a) => [a] -> m a
+  unmeasure     :: (Num a, Ord a) => m a -> [a]
 
-instance Mesurable (Rhythm Beat) where
+instance Mesurable Rhythm where
   withSignature s r = aquire [] (meters s) (unmeasure r)
     where
       meters (Times n   m) = map (const m) [1..n]
@@ -159,7 +153,7 @@ instance Mesurable (Rhythm Beat) where
           GT ->                               aquire (b : m) (q - b : qs) bs
   signature = collect . meters
     where
-      meters (Measure      bs ) = [Times 1 $ sum bs]
+      meters (Measure      bs ) = [Times 1 $ (sum bs)]
       meters (Repeat      0 _ ) = []
       meters (Repeat      n r ) = meters r ++ meters (Repeat (n - 1) r)
       meters (r1 :|: r2)        = meters r1 ++ meters r2
@@ -169,9 +163,17 @@ instance Mesurable (Rhythm Beat) where
         if   k == k'
         then collect (Times (n + m) k : s)
         else Shift (Times n k) $ collect (Times m k' : s)
-      collect _ = error "impossible by construction."
+      collect _ = error "impossible (by construction)."
+  measure = Measure
+  unmeasure (Measure bs)   = bs
+  unmeasure (Repeat  i rh) = foldr (++) [] (map (const $ unmeasure rh) [1..i])
+  unmeasure (r1 :|: r2)    = unmeasure r1 ++ unmeasure r2
+  unmeasure (r1 :-: r2)    = unmeasure r1 `tie` unmeasure r2
+    where tie []  r2      = r2
+          tie [x] (h : t) = (x + h : t)
+          tie (x : xs) t  = x : tie xs t
 
-duration :: Rhythm Beat -> Rational
+duration :: (Num a, Ord a, Mesurable m) => m a -> a
 duration = sum . unmeasure
 
 -- | Some named infinite rhythms.
@@ -182,15 +184,3 @@ qns n = measure $ take n $ repeat qn
 ens n = measure $ take n $ repeat en
 sns n = measure $ take n $ repeat sn
 
--- TODO:
--- In the future, I would like liftH and liftR to live in this module.
--- class Harmonic h where
---   liftH :: (a -> b) -> h a -> h b
--- instance Harmonic Simultanity where
---   liftH = fmap
--- instance Harmonic Sequence where
---   liftH = fmap
--- class Rhythmic r where
---   liftR :: (a -> b) -> r a -> r b
--- instance Rhythmic Rhythm where
---   liftR = fmap
