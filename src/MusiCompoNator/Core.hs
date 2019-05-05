@@ -68,10 +68,10 @@ index :: Int -> Scale -> Scale
 index = step . (+1)
 
 -- | Named scale step abstractions.
-i, ii, iii, iv, v, vi, vii, viii, ix, x, xi, xii, xiii :: Scale -> Pitch
-i    = root . step  1;   ii = root . step  2;  iii = root . step  3
+i, ii, iii, iiv, iv, v, vi, vii, viii, iix, ix, x, xi, xii, xiii :: Scale -> Pitch
+i    = root . step  1;   ii = root . step  2;  iii = root . step  3; iiv = iii
 iv   = root . step  4;    v = root . step  5;   vi = root . step  6
-vii  = root . step  7; viii = root . step  8;   ix = root . step  9
+vii  = root . step  7; viii = root . step  8;   ix = root . step  9; iix = viii
 x    = root . step 10;   xi = root . step 11;  xii = root . step 12
 xiii = root . step 13
 

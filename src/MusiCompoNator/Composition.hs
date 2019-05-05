@@ -3,7 +3,7 @@
 module MusiCompoNator.Composition where
 
 import MusiCompoNator.Core
--- import Data.Bifunctor
+import Control.Monad.RWS
 
 -- * Harmonic construction.
 
@@ -17,8 +17,8 @@ absPitch :: Rational -> (Sequence Prim)
 absPitch q = return (Voicing . return $ const q)
 
 -- | Single pitch drawn from some scale.
-relPitch :: (Scale -> Pitch) -> (Sequence Prim)
-relPitch i = return (Voicing . return $ i)
+pitch :: (Scale -> Pitch) -> (Sequence Prim)
+pitch i = return (Voicing . return $ i)
 
 -- | No pitch at all.
 silence :: Sequence Prim
@@ -89,61 +89,74 @@ unPhrase (h   :<: r  ) = (map (const []) h', h', measure r')
 
 -- | The single note phrase
 note :: (Scale -> Pitch) -> Beat -> Phrase c Prim Beat
-note f b = relPitch f :<: beat b
+note f b = pitch f :<: beat b
 
 -- | The silent phrase
 rest :: (Num a, Ord a) => a -> Phrase c Prim a
-rest = (:<:) silence . beat
+rest b = silence :<: beat b
 
--- | Lifts a control modification to phrase-level.
-liftC :: (Num b, Ord b) => (c -> c') -> Phrase c p b -> Phrase c' p b
-liftC f ph = let (css, p, b) = unPhrase ph in phrase (map (map f) css, p, b)
+-- On the chance that these functions can propagate through to the top.
+class ControlPitchBeatTrifunctor f where
+  lift3 :: (Num b, Ord b, Num b', Ord b') =>
+           ([c] -> [c']) -> (Sequence p -> Sequence p') -> (Rhythm b -> Rhythm b') ->
+           (f c p b -> f c' p' b')
+  liftC :: (Num b, Ord b) => ([c] -> [c']) -> f c p b -> f c' p b
+  liftC f = lift3 f id id
+  liftH :: (Num b, Ord b) => (Sequence p -> Sequence p') -> f c p b -> f c p' b
+  liftH f = lift3 id f id
+  liftR :: (Num b, Ord b, Num b', Ord b') =>
+           (Rhythm b -> Rhythm b') -> f c p b -> f c p b'
+  liftR f = lift3 id id f
 
--- | Lifts a function on melodys to phrase-level.
-liftH :: (Num b, Ord b) => (Sequence p -> Sequence p') -> Phrase c p b -> Phrase c p' b
-liftH f ph = let (c, p, b) = unPhrase ph in phrase (c, f p, b)
+instance ControlPitchBeatTrifunctor Phrase where
+  lift3 f g h = (\(c, p, b) -> phrase (map f c, g p, h b)) . unPhrase
 
--- | Lifts a function on rhythms to phrase-level.
-liftR :: (Num b, Ord b) => (Rhythm b -> Rhythm b) -> Phrase c p b -> Phrase c p b
-liftR f ph = let (c, p, b) = unPhrase ph in phrase (c, p, f b)
+-- -- What about percussion ? (put it in player).
 
--- What about percussion ?
+type Voice a c p b = RWS Scale [Phrase c p b] Rational a
 
--- Control.Monad.Writer
--- data Voice ph = Polyphonic [ph]
+runVoice :: (Num b, Ord b) => Voice a c p b ->  Scale -> [c] -> ([Phrase c p b], a)
+runVoice v  s  cs = (map (liftC (cs++)) w, a)
+  where (a, _, w) = runRWS v s (0 :: Rational)
 
--- data Player a b = Player { name    :: String
---                          , perform :: Vocie a -> b
---                          }
+inKey :: Voice a c p b -> Scale -> Voice a c p b
+inKey = flip $ local . const
 
--- data Player a b =
---   Player { name    :: String
---          , perform :: Voice a -> b
---          }
+goto :: Rational -> Voice () c p b
+goto = put
 
--- data Composition a b =
---   Composition { title  ::  String
---               , tempo  ::  Int
---               , key    ::  Scale
---               , voices :: [(Player a b, Voice a)]
---               }
+getTime :: Voice Rational c p b
+getTime = get
 
--- instance Semigroup (Composition a b) where
---   c1 <> c2 = c1 { voices = voices c1 <> voices c2 }
+more :: [Phrase c Prim Beat] -> Voice () c Prim Beat
+more [        ] = return ()
+more (ph : phs) =
+  do now <- getTime
+     tell [rest now <> ph]
+     goto now
+     more phs
+     end <- getTime
+     goto $ max end $ now + duration ph
 
--- new :: String -> Composition a b
--- new name =
---   Composition { title  = name
---               , tempo  = 120
---               , key    = (ionian c)
---               , voices = []
---               }
+instance Semigroup (Voice a c p b) where
+  v1 <> v2 = do now <- getTime
+                a <- v1
+                x <- getTime
+                goto now
+                v2
+                y <- getTime
+                goto $ max x y
+                return a
 
--- setTempo :: Int -> Composition a b -> Composition a b
--- setTempo meter c = c { tempo = meter }
+data Player a voice target =
+  Player { name    :: String
+         , perform :: (voice, a) -> Maybe target
+         , costom  :: a
+         }
 
--- setKey :: Scale -> Composition a b -> Composition a b
--- setKey k c = c { key = k }
-
--- on :: Voice a -> Player a b -> Composition a b
--- on v p = (new "Voice") { voices = [(p, v)]}
+class Composition c where
+  add    :: String -> Voice a d p b -> c v t -> Maybe (c v t)
+  create :: String -> Player a v t  -> c v t -> Maybe (c v t)
+  remove :: String -> c v t -> c v t
+  alter  :: String -> ([v] -> [v]) -> c v t -> c v t
+  render :: c v t  -> Maybe t
