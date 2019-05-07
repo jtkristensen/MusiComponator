@@ -1,9 +1,7 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
 
 module MusiCompoNator.Composition where
-
 import MusiCompoNator.Core
-import Control.Monad.RWS
 
 -- * Harmonic construction.
 
@@ -64,6 +62,10 @@ data Phrase c p b = Ctrl [c] (Phrase c p b)
                   | (Sequence p) :<: (Rhythm b)
                   deriving (Show)
 
+data PhraseControl = BendNext
+                   | TieNext
+                   | Volume   Rational
+
 instance Semigroup (Phrase c p b) where
   (<>) = (:+:)
 
@@ -113,50 +115,82 @@ instance ControlPitchBeatTrifunctor Phrase where
 
 -- -- What about percussion ? (put it in player).
 
-type Voice a c p b = RWS Scale [Phrase c p b] Rational a
+data Voice c p b =
+  Voice { cursor  :: Beat
+        , phrases :: [Phrase c p b]
+        , key     :: Scale
+        }
 
-runVoice :: (Num b, Ord b) => Voice a c p b ->  Scale -> [c] -> ([Phrase c p b], a)
-runVoice v  s  cs = (map (liftC (cs++)) w, a)
-  where (a, _, w) = runRWS v s (0 :: Rational)
+instance ControlPitchBeatTrifunctor Voice where
+  lift3 f g h s = s {phrases = fmap (lift3 f g h) $ phrases s }
 
-inKey :: Voice a c p b -> Scale -> Voice a c p b
-inKey = flip $ local . const
+-- type Voice c p b = State (VoiceState c p b)
 
-goto :: Rational -> Voice () c p b
-goto = put
+-- runVoice :: (Num b, Ord b) => Voice c p b a -> Scale -> [c] -> ([Phrase c p b], a)
+-- runVoice v s cs = (map (liftC (cs++)) (phrases s'), a)
+--   where (a, s')   = runState (v `inKey` s) emptyVS
 
-getTime :: Voice Rational c p b
-getTime = get
+-- getCursor :: Voice c p b Beat
+-- getCursor = cursor <$> get
 
-more :: [Phrase c Prim Beat] -> Voice () c Prim Beat
-more [        ] = return ()
-more (ph : phs) =
-  do now <- getTime
-     tell [rest now <> ph]
-     goto now
-     more phs
-     end <- getTime
-     goto $ max end $ now + duration ph
+-- putCursor :: Beat -> Voice c p b ()
+-- putCursor b = do
+--   s <- get
+--   put $ s {cursor = b}
 
-instance Semigroup (Voice a c p b) where
-  v1 <> v2 = do now <- getTime
-                a <- v1
-                x <- getTime
-                goto now
-                v2
-                y <- getTime
-                goto $ max x y
-                return a
+-- getPhrases :: Voice c p b [Phrase c p b]
+-- getPhrases = phrases <$> get
 
-data Player a voice target =
-  Player { name    :: String
-         , perform :: (voice, a) -> Maybe target
-         , costom  :: a
-         }
+-- putPhrases :: [Phrase c p b] -> Voice c p b ()
+-- putPhrases phs = do
+--   s <- get
+--   put $ s {phrases = phs}
 
-class Composition c where
-  add    :: String -> Voice a d p b -> c v t -> Maybe (c v t)
-  create :: String -> Player a v t  -> c v t -> Maybe (c v t)
-  remove :: String -> c v t -> c v t
-  alter  :: String -> ([v] -> [v]) -> c v t -> c v t
-  render :: c v t  -> Maybe t
+-- getKey :: Voice c p b Scale
+-- getKey = key <$> get
+
+-- putKey :: Scale -> Voice c p b ()
+-- putKey k = do
+--   s <- get
+--   put $ s {key = k}
+
+-- inKey :: Voice c p b a -> Scale -> Voice c p b a
+-- inKey v k' = do
+--   k <- getKey
+--   putKey k'
+--   a <- v
+--   putKey k
+--   return a
+
+-- more :: [Phrase c Prim Beat] -> Voice c Prim Beat ()
+-- more [        ] = return ()
+-- more (ph : phs) = do
+--   before  <- getCursor
+--   phs'    <- getPhrases
+--   putPhrases $ (rest before <> ph) : phs'
+--   more phs
+--   after   <- getCursor
+--   putCursor $ max (before + duration ph) after
+
+-- instance Semigroup (Voice c p b a) where
+--   v1 <> v2 = do now <- getCursor
+--                 a   <- v1
+--                 x   <- getCursor
+--                 putCursor now
+--                 v2
+--                 y   <- getCursor
+--                 putCursor $ max x y
+--                 return a
+
+-- data Player a voice target =
+--   Player { name    :: String
+--          , perform :: (voice, a) -> Maybe target
+--          , costom  :: a
+--          }
+
+-- class Composition c where
+--   add    :: String -> Voice d p b a -> c v t -> c v t
+--   create :: String -> Player a v t  -> c v t -> Maybe (c v t)
+--   remove :: String -> c v t -> c v t
+--   alter  :: String -> ([v] -> [v]) -> c v t -> c v t
+--   render :: c v t  -> Maybe t
