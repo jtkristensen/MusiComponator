@@ -67,13 +67,39 @@ step n s = if   n < 0
 index :: Int -> Scale -> Scale
 index = step . (+1)
 
--- | Named scale step abstractions.
-i, ii, iii, iiv, iv, v, vi, vii, viii, iix, ix, x, xi, xii, xiii :: Scale -> Pitch
-i    = root . step  1;   ii = root . step  2;  iii = root . step  3; iiv = iii
-iv   = root . step  4;    v = root . step  5;   vi = root . step  6
-vii  = root . step  7; viii = root . step  8;   ix = root . step  9; iix = viii
-x    = root . step 10;   xi = root . step 11;  xii = root . step 12
-xiii = root . step 13
+-- | The common named scale abstrations.
+i, ii, iii, iiv, iv, v, vi, vii, viii, iix, ix, x, xi, xii, xiii  :: Scale -> Pitch
+i', ii', iii', iiv', iv', v', vi', vii', viii', iix', ix', x'     :: Scale -> Pitch
+xi', xii', xiii', i'', ii'', iii'', iiv'', iv'', v'', vi'', vii'' :: Scale -> Pitch
+viii'', iix'', ix'', x'', xi'', xii'', xiii'', i_, ii_, iii_      :: Scale -> Pitch
+iiv_, iv_, v_, vi_, vii_, viii_, iix_, ix_, x_, xi_, xii_, xiii_  :: Scale -> Pitch
+i__, ii__, iii__, iiv__, iv__, v__, vi__, vii__, viii__, iix__    :: Scale -> Pitch
+ix__, x__, xi__, xii__, xiii__                                    :: Scale -> Pitch
+i      = root . step  1;  ii   = root . step  2;  iii    = root . step  3
+iv     = root . step  4;   v   = root . step  5;   vi    = root . step  6
+vii    = root . step  7; viii  = root . step  8;   ix    = root . step  9
+x      = root . step 10;  xi   = root . step 11;  xii    = root . step 12
+xiii   = root . step 13; iix   =           viii;  iiv    = iii
+i'     = up   .       i;  ii'  = up   .      ii;  iii'   = up   .     iii
+iv'    = up   .      iv;   v'  = up   .       v;   vi'   = up   .      vi
+vii'   = up   .     vii; viii' = up   .     iix;   ix'   = up   .      ix
+x'     = up   .       x;  xi'  = up   .      xi;  xii'   = up   .     xii
+xiii'  = up   .    xiii; iix'  = up   .    viii;  iiv'   = up   .     iii
+i''    = up   .      i';  ii'' = up   .     ii';  iii''  = up   .    iii'
+iv''   = up   .     iv';   v'' = up   .      v';   vi''  = up   .     vi'
+vii''  = up   .    vii'; viii''= up   .    iix';   ix''  = up   .     ix'
+x''    = up   .      x';  xi'' = up   .     xi';  xii''  = up   .    xii'
+xiii'' = up   .   xiii'; iix'' = up   .   viii';  iiv''  = up   .    iii'
+i_     = up   .       i;  ii_  = up   .      ii;  iii_   = up   .     iii
+iv_    = up   .      iv;   v_  = up   .       v;   vi_   = up   .      vi
+vii_   = up   .     vii; viii_ = up   .     iix;   ix_   = up   .      ix
+x_     = up   .       x;  xi_  = up   .      xi;  xii_   = up   .     xii
+xiii_  = up   .    xiii; iix_  = up   .    viii;  iiv_   = up   .     iii
+i__    = up   .      i_;  ii__ = up   .     ii_;  iii__  = up   .    iii_
+iv__   = up   .     iv_;   v__ = up   .      v_;   vi__  = up   .     vi_
+vii__  = up   .    vii_; viii__= up   .    iix_;   ix__  = up   .     ix_
+x__    = up   .      x_;  xi__ = up   .     xi_;  xii__  = up   .    xii_
+xiii__ = up   .   xiii_; iix__ = up   .   viii_;  iiv__  = up   .    iii_
 
 -- | A diatonic mode constructors.
 ionian, dorian, phrygian, lydian, mixolydian, aeolian, locrian :: Pitch -> Scale
@@ -95,6 +121,9 @@ data Signature a = Times Int a | Shift (Signature a) (Signature a)
 instance Show a => Show (Signature a) where
   show (Times i  m) = show i ++ "x" ++ "(" ++ show m ++ ")"
   show (Shift s s') = show s ++ " || " ++ show s'
+
+instance Semigroup (Signature a) where
+  (<>) = Shift
 
 tuplet :: Integer -> Integer -> Rhythm Beat -> Rhythm Beat
 tuplet n d = fmap $ (*)(n % d)
@@ -133,13 +162,13 @@ instance Semigroup (Rhythm b) where
 beat :: (Num b, Ord b) => b -> Rhythm b
 beat b = measure [b]
 
-class Mesurable m where
+class Measurable m where
   withSignature :: (Num a, Ord a) => (Signature a) -> (m a) -> (m a)
   signature     :: (Num a, Ord a) => (m a) -> (Signature a)
   measure       :: (Num a, Ord a) => [a] -> m a
   unmeasure     :: (Num a, Ord a) => m a -> [a]
 
-instance Mesurable Rhythm where
+instance Measurable Rhythm where
   withSignature s r = aquire [] (meters s) (unmeasure r)
     where
       meters (Times n   m) = map (const m) [1..n]
@@ -173,7 +202,7 @@ instance Mesurable Rhythm where
           tie [x] (h : t) = (x + h : t)
           tie (x : xs) t  = x : tie xs t
 
-duration :: (Num a, Ord a, Mesurable m) => m a -> a
+duration :: (Num a, Ord a, Measurable m) => m a -> a
 duration = sum . unmeasure
 
 -- | Some named infinite rhythms.

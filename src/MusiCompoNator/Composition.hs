@@ -2,6 +2,8 @@
 
 module MusiCompoNator.Composition where
 import MusiCompoNator.Core
+import Control.Monad.State
+import qualified Data.Map as Map
 
 -- * Harmonic construction.
 
@@ -65,11 +67,18 @@ data Phrase c p b = Ctrl [c] (Phrase c p b)
 data PhraseControl = BendNext
                    | TieNext
                    | Volume   Rational
+                   | Legato
+                   | Staccato Beat
+                   deriving (Eq)
+
+type CPhrase p b = Phrase PhraseControl p b
+type Phrase1 = CPhrase Prim                Beat
+type Phrase2 = CPhrase (Simultanity Pitch) Beat
 
 instance Semigroup (Phrase c p b) where
   (<>) = (:+:)
 
-instance Mesurable (Phrase c Prim) where
+instance Measurable (Phrase c Prim) where
   withSignature = Sig
   measure       = foldr (<>) (rest 0) . map rest
   signature ph  = let (_, _, r) = unPhrase ph in signature r
@@ -113,84 +122,111 @@ class ControlPitchBeatTrifunctor f where
 instance ControlPitchBeatTrifunctor Phrase where
   lift3 f g h = (\(c, p, b) -> phrase (map f c, g p, h b)) . unPhrase
 
--- -- What about percussion ? (put it in player).
+-- Lift functions on lists to phrases.
+liftL :: (Num b, Ord b) => ([Int] -> [Int]) -> CPhrase p b -> CPhrase p b
+liftL f ph = phrase (c', p', measure b')
+  where (c, p, b) = unPhrase ph
+        cpb  = zip3 c p (unmeasure b)
+        cpb' = [x | (x, i) <- zip cpb [1..], j <- f [1..(length c)], i == j]
+        (c', p', b') = unzip3 cpb'
 
-data Voice c p b =
-  Voice { cursor  :: Beat
-        , phrases :: [Phrase c p b]
-        , key     :: Scale
-        }
+appLast :: PhraseControl -> Phrase1 -> Phrase1
+appLast c ph = Sig s $ ph' <> (liftC ((:)c) ph'')
+  where s    = signature ph
+        ph'  = liftL init ph
+        ph'' = liftL (return . last) ph
 
-instance ControlPitchBeatTrifunctor Voice where
-  lift3 f g h s = s {phrases = fmap (lift3 f g h) $ phrases s }
+tie :: Phrase1 -> Phrase1 -> Phrase1
+tie ph1 ph2 = appLast TieNext ph1 <> ph2
 
--- type Voice c p b = State (VoiceState c p b)
+bendInto :: Phrase1 -> Phrase1 -> Phrase1
+bendInto ph1 ph2 = appLast BendNext ph1 <> ph2
 
--- runVoice :: (Num b, Ord b) => Voice c p b a -> Scale -> [c] -> ([Phrase c p b], a)
--- runVoice v s cs = (map (liftC (cs++)) (phrases s'), a)
---   where (a, s')   = runState (v `inKey` s) emptyVS
+legato :: Phrase1 -> Phrase1
+legato = liftC ((:)Legato)
 
--- getCursor :: Voice c p b Beat
--- getCursor = cursor <$> get
+staccato :: Beat -> Phrase1 -> Phrase1
+staccato b = liftC ((:)(Staccato b))
 
--- putCursor :: Beat -> Voice c p b ()
--- putCursor b = do
---   s <- get
---   put $ s {cursor = b}
+volume :: Rational -> Phrase1 -> Phrase1
+volume v = liftC ((:)(Volume v))
 
--- getPhrases :: Voice c p b [Phrase c p b]
--- getPhrases = phrases <$> get
+data VoiceState =
+  VS { phrases :: [Phrase1]
+     , cursor  :: Beat
+     , scale   :: Scale
+     }
 
--- putPhrases :: [Phrase c p b] -> Voice c p b ()
--- putPhrases phs = do
---   s <- get
---   put $ s {phrases = phs}
+emptyVS :: Scale -> VoiceState
+emptyVS s =
+  VS { phrases    = []
+     , cursor     = 0
+     , scale      = s
+     }
 
--- getKey :: Voice c p b Scale
--- getKey = key <$> get
+type Voice = State (VoiceState)
 
--- putKey :: Scale -> Voice c p b ()
--- putKey k = do
---   s <- get
---   put $ s {key = k}
+instance Semigroup (Voice a) where
+  (<>) = (>>)
 
--- inKey :: Voice c p b a -> Scale -> Voice c p b a
--- inKey v k' = do
---   k <- getKey
---   putKey k'
---   a <- v
---   putKey k
---   return a
+runVoice :: (Voice a) -> Scale -> (a, [Phrase2], Beat)
+runVoice v s = (a, map (liftH (derive s)) $ phrases vs, cursor vs)
+  where (a, vs) = runState v (emptyVS s)
 
--- more :: [Phrase c Prim Beat] -> Voice c Prim Beat ()
--- more [        ] = return ()
--- more (ph : phs) = do
---   before  <- getCursor
---   phs'    <- getPhrases
---   putPhrases $ (rest before <> ph) : phs'
---   more phs
---   after   <- getCursor
---   putCursor $ max (before + duration ph) after
+getScale :: Voice Scale
+getScale = scale <$> get
 
--- instance Semigroup (Voice c p b a) where
---   v1 <> v2 = do now <- getCursor
---                 a   <- v1
---                 x   <- getCursor
---                 putCursor now
---                 v2
---                 y   <- getCursor
---                 putCursor $ max x y
---                 return a
+putScale :: Scale -> Voice ()
+putScale m = get >>= \s -> put $ s {scale = m}
 
--- data Player a voice target =
---   Player { name    :: String
---          , perform :: (voice, a) -> Maybe target
---          , costom  :: a
---          }
+getPhrases :: Voice [Phrase1]
+getPhrases = phrases <$> get
 
--- class Composition c where
---   add    :: String -> Voice d p b a -> c v t -> c v t
---   create :: String -> Player a v t  -> c v t -> Maybe (c v t)
---   remove :: String -> c v t -> c v t
---   alter  :: String -> ([v] -> [v]) -> c v t -> c v t
---   render :: c v t  -> Maybe t
+putPhrases :: [Phrase1] -> Voice ()
+putPhrases phs = get >>= \s -> put $ s {phrases = phs}
+
+singleV :: Phrase1 -> Voice ()
+singleV ph = do
+  b   <- getTime
+  phs <- getPhrases
+  s   <- getScale
+  putPhrases ((rest b <> liftH (fmap $ Mode (const s)) ph) : phs)
+  putTime $ b + duration ph
+
+inKey :: Phrase1 -> Scale -> Voice ()
+inKey ph s = do
+  s' <- getScale
+  putScale s
+  singleV ph
+  putScale s'
+
+applyMode :: (Scale -> Scale) -> Voice ()
+applyMode f = do
+  s <- getScale
+  putScale $ f s
+
+moreV :: [Phrase1] -> Voice ()
+moreV [        ] = return ()
+moreV (ph : phs) = do
+  b   <- getTime
+  singleV ph
+  b'  <- getTime
+  putTime b
+  moreV phs
+  b'' <- getTime
+  putTime $ max b' b''
+
+getTime :: Voice Beat
+getTime = cursor <$> get
+
+putTime :: Beat -> Voice ()
+putTime b = do s <- get
+               put $ s {cursor = b}
+
+class Player p where
+  perform :: p i t -> i -> Phrase2 -> t
+
+class Composition c where
+  title  :: c -> String
+  tempo  :: c -> Int
+  voices :: Player p => c -> Map.Map String ([Phrase2], p i t)

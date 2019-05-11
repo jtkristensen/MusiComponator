@@ -6,6 +6,7 @@ import MusiCompoNator.Composition
 import ZMidi.Core
 import Data.Ratio
 import Data.Word
+import Control.Monad.State
 
 -- Input  : key-pressed, pitchbend-sensitivity, target ratio
 -- Outpus : 14-bit pitch-bend value (as interpreted in ZMidi.Core).
@@ -33,7 +34,7 @@ keyPress q = fromIntegral $ (numerator q `div` denominator q)
 
 -- Find the minimum common divisor of all beats.
 -- Though, since (1 % 4) = bpm, we need to be able to express a quater.
-beatSize :: Mesurable m => m Beat -> Integer
+beatSize :: Measurable m => m Beat -> Integer
 beatSize m = foldl lcm 4 (map denominator $ unmeasure m)
 
 -- Compute the number of ticks to represent 't' using 'beatSize' beats.
@@ -58,18 +59,35 @@ trackHead bpm sense title = [ (0, MetaEvent $ TextEvent SEQUENCE_NAME title)
 trackFoot :: [MidiMessage]
 trackFoot = [(0, MetaEvent EndOfTrack)]
 
--- The costom part is a midi instrument bank number means (percussion?).
-type MidiPlayer = Player (Word8, Bool) (Voice PhraseControl Prim Beat) [MidiEvent]
+channelBound :: Phrase2 -> Int
+channelBound ph = foldl max 0 $ map count $ s
+  where count (Silence) = 0
+        count (Sound _) = 1
+        count (a :=: b) = count a + count b
+        (_, s, _) = unPhrase ph
 
--- class Composition c where
---   add    :: String -> Voice d p b a -> c v t -> c v t
---   create :: String -> Player a v t  -> c v t -> Maybe (c v t)
---   remove :: String -> c v t -> c v t
---   alter  :: String -> ([v] -> [v]) -> c v t -> c v t
---   render :: c v t  -> Maybe t
+data MidiPlayerState =
+  MPS { channels   :: [Word8]
+      , instrument ::  Word8
+      , currentCh  ::  Word8
+      }
 
--- general_midi :: MidiPlayer
--- general_midi =
---   Player { name    = "GM v. 1.0"
---          , perform = ? (:: (voice, a) -> Maybe target)
---          , costom  = (0, False)}
+type MidiPlayer = State MidiPlayerState
+
+getChannels :: MidiPlayer [Word8]
+getChannels = channels <$> get
+
+putChannels :: [Word8] -> MidiPlayer ()
+putChannels chs = get >>= \s -> put $ s {channels = chs}
+
+allocCh :: MidiPlayer (Maybe Word8)
+allocCh = do
+  chs <- getChannels
+  case chs of
+    [         ] -> return Nothing
+    (ch : rest) ->
+      do putChannels rest
+         Just <$> return ch
+
+freeCh :: Word8 -> MidiPlayer ()
+freeCh ch = getChannels >>= \chs -> putChannels $ ch : chs
