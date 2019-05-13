@@ -3,7 +3,6 @@
 module MusiCompoNator.Composition where
 import MusiCompoNator.Core
 import Control.Monad.State
-import qualified Data.Map as Map
 
 -- * Harmonic construction.
 
@@ -18,7 +17,7 @@ absPitch q = return (Voicing . return $ const q)
 
 -- | Single pitch drawn from some scale.
 pitch :: (Scale -> Pitch) -> (Sequence Prim)
-pitch i = return (Voicing . return $ i)
+pitch i = return (Voicing $ return i)
 
 -- | No pitch at all.
 silence :: Sequence Prim
@@ -69,7 +68,7 @@ data PhraseControl = BendNext
                    | Volume   Rational
                    | Legato
                    | Staccato Beat
-                   deriving (Eq)
+                   deriving (Eq, Show)
 
 type CPhrase p b = Phrase PhraseControl p b
 type Phrase1 = CPhrase Prim                Beat
@@ -81,6 +80,13 @@ instance Semigroup (Phrase c p b) where
 instance Measurable (Phrase c Prim) where
   withSignature = Sig
   measure       = foldr (<>) (rest 0) . map rest
+  signature ph  = let (_, _, r) = unPhrase ph in signature r
+  unmeasure ph  = let (_, _, r) = unPhrase ph in unmeasure r
+
+instance Measurable (Phrase c (Simultanity Pitch)) where
+  withSignature = Sig
+  measure       = foldr (<>) (rest 0) . map rest
+    where rest b = ([Silence] :<: beat b)
   signature ph  = let (_, _, r) = unPhrase ph in signature r
   unmeasure ph  = let (_, _, r) = unPhrase ph in unmeasure r
 
@@ -223,10 +229,11 @@ putTime :: Beat -> Voice ()
 putTime b = do s <- get
                put $ s {cursor = b}
 
-class Player p where
-  perform :: p i t -> i -> Phrase2 -> t
+-- class Player p where
+--   perform :: p t -> Voice () -> Scale -> t
 
-class Composition c where
-  title  :: c -> String
-  tempo  :: c -> Int
-  voices :: Player p => c -> Map.Map String ([Phrase2], p i t)
+-- class Composition c where
+--   title  :: Player p => c (p i t') t -> String
+--   tempo  :: Player p => c (p i t') t -> Int
+--   voices :: Player p => c (p i t') t -> [(String, p i t', [Phrase2])]
+--   render :: Player p => c (p i t') t -> [t'] -> t

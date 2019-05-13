@@ -90,16 +90,16 @@ iv''   = up   .     iv';   v'' = up   .      v';   vi''  = up   .     vi'
 vii''  = up   .    vii'; viii''= up   .    iix';   ix''  = up   .     ix'
 x''    = up   .      x';  xi'' = up   .     xi';  xii''  = up   .    xii'
 xiii'' = up   .   xiii'; iix'' = up   .   viii';  iiv''  = up   .    iii'
-i_     = up   .       i;  ii_  = up   .      ii;  iii_   = up   .     iii
-iv_    = up   .      iv;   v_  = up   .       v;   vi_   = up   .      vi
-vii_   = up   .     vii; viii_ = up   .     iix;   ix_   = up   .      ix
-x_     = up   .       x;  xi_  = up   .      xi;  xii_   = up   .     xii
-xiii_  = up   .    xiii; iix_  = up   .    viii;  iiv_   = up   .     iii
-i__    = up   .      i_;  ii__ = up   .     ii_;  iii__  = up   .    iii_
-iv__   = up   .     iv_;   v__ = up   .      v_;   vi__  = up   .     vi_
-vii__  = up   .    vii_; viii__= up   .    iix_;   ix__  = up   .     ix_
-x__    = up   .      x_;  xi__ = up   .     xi_;  xii__  = up   .    xii_
-xiii__ = up   .   xiii_; iix__ = up   .   viii_;  iiv__  = up   .    iii_
+i_     = down .       i;  ii_  = down .      ii;  iii_   = down .     iii
+iv_    = down .      iv;   v_  = down .       v;   vi_   = down .      vi
+vii_   = down .     vii; viii_ = down .     iix;   ix_   = down .      ix
+x_     = down .       x;  xi_  = down .      xi;  xii_   = down .     xii
+xiii_  = down .    xiii; iix_  = down .    viii;  iiv_   = down .     iii
+i__    = down .      i_;  ii__ = down .     ii_;  iii__  = down .    iii_
+iv__   = down .     iv_;   v__ = down .      v_;   vi__  = down .     vi_
+vii__  = down .    vii_; viii__= down .    iix_;   ix__  = down .     ix_
+x__    = down .      x_;  xi__ = down .     xi_;  xii__  = down .    xii_
+xiii__ = down .   xiii_; iix__ = down .   viii_;  iiv__  = down .    iii_
 
 -- | A diatonic mode constructors.
 ionian, dorian, phrygian, lydian, mixolydian, aeolian, locrian :: Pitch -> Scale
