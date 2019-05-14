@@ -8,6 +8,7 @@ import Control.Monad.RWS
 import Data.Ratio
 import Data.Word
 import Data.List (sortBy)
+import Debug.Trace
 
 data MidiInstrument = Piano Word8 | Percussion Word8 Word8
 type Duration       = Beat
@@ -165,7 +166,7 @@ defaultMidiPlayerState :: MidiState
 defaultMidiPlayerState =
   MPS { channels    = [0..8] ++ [10..15]
       , pending     = mempty
-      , sounding    = zip [0..15] $ return []
+      , sounding    = zip [0..15] $ repeat []
       , pb_sense    = zip [0..15] $ repeat 1
       , cursorB     = 0
       , bank        = 0    -- grand piano
@@ -229,46 +230,43 @@ writeEvent :: Beat
               -> MidiComposition ()
 writeEvent _ _ [             ] _ = return ()
 writeEvent _ _ (Nothing :   _) _ = return ()
-writeEvent b i chs e = do
+writeEvent b _ chs e = do
   mapM (setBend b pb) chs
   pbs <- filter (not . (flip elem chs) . Just . fst) . pb_sense <$> get
   s   <- get
   put $ s {pb_sense = [(ch, pb) | ch <- [0..15], Just ch `elem` chs] ++ pbs}
-  writeOn  b (startPitch e) chs
-  b' <- handleEvent i chs e
-  writeOff b' chs
+  t  <- ticks . subdivision <$> get <*> return b
+  writeOn  t (startPitch e) chs
+  t'  <- ticks . subdivision <$> get <*> return (b + durationOf e)
+  writeOff t' chs
   where ps = allPitch e
         pb = floor (maximum ps - minimum ps) + 1
 
-writeOn :: Beat -> [Pitch] -> [Maybe Word8] -> MidiComposition ()
+writeOn :: Integer -> [Pitch] -> [Maybe Word8] -> MidiComposition ()
 writeOn _ [      ] _               = return ()
 writeOn _ _        [             ] = return ()
 writeOn _ _        (Nothing : _  ) = return ()
-writeOn b (p : ps) (Just ch : chs) = do
-  t  <- ticks . subdivision <$> get <*> return b
+writeOn t (p : ps) (Just ch : chs) = do
   v  <- velocity <$> get
   pb <- getPb ch
+  setSounding ch k
   tell [ (t, ve $ PitchBend ch (pbValue k pb p))
        , (t, ve $ NoteOn    ch k v)]
-  setSounding ch k
-  writeOn b ps chs
+  writeOn t ps chs
   where k = keyPress p
 
--- TODO.
+-- TODO (handle bends and ties).
 handleEvent :: MidiInstrument -> [Maybe Word8] -> EffectMidi -> MidiComposition Beat
-handleEvent _ _ e = return $ durationOf e
+handleEvent _ _ e = return $ b + durationOf e
 
-writeOff :: Beat -> [Maybe Word8] -> MidiComposition ()
+writeOff :: Integer -> [Maybe Word8] -> MidiComposition ()
 writeOff _ [             ] = return ()
 writeOff _ (Nothing : _  ) = return ()
-writeOff b (Just ch : chs) = do
-  t <- ticks . subdivision <$> get <*> return b
+writeOff t (Just ch : chs) = do
   s <- get
-  case [x | (ch', x) <- sounding s, ch == ch'] of
-    [] -> return [()]
-    (k' : _) -> mapM (\k -> tell [(t, ve $ NoteOff ch k 0)]) k'
-  put $ s {sounding = (ch, []) : (filter (\p -> fst p /= ch) $ sounding s)}
-  writeOff b chs
+  let k' = head [k | (ch', k) <- sounding s, ch' == ch]
+  mapM (\k -> tell [(t, ve $ NoteOff ch k 0)]) k'
+  writeOff t chs
 
 putChannels :: [Word8] -> MidiComposition ()
 putChannels chs = get >>= \s -> put $ s {channels = chs}
@@ -276,18 +274,15 @@ putChannels chs = get >>= \s -> put $ s {channels = chs}
 putCursor :: Beat -> MidiComposition ()
 putCursor b = get >>= \s -> put $ s {cursorB = b}
 
-lockUntil :: Word8 -> Beat -> MidiComposition ()
-lockUntil ch b = get >>= \s -> put $ s {pending = (b, ch) : pending s}
-
--- Channels are allocated for a duration of time, then automatically freed.
-allocCh :: Duration -> MidiComposition (Maybe Word8)
+-- TODO.
+allocCh :: Beat -> MidiComposition (Maybe Word8)
 allocCh d = do
   s <- get
   case channels s of
     [         ] -> return Nothing
     (ch : rest) ->
-      do putChannels rest
-         ch `lockUntil` (cursorB s + d)
+      do put s { channels = rest
+               , pending  = (traceShowId $ d, ch) : pending s}
          Just <$> return ch
 
 -- Free up a midi-channel.
@@ -297,10 +292,11 @@ freeCh ch = (channels <$> get) >>= \chs -> putChannels $ ch : chs
 -- Moving the player head means freeing midi channels that are no longer in use.
 moveHead :: Beat -> MidiComposition ()
 moveHead b = do
-  s <- get
-  put $ s { pending = [(b', ch) | (b', ch) <- pending s, b' > cursorB s]
-          , cursorB = b }
-  mapM_ freeCh $ [ch | (b', ch) <- pending s, b' <= cursorB s ]
+  s  <- get
+  put $ s { pending  = [(b', ch) | (b', ch) <- pending s, b < b']
+          , cursorB  = b
+          , channels = [ch | (b', ch) <- pending s, b' <= b] ++
+            channels s}
 
 setBend :: Beat -> Word8 -> Maybe Word8 -> MidiComposition ()
 setBend _ _ Nothing  = return ()

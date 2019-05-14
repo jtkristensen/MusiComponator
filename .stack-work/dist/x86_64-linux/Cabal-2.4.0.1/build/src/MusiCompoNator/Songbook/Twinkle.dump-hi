@@ -1,0 +1,610 @@
+
+==================== FINAL INTERFACE ====================
+2019-05-14 04:18:35.283501787 UTC
+
+interface MusiCompoNator-0.1.0.0-IGHgGetelKJ3ieYvvXydhc:MusiCompoNator.Songbook.Twinkle 8063
+  interface hash: 4812b233a14d0a18d5048eafd82b4d0b
+  ABI hash: 809e87deda5c868cf043fb19ff151a08
+  export-list hash: 366901642bc91d2f404f0501cc08d054
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 2686b9958ee8136cfcf21b4c37cf35fe
+  opt_hash: 6faf2de08de32d19db9870899d88e59a
+  hpc_hash: 93b885adfe0da089cdf634904fd59f71
+  plugin_hash: ad164012d6b1e14942349d58b1132007
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  MusiCompoNator.Songbook.Twinkle.composition
+  MusiCompoNator.Songbook.Twinkle.main
+  MusiCompoNator.Songbook.Twinkle.melody
+module dependencies: MusiCompoNator.Composition MusiCompoNator.Core
+                     MusiCompoNator.GeneralMidi
+package dependencies: array-0.5.3.0 base-4.12.0.0 binary-0.8.6.0
+                      bytestring-0.10.8.2 containers-0.6.0.1 deepseq-1.4.4.0
+                      ghc-prim-0.5.3 integer-gmp-1.0.2.0 mtl-2.2.2 transformers-0.5.5.0
+                      zmidi-core-0.9.0
+orphans: transformers-0.5.5.0:Control.Monad.Trans.Error
+         bytestring-0.10.8.2:Data.ByteString.Builder base-4.12.0.0:GHC.Float
+         base-4.12.0.0:GHC.Base
+family instance modules: base-4.12.0.0:Control.Applicative
+                         base-4.12.0.0:Data.Complex base-4.12.0.0:Data.Functor.Compose
+                         base-4.12.0.0:Data.Functor.Const
+                         base-4.12.0.0:Data.Functor.Identity
+                         base-4.12.0.0:Data.Functor.Product base-4.12.0.0:Data.Functor.Sum
+                         base-4.12.0.0:Data.Monoid base-4.12.0.0:Data.Semigroup
+                         base-4.12.0.0:Data.Semigroup.Internal base-4.12.0.0:Data.Version
+                         base-4.12.0.0:Data.Void base-4.12.0.0:GHC.Exts
+                         base-4.12.0.0:GHC.Generics base-4.12.0.0:GHC.IO.Exception
+                         containers-0.6.0.1:Data.IntMap.Internal
+                         containers-0.6.0.1:Data.IntSet.Internal
+import  -/  MusiCompoNator.Composition 8d84f1313db8a08e50e922a17313781e
+  exports: 7d9424dac735b981a2ae78abb2234d78
+  :<: f6c00ca2e9b3919bda2fbf7725bb719c
+  Voice 2e25dcaa65d0bf72796a58d31a68fca6
+  line 57ec3fd7bdd74637522bb1e9fac616c4
+  singleV 09576954f30e516d51e753387a807e7c
+import  -/  MusiCompoNator.Core dbe69f021eb82eefbd6401926a0c3422
+  exports: 8486fc8e0f9f670b51995717530546ca
+  c d810050b4a4b849192e2e4f1655d83ff
+  hns 5a8c3dace9a1d61292715021d843d645
+  i 110afd2a17eaea6e62a5020f53f009a3
+  ii 7b0ac546d65f553e83ca15b2710ff507
+  iii 742900947efbc91b517eb4fe3b0d8da8
+  ionian e97f7e37d533b9e9bb6e6f5fbe9d3179
+  iv 6bdf4107b1c9eacf1ee7c4b981a66a6c
+  qns b410bd5754d4f183c30713ade9122e16
+  v 7e58a58bc8c82999a6a4dfc048ac19ee
+  vi 92a6ac0cb0f156012eda69772a7c7f22
+import  -/  MusiCompoNator.GeneralMidi 6bd37b5463a4c3953c8d056bb76e31c8
+  exports: 27b46489175af3c46e819f5c376576fa
+  Piano a20fce8e697cddcf8e26872e2cc68039
+  closeMC b487da48d486b31ed19e42d2b396caab
+  midiVoice f8b4d2cd56a6b2d211957999189258e7
+  runMidiComposition 1d3d9354fb38d3382c0599a2e1cad8bf
+import  -/  base-4.12.0.0:GHC.Base cc906f98291a1b830546e99a96674547
+import  -/  base-4.12.0.0:Prelude 5c01365ec01f83bd405ac01cbb9a8d76
+import  -/  ghc-prim-0.5.3:GHC.Types 57064c9f957b09bc2e360061ad5cae0b
+import  -/  zmidi-core-0.9.0:ZMidi.Core 53b17082a5f95040cd3a036a84cc9bdc
+import  -/  zmidi-core-0.9.0:ZMidi.Core.WriteFile 30e0de49f8cf3476d50a3c9c1f740e18
+7c5c0128d9c932659d462b8a879a8e12
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module
+                   MusiCompoNator.Songbook.Twinkle.$trModule3
+                   MusiCompoNator.Songbook.Twinkle.$trModule1) -}
+24d67e3d87f862c9d3f40a979d225538
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.Songbook.Twinkle.$trModule2) -}
+ebe32951d4b9b5dcb53c98955421354d
+  $trModule2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("MusiCompoNator.Songbook.Twinkle"#) -}
+a2ba062114e66d8947c6423274b88839
+  $trModule3 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.Songbook.Twinkle.$trModule4) -}
+ed79a6c6aca596ef26b57fb9a6c49b7a
+  $trModule4 :: GHC.Prim.Addr#
+  {- HasNoCafRefs,
+     Unfolding: ("MusiCompoNator-0.1.0.0-IGHgGetelKJ3ieYvvXydhc"#) -}
+a4bebcf868e8e64e4b95a82160d298f0
+  $wcomposition ::
+    [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (# (), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)] #)
+  {- Arity: 2, Strictness: <L,U><L,1*U(U,U,U,U,U,U,U,U,U,U,1*U)>,
+     Inline: [2],
+     Unfolding: (\ (w :: [MusiCompoNator.Core.Pitch])
+                   (w1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 let {
+                   ds :: ((), MusiCompoNator.GeneralMidi.MidiState,
+                          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+                   = case MusiCompoNator.GeneralMidi.$wmidiVoice
+                            @ ()
+                            MusiCompoNator.Songbook.Twinkle.composition36
+                            MusiCompoNator.Songbook.Twinkle.composition2
+                              `cast`
+                            ((<MusiCompoNator.Composition.VoiceState>_R
+                              ->_R Nth:3
+                                       (<MusiCompoNator.Composition.VoiceState>_R
+                                        ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                                      <((),
+                                                        MusiCompoNator.Composition.VoiceState)>_R))) ; Sym (Control.Monad.Trans.State.Lazy.N:StateT[0]
+                                                                                                                <MusiCompoNator.Composition.VoiceState>_N
+                                                                                                                <Data.Functor.Identity.Identity>_R
+                                                                                                                <()>_N))
+                            w
+                            w1 of ww { (#,,#) ww1 ww2 ww3 ->
+                     (ww1, ww2, ww3) }
+                 } in
+                 let {
+                   ds1 :: Data.Functor.Identity.Identity
+                            ((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+                   = case ds of wild { (,,) a1 s' w2 ->
+                     case s' of wild1 { MusiCompoNator.GeneralMidi.MPS ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ds12 ->
+                     case MusiCompoNator.GeneralMidi.$wwriteEvents
+                            (Data.OldList.sortBy
+                               @ (MusiCompoNator.GeneralMidi.EventMidi
+                                    (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int))
+                               MusiCompoNator.GeneralMidi.closeMC2
+                               ds12)
+                            w
+                            wild1 of ww { (#,,#) ww1 ww2 ww3 ->
+                     (ww1, ww2, ww3)
+                       `cast`
+                     (Sym (Data.Functor.Identity.N:Identity[0]
+                               <((), MusiCompoNator.GeneralMidi.MidiState,
+                                 [(GHC.Integer.Type.Integer,
+                                   ZMidi.Core.Datatypes.MidiEvent)])>_R)) } } }
+                 } in
+                 (# case ds1
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <((), MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                    b1 },
+                    case ds1
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <((), MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                    s'' },
+                    case ds of wild { (,,) a1 s' w2 ->
+                    GHC.Base.++
+                      @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)
+                      w2
+                      (case ds1
+                              `cast`
+                            (Data.Functor.Identity.N:Identity[0]
+                                 <((), MusiCompoNator.GeneralMidi.MidiState,
+                                   [(GHC.Integer.Type.Integer,
+                                     ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild1 { (,,) b1 s'' w' ->
+                       w' }) } #)) -}
+e7bf3639be23601fe0e807fb77f9977a
+  composition ::
+    Control.Monad.Trans.RWS.Lazy.RWST
+      MusiCompoNator.Core.Scale
+      [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]
+      MusiCompoNator.GeneralMidi.MidiState
+      Data.Functor.Identity.Identity
+      ()
+  {- Arity: 2, Strictness: <L,U><L,1*U(U,U,U,U,U,U,U,U,U,U,1*U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.Songbook.Twinkle.composition1
+                  `cast`
+                (Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                          <[MusiCompoNator.Core.Pitch]>_R
+                          <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                          <MusiCompoNator.GeneralMidi.MidiState>_N
+                          <Data.Functor.Identity.Identity>_R
+                          <()>_N)) -}
+5c02a5cf77440b3d1b34348fe6a924cd
+  composition1 ::
+    [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> Data.Functor.Identity.Identity
+         ((), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 2, Strictness: <L,U><L,1*U(U,U,U,U,U,U,U,U,U,U,1*U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w :: [MusiCompoNator.Core.Pitch])
+                   (w1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case MusiCompoNator.Songbook.Twinkle.$wcomposition
+                        w
+                        w1 of ww { (#,,#) ww1 ww2 ww3 ->
+                 (ww1, ww2, ww3)
+                   `cast`
+                 (Sym (Data.Functor.Identity.N:Identity[0]
+                           <((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer,
+                               ZMidi.Core.Datatypes.MidiEvent)])>_R)) }) -}
+5512939fffe9b204b0a7fe253e6f96d9
+  composition10 ::
+    MusiCompoNator.Core.Rhythm MusiCompoNator.Core.Beat
+  {- Strictness: m1,
+     Unfolding: (MusiCompoNator.Core.Measure
+                   @ MusiCompoNator.Core.Beat
+                   MusiCompoNator.Songbook.Twinkle.composition11) -}
+19e95fedc4ab681178b84153f2e14ee6
+  composition11 :: [GHC.Real.Ratio GHC.Integer.Type.Integer]
+  {- Unfolding: (MusiCompoNator.Core.$wxs2 6#) -}
+7bb4be9077579e3834907c6ae52b5c19
+  composition12 ::
+    MusiCompoNator.Core.Sequence MusiCompoNator.Composition.Prim
+  {- Unfolding: (MusiCompoNator.Composition.line
+                   MusiCompoNator.Songbook.Twinkle.composition13) -}
+114091fa86fce5ea69e33a4f737be10d
+  composition13 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.iv
+                   MusiCompoNator.Songbook.Twinkle.composition14) -}
+209767bdd239083246c8e226e0f91bc5
+  composition14 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.iv
+                   MusiCompoNator.Songbook.Twinkle.composition15) -}
+fea05cc5084793d2d174a710beffe756
+  composition15 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.iii
+                   MusiCompoNator.Songbook.Twinkle.composition16) -}
+9492e8a1c4301e279a50ae0d7e38dc30
+  composition16 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.iii
+                   MusiCompoNator.Songbook.Twinkle.composition17) -}
+64f1c6c4a8e536ed198d1128b20c6811
+  composition17 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.ii
+                   MusiCompoNator.Songbook.Twinkle.composition18) -}
+fb8ee0755a6c4757c10cf814aa84f0d4
+  composition18 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.ii
+                   MusiCompoNator.Songbook.Twinkle.composition19) -}
+7850ff8109dcdc4bf12e0af41b756468
+  composition19 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.i
+                   (GHC.Types.[]
+                      @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch))) -}
+795fb6e7019256dd7017c870cbad27d4
+  composition2 ::
+    MusiCompoNator.Composition.VoiceState
+    -> ((), MusiCompoNator.Composition.VoiceState)
+  {- Arity: 1, Strictness: <L,1*U(U,U(U,U),U)>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ (w1 :: MusiCompoNator.Composition.VoiceState) ->
+                 case MusiCompoNator.Composition.$wsingleV
+                        MusiCompoNator.Songbook.Twinkle.composition3
+                        w1 of ww { (#,#) ww1 ww2 ->
+                 (ww1, ww2) }) -}
+1f9e21539f555352052e7a2ea15a07db
+  composition20 ::
+    MusiCompoNator.Core.Sequence MusiCompoNator.Composition.Prim
+  {- Unfolding: (MusiCompoNator.Composition.line
+                   MusiCompoNator.Songbook.Twinkle.composition21) -}
+da0ed75c3c8fcad45f400d52d5bd3bed
+  composition21 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.i
+                   MusiCompoNator.Songbook.Twinkle.composition22) -}
+1469f2e80340ad57b588b7e139ec8079
+  composition22 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.i
+                   MusiCompoNator.Songbook.Twinkle.composition23) -}
+dcde1a7717a8c408c41f7eca66b7a268
+  composition23 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.v
+                   MusiCompoNator.Songbook.Twinkle.composition24) -}
+c09a6e94e77ae62a3ef5b078c0119a3d
+  composition24 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.v
+                   MusiCompoNator.Songbook.Twinkle.composition25) -}
+61136b705f748e9740789ecc1e92b3ab
+  composition25 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.vi
+                   MusiCompoNator.Songbook.Twinkle.composition26) -}
+bc9a7265bdc69578e8191a228af69ab5
+  composition26 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.vi
+                   MusiCompoNator.Songbook.Twinkle.composition27) -}
+3550f34167466875adb745af1b571ee0
+  composition27 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.v
+                   (GHC.Types.[]
+                      @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch))) -}
+ad04149b811263dc980a66a609c24de2
+  composition28 ::
+    MusiCompoNator.Core.Sequence MusiCompoNator.Composition.Prim
+  {- Unfolding: (MusiCompoNator.Composition.line
+                   MusiCompoNator.Songbook.Twinkle.composition29) -}
+1fa8aaef6a90ccf127015ff974478a4f
+  composition29 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.v
+                   MusiCompoNator.Songbook.Twinkle.composition30) -}
+9ce1ea56ea420cac1bbb0e1091e00df6
+  composition3 ::
+    MusiCompoNator.Composition.Phrase
+      MusiCompoNator.Composition.PhraseControl
+      MusiCompoNator.Composition.Prim
+      (GHC.Real.Ratio GHC.Integer.Type.Integer)
+  {- Strictness: m3,
+     Unfolding: (MusiCompoNator.Composition.:+:
+                   @ MusiCompoNator.Composition.PhraseControl
+                   @ MusiCompoNator.Composition.Prim
+                   @ (GHC.Real.Ratio GHC.Integer.Type.Integer)
+                   (MusiCompoNator.Songbook.Twinkle.composition_a
+                      @ MusiCompoNator.Composition.PhraseControl)
+                   MusiCompoNator.Songbook.Twinkle.composition4) -}
+753724bee251398507bc68828862f2d2
+  composition30 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.v
+                   MusiCompoNator.Songbook.Twinkle.composition31) -}
+fc1e597d5668005b967083ba5989ef9c
+  composition31 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.iv
+                   MusiCompoNator.Songbook.Twinkle.composition32) -}
+fba94e7f786e01b1c2c7f706bc06c832
+  composition32 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.iv
+                   MusiCompoNator.Songbook.Twinkle.composition33) -}
+62aabf7af9aad493e6994f711db218b2
+  composition33 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.iii
+                   MusiCompoNator.Songbook.Twinkle.composition34) -}
+b3e80128ed04831bf2198466d1b82d5f
+  composition34 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.iii
+                   MusiCompoNator.Songbook.Twinkle.composition35) -}
+04af0548267f39f52d4d4e5fa543d486
+  composition35 ::
+    [MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch)
+                   MusiCompoNator.Core.ii
+                   (GHC.Types.[]
+                      @ (MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch))) -}
+58f955a455ed3cf9f8eed7794d34c357
+  composition36 :: MusiCompoNator.GeneralMidi.MidiInstrument
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (MusiCompoNator.GeneralMidi.Piano
+                   MusiCompoNator.Songbook.Twinkle.composition37) -}
+334076115e4a666af68cfc985716f3eb
+  composition37 :: GHC.Word.Word8
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Word.W8# 0##) -}
+e34f49ac6a28672a543c944ecd7b109c
+  composition4 ::
+    MusiCompoNator.Composition.Phrase
+      MusiCompoNator.Composition.PhraseControl
+      MusiCompoNator.Composition.Prim
+      (GHC.Real.Ratio GHC.Integer.Type.Integer)
+  {- Strictness: m3,
+     Unfolding: (MusiCompoNator.Composition.:+:
+                   @ MusiCompoNator.Composition.PhraseControl
+                   @ MusiCompoNator.Composition.Prim
+                   @ (GHC.Real.Ratio GHC.Integer.Type.Integer)
+                   (MusiCompoNator.Songbook.Twinkle.composition_b
+                      @ MusiCompoNator.Composition.PhraseControl)
+                   MusiCompoNator.Songbook.Twinkle.composition5) -}
+217a0f9c8b453044e95d91b99ac63bcb
+  composition5 ::
+    MusiCompoNator.Composition.Phrase
+      MusiCompoNator.Composition.PhraseControl
+      MusiCompoNator.Composition.Prim
+      (GHC.Real.Ratio GHC.Integer.Type.Integer)
+  {- Strictness: m3,
+     Unfolding: (MusiCompoNator.Composition.:+:
+                   @ MusiCompoNator.Composition.PhraseControl
+                   @ MusiCompoNator.Composition.Prim
+                   @ (GHC.Real.Ratio GHC.Integer.Type.Integer)
+                   (MusiCompoNator.Songbook.Twinkle.composition_c
+                      @ MusiCompoNator.Composition.PhraseControl)
+                   MusiCompoNator.Songbook.Twinkle.composition6) -}
+85f7e78b814f2d504cb2f90b51189752
+  composition6 ::
+    MusiCompoNator.Composition.Phrase
+      MusiCompoNator.Composition.PhraseControl
+      MusiCompoNator.Composition.Prim
+      (GHC.Real.Ratio GHC.Integer.Type.Integer)
+  {- Strictness: m3,
+     Unfolding: (MusiCompoNator.Composition.:+:
+                   @ MusiCompoNator.Composition.PhraseControl
+                   @ MusiCompoNator.Composition.Prim
+                   @ (GHC.Real.Ratio GHC.Integer.Type.Integer)
+                   (MusiCompoNator.Songbook.Twinkle.composition_c
+                      @ MusiCompoNator.Composition.PhraseControl)
+                   MusiCompoNator.Songbook.Twinkle.composition7) -}
+18c66607f186fa3c61966db31bac2fda
+  composition7 ::
+    MusiCompoNator.Composition.Phrase
+      MusiCompoNator.Composition.PhraseControl
+      MusiCompoNator.Composition.Prim
+      (GHC.Real.Ratio GHC.Integer.Type.Integer)
+  {- Strictness: m3,
+     Unfolding: (MusiCompoNator.Composition.:+:
+                   @ MusiCompoNator.Composition.PhraseControl
+                   @ MusiCompoNator.Composition.Prim
+                   @ (GHC.Real.Ratio GHC.Integer.Type.Integer)
+                   (MusiCompoNator.Songbook.Twinkle.composition_a
+                      @ MusiCompoNator.Composition.PhraseControl)
+                   (MusiCompoNator.Songbook.Twinkle.composition_b
+                      @ MusiCompoNator.Composition.PhraseControl)) -}
+79382e6645729cc5973fa4461ed713cc
+  composition8 :: MusiCompoNator.Core.Rhythm MusiCompoNator.Core.Beat
+  {- Strictness: m1,
+     Unfolding: (MusiCompoNator.Core.Measure
+                   @ MusiCompoNator.Core.Beat
+                   MusiCompoNator.Songbook.Twinkle.composition9) -}
+11ccfa54bb64d04e74f90e2c2dc23c88
+  composition9 :: [GHC.Real.Ratio GHC.Integer.Type.Integer]
+  {- Unfolding: (MusiCompoNator.Core.$wxs1 1#) -}
+d0e0b66400da306e844a928a9fb92958
+  composition_a ::
+    MusiCompoNator.Composition.Phrase
+      c MusiCompoNator.Composition.Prim MusiCompoNator.Core.Beat
+  {- Strictness: m4,
+     Unfolding: (\ @ c ->
+                 MusiCompoNator.Composition.:<:
+                   @ c
+                   @ MusiCompoNator.Composition.Prim
+                   @ MusiCompoNator.Core.Beat
+                   MusiCompoNator.Songbook.Twinkle.composition20
+                   MusiCompoNator.Songbook.Twinkle.composition_r) -}
+80c8ec8b305fd031b29722c00734b4f1
+  composition_b ::
+    MusiCompoNator.Composition.Phrase
+      c MusiCompoNator.Composition.Prim MusiCompoNator.Core.Beat
+  {- Strictness: m4,
+     Unfolding: (\ @ c ->
+                 MusiCompoNator.Composition.:<:
+                   @ c
+                   @ MusiCompoNator.Composition.Prim
+                   @ MusiCompoNator.Core.Beat
+                   MusiCompoNator.Songbook.Twinkle.composition12
+                   MusiCompoNator.Songbook.Twinkle.composition_r) -}
+0168f3f80c8124dc9ebeb538d4a10838
+  composition_c ::
+    MusiCompoNator.Composition.Phrase
+      c MusiCompoNator.Composition.Prim MusiCompoNator.Core.Beat
+  {- Strictness: m4,
+     Unfolding: (\ @ c ->
+                 MusiCompoNator.Composition.:<:
+                   @ c
+                   @ MusiCompoNator.Composition.Prim
+                   @ MusiCompoNator.Core.Beat
+                   MusiCompoNator.Songbook.Twinkle.composition28
+                   MusiCompoNator.Songbook.Twinkle.composition_r) -}
+38128c94a08fd3aad74de0bd4a858e41
+  composition_r ::
+    MusiCompoNator.Core.Rhythm MusiCompoNator.Core.Beat
+  {- Strictness: m3,
+     Unfolding: (MusiCompoNator.Core.:|:
+                   @ (GHC.Real.Ratio GHC.Integer.Type.Integer)
+                   MusiCompoNator.Songbook.Twinkle.composition10
+                   MusiCompoNator.Songbook.Twinkle.composition8) -}
+5d1659e79c84c14fcae0e3682bbe04ab
+  main :: GHC.Types.IO ()
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.Songbook.Twinkle.main1
+                  `cast`
+                (Sym (GHC.Types.N:IO[0] <()>_R)) -}
+87338f8fd1931e9f29156c4518162d2e
+  main1 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case MusiCompoNator.GeneralMidi.$wrunMidiComposition
+                        @ ()
+                        MusiCompoNator.Songbook.Twinkle.main4
+                        MusiCompoNator.Songbook.Twinkle.composition1
+                          `cast`
+                        (Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                  <[MusiCompoNator.Core.Pitch]>_R
+                                  <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                  <MusiCompoNator.GeneralMidi.MidiState>_N
+                                  <Data.Functor.Identity.Identity>_R
+                                  <()>_N)) of ww { (#,#) ww1 ww2 ->
+                 case ww2 of wild { () ->
+                 ZMidi.Core.WriteFile.writeMidi1
+                   MusiCompoNator.Songbook.Twinkle.main2
+                   ww1
+                   s } }) -}
+4416cb1eb5998fdd8e7b51cf2afbf3d5
+  main2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   MusiCompoNator.Songbook.Twinkle.main3) -}
+9f6c9622861756379e80fd35b7e4fe58
+  main3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("./test.mid"#) -}
+598147dae5c741cab1922f551bb1a540
+  main4 :: MusiCompoNator.Core.Scale
+  {- Unfolding: (case MusiCompoNator.Core.$wionian
+                        MusiCompoNator.Core.c of ww { (#,#) ww1 ww2 ->
+                 GHC.Types.: @ MusiCompoNator.Core.Pitch ww1 ww2 }) -}
+a5e38618e0b99baf18e719785009c621
+  melody :: MusiCompoNator.Composition.Voice ()
+  {- Arity: 1, Strictness: <L,1*U(U,U(U,U),U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.Songbook.Twinkle.composition2
+                  `cast`
+                ((<MusiCompoNator.Composition.VoiceState>_R
+                  ->_R Nth:3
+                           (<MusiCompoNator.Composition.VoiceState>_R
+                            ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                          <((),
+                                            MusiCompoNator.Composition.VoiceState)>_R))) ; Sym (Control.Monad.Trans.State.Lazy.N:StateT[0]
+                                                                                                    <MusiCompoNator.Composition.VoiceState>_N
+                                                                                                    <Data.Functor.Identity.Identity>_R
+                                                                                                    <()>_N)) -}
+trusted: none
+require own pkg trusted: False
+module header:
+  Nothing
+declaration docs:
+arg docs:
+

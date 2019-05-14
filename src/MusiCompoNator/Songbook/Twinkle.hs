@@ -13,7 +13,7 @@ melody = singleV $ a <> b <> c <> c <> a <> b
         c = line [ v,  v,   iv,  iv, iii, iii, ii] :<: r -- Up above the ..
         r = qns 6 <> hns 1
 
-
+composition :: MidiComposition ()
 composition = do
   midiVoice (Piano 0x00) melody
   closeMC

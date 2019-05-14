@@ -1,0 +1,66 @@
+
+==================== FINAL INTERFACE ====================
+2019-05-14 04:18:35.21873795 UTC
+
+interface MusiCompoNator-0.1.0.0-IGHgGetelKJ3ieYvvXydhc:MusiCompoNator.Songbook.DeZevensprong 8063
+  interface hash: 1b6b2d2a8f790ada0e26f8aaefa4424d
+  ABI hash: 06a2daf614d3f4104d05d2250bf8a2fe
+  export-list hash: f661479dbac57d623ab8d380e406b7b1
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 2686b9958ee8136cfcf21b4c37cf35fe
+  opt_hash: 6faf2de08de32d19db9870899d88e59a
+  hpc_hash: 93b885adfe0da089cdf634904fd59f71
+  plugin_hash: ad164012d6b1e14942349d58b1132007
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  MusiCompoNator.Songbook.DeZevensprong.swing8
+module dependencies: MusiCompoNator.Core
+package dependencies: base-4.12.0.0* ghc-prim-0.5.3
+                      integer-gmp-1.0.2.0
+orphans: base-4.12.0.0:GHC.Float base-4.12.0.0:GHC.Base
+family instance modules: base-4.12.0.0:Control.Applicative
+                         base-4.12.0.0:Data.Functor.Const
+                         base-4.12.0.0:Data.Functor.Identity base-4.12.0.0:Data.Monoid
+                         base-4.12.0.0:Data.Semigroup.Internal base-4.12.0.0:GHC.Generics
+                         base-4.12.0.0:GHC.IO.Exception
+import  -/  MusiCompoNator.Core dbe69f021eb82eefbd6401926a0c3422
+  exports: 8486fc8e0f9f670b51995717530546ca
+import  -/  base-4.12.0.0:GHC.Base cc906f98291a1b830546e99a96674547
+import  -/  base-4.12.0.0:Prelude 5c01365ec01f83bd405ac01cbb9a8d76
+29c666bfc08318bcff35239a0e4b8a29
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module
+                   MusiCompoNator.Songbook.DeZevensprong.$trModule3
+                   MusiCompoNator.Songbook.DeZevensprong.$trModule1) -}
+8e5d9f3d32c8356b0e7a755d66027de1
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.Songbook.DeZevensprong.$trModule2) -}
+58737b5dc993b10a388635c79745a0f5
+  $trModule2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs,
+     Unfolding: ("MusiCompoNator.Songbook.DeZevensprong"#) -}
+95d1d31c82eb099e35d23e8225aae8f9
+  $trModule3 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.Songbook.DeZevensprong.$trModule4) -}
+5ca70f94a254ac1d89a8f5a80da026b0
+  $trModule4 :: GHC.Prim.Addr#
+  {- HasNoCafRefs,
+     Unfolding: ("MusiCompoNator-0.1.0.0-IGHgGetelKJ3ieYvvXydhc"#) -}
+273a1d465746376b3514858b1716d3b6
+  swing8 :: a -> a
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (0, True, True) GHC.Base.id -}
+trusted: safe
+require own pkg trusted: False
+module header:
+  Nothing
+declaration docs:
+arg docs:
+
