@@ -8,10 +8,67 @@ import Control.Monad.RWS
 import Data.Ratio
 import Data.Word
 import Data.List (sortBy)
-import Debug.Trace
 
 data MidiInstrument = Piano Word8 | Percussion Word8 Word8
 type Duration       = Beat
+
+-- Piano
+acousticGrandPiano  = midiVoice $ Piano 0x00
+brightAcousticPiano = midiVoice $ Piano 0x01
+electricGrandPiano  = midiVoice $ Piano 0x02
+honkyTonkPiano      = midiVoice $ Piano 0x03
+electricPiano1      = midiVoice $ Piano 0x04
+electricPiano2      = midiVoice $ Piano 0x05
+harpsichord         = midiVoice $ Piano 0x06
+clavinet            = midiVoice $ Piano 0x07
+-- Chromatic percussion.
+celesta             = midiVoice $ Piano 0x08
+glockenspiel        = midiVoice $ Piano 0x09
+musicBox            = midiVoice $ Piano 0x0a
+vibraphone          = midiVoice $ Piano 0x0b
+marimba             = midiVoice $ Piano 0x0c
+xylophone           = midiVoice $ Piano 0x0d
+tubularBells        = midiVoice $ Piano 0x0e
+dulcimer            = midiVoice $ Piano 0x0f
+-- Organ.
+drawbarOrgan        = midiVoice $ Piano 0x10
+percussiveOrgan     = midiVoice $ Piano 0x11
+rockOrgan           = midiVoice $ Piano 0x12
+churchOrgan         = midiVoice $ Piano 0x13
+reedOrgan           = midiVoice $ Piano 0x14
+accordion           = midiVoice $ Piano 0x15
+harmonica           = midiVoice $ Piano 0x16
+tangoAccordion      = midiVoice $ Piano 0x17
+-- Guitar.
+acousticGuitarNylon = midiVoice $ Piano 0x18
+acousticGuitarSteel = midiVoice $ Piano 0x19
+electricGuitarJazz  = midiVoice $ Piano 0x1a
+electricGuitarClean = midiVoice $ Piano 0x1b
+electricGuitarMuted = midiVoice $ Piano 0x1c
+overdrivenGuitar    = midiVoice $ Piano 0x1d
+distortionGuitar    = midiVoice $ Piano 0x1e
+guitarHarmonics     = midiVoice $ Piano 0x1f
+-- Bass.
+acousticBass        = midiVoice $ Piano 0x20
+electricBassFinger  = midiVoice $ Piano 0x21
+electricBassPick    = midiVoice $ Piano 0x22
+fretlessBass        = midiVoice $ Piano 0x23
+slapBass1           = midiVoice $ Piano 0x24
+slapBass2           = midiVoice $ Piano 0x25
+synthBass1          = midiVoice $ Piano 0x26
+synthBass2          = midiVoice $ Piano 0x27
+-- Strings.
+violin              = midiVoice $ Piano 0x28
+viola               = midiVoice $ Piano 0x29
+cello               = midiVoice $ Piano 0x2a
+contrabass          = midiVoice $ Piano 0x2b
+tremoloStrings      = midiVoice $ Piano 0x2c
+pizzicatoStrings    = midiVoice $ Piano 0x2d
+orchestralHarp      = midiVoice $ Piano 0x2e
+timpani             = midiVoice $ Piano 0x2f
+-- Todo (continu list up to 0x7f).
+
+
 
 -- Special pitches for "hit/mis" drum strokes.
 hit, mis :: (Scale -> Pitch)
@@ -155,7 +212,6 @@ data MidiState =
       , pb_sense    :: [(Word8, Word8)]   -- pb sensitivity
       , cursorB     :: Beat
       , bank        :: Word8
-      , velocity    :: Word8
       , subdivision :: Integer
       , title       :: String
       , quater      :: Int     -- (1 % 4) = quater in bpm.
@@ -170,7 +226,6 @@ defaultMidiPlayerState =
       , pb_sense    = zip [0..15] $ repeat 1
       , cursorB     = 0
       , bank        = 0    -- grand piano
-      , velocity    = 0x7f
       , subdivision = 4
       , title       = "untitled"
       , quater      = 120
@@ -181,7 +236,12 @@ midiVoice :: MidiInstrument -> Voice a -> MidiComposition ()
 midiVoice i v = do
   s <- get
   k <- ask
-  let (_, phs, _) = runVoice v k
+  let (_, phs', _) = runVoice v k
+  let phs =
+        case i of
+          (Percussion _ n) ->
+            map (liftH $ map $ fmap $ const $ fromIntegral n - 60) phs'
+          _                -> phs'
   let m = maximum $ map beatSize phs
   put $ s { subdivision = lcm (subdivision s) m
           , midi_events = (phrase2eventMidi i phs) ++ midi_events s}
@@ -219,9 +279,30 @@ writeEvents :: [EventMidi (MidiInstrument, Int)] -> MidiComposition ()
 writeEvents [                       ] = return ()
 writeEvents ((Event b (i, n) e) : es) = do
   moveHead b
-  chs <- mapM allocCh $ take n $ repeat b
+  chs <-
+    case i of
+      (Piano        _) -> mapM allocCh $ take n $ repeat b
+      (Percussion _ _) -> return $ map Just $ repeat 9
+  setInstrument b i chs
   writeEvent  b i chs e
   writeEvents es
+
+setTempo :: Int -> MidiComposition ()
+setTempo bpm = do
+  s <- get
+  put $ s {quater = bpm}
+
+setInstrument :: Beat -> MidiInstrument -> [Maybe Word8] -> MidiComposition ()
+setInstrument _ _ [           ] = return ()
+setInstrument _ _ (Nothing : _) = return ()
+setInstrument b (Piano i) (Just ch : rest) = do
+  t <- ticks . subdivision <$> get <*> return b
+  tell [(t, ve $ ProgramChange ch i)]
+  setInstrument b (Piano i) rest
+setInstrument b (Percussion i d) (Just ch : rest) = do
+  t <- ticks . subdivision <$> get <*> return b
+  tell [(t, ve $ ProgramChange ch i)]
+  setInstrument b (Percussion i d) rest
 
 writeEvent :: Beat
               -> MidiInstrument
@@ -232,32 +313,41 @@ writeEvent _ _ [             ] _ = return ()
 writeEvent _ _ (Nothing :   _) _ = return ()
 writeEvent b _ chs e = do
   mapM (setBend b pb) chs
-  pbs <- filter (not . (flip elem chs) . Just . fst) . pb_sense <$> get
   s   <- get
+  let pbs = filter (not . (flip elem chs) . Just . fst) $ pb_sense s
+  let f = ticks $ subdivision s
   put $ s {pb_sense = [(ch, pb) | ch <- [0..15], Just ch `elem` chs] ++ pbs}
-  t  <- ticks . subdivision <$> get <*> return b
-  writeOn  t (startPitch e) chs
-  t'  <- ticks . subdivision <$> get <*> return (b + durationOf e)
-  writeOff t' chs
+  writeEff (f   b) e chs
+  writeOn  (f   b) (startPitch e) chs
+  writeOff (f $ b + durationOf e) chs
+  resetEff (f $ b + durationOf e) chs
   where ps = allPitch e
         pb = floor (maximum ps - minimum ps) + 1
+
+writeEff :: Integer -> EffectMidi -> [Maybe Word8] -> MidiComposition ()
+writeEff _ _ [             ] = return ()
+writeEff _ _ (Nothing :   _) = return ()
+writeEff t e (Just ch : chs) =
+  case e of -- currently, bends and ties are skipped.
+    (MidiBend e' _)   -> writeEff t e' (Just ch : chs)
+    (MidiTie  e' _)   -> writeEff t e' (Just ch : chs)
+    (MidiVolume v e') -> do tell [(t, ve $ Controller ch 0x07 v)]
+                            writeEff t e' chs
+    (MidiCut _ e')    -> writeEff t e' (Just ch : chs)
+    _                 -> return ()
 
 writeOn :: Integer -> [Pitch] -> [Maybe Word8] -> MidiComposition ()
 writeOn _ [      ] _               = return ()
 writeOn _ _        [             ] = return ()
 writeOn _ _        (Nothing : _  ) = return ()
 writeOn t (p : ps) (Just ch : chs) = do
-  v  <- velocity <$> get
+  let v  = 0x7f -- for now.
   pb <- getPb ch
   setSounding ch k
   tell [ (t, ve $ PitchBend ch (pbValue k pb p))
        , (t, ve $ NoteOn    ch k v)]
   writeOn t ps chs
   where k = keyPress p
-
--- TODO (handle bends and ties).
-handleEvent :: MidiInstrument -> [Maybe Word8] -> EffectMidi -> MidiComposition Beat
-handleEvent _ _ e = return $ b + durationOf e
 
 writeOff :: Integer -> [Maybe Word8] -> MidiComposition ()
 writeOff _ [             ] = return ()
@@ -267,6 +357,13 @@ writeOff t (Just ch : chs) = do
   let k' = head [k | (ch', k) <- sounding s, ch' == ch]
   mapM (\k -> tell [(t, ve $ NoteOff ch k 0)]) k'
   writeOff t chs
+
+resetEff :: Integer -> [Maybe Word8] -> MidiComposition ()
+resetEff _ [             ] = return ()
+resetEff _ (Nothing : _  ) = return ()
+resetEff t (Just ch : chs) = do
+  tell [(t, ve $ Controller ch 7 0x7f)]
+  resetEff t chs
 
 putChannels :: [Word8] -> MidiComposition ()
 putChannels chs = get >>= \s -> put $ s {channels = chs}
@@ -282,20 +379,22 @@ allocCh d = do
     [         ] -> return Nothing
     (ch : rest) ->
       do put s { channels = rest
-               , pending  = (traceShowId $ d, ch) : pending s}
+               , pending  = (d, ch) : pending s}
          Just <$> return ch
 
 -- Free up a midi-channel.
 freeCh :: Word8 -> MidiComposition ()
-freeCh ch = (channels <$> get) >>= \chs -> putChannels $ ch : chs
+freeCh ch = do
+  s <- get
+  put $ s { channels = ch : channels s }
 
 -- Moving the player head means freeing midi channels that are no longer in use.
 moveHead :: Beat -> MidiComposition ()
 moveHead b = do
   s  <- get
-  put $ s { pending  = [(b', ch) | (b', ch) <- pending s, b < b']
+  put $ s { pending  = [(b', ch) | (b', ch) <- pending s, b <= b']
           , cursorB  = b
-          , channels = [ch | (b', ch) <- pending s, b' <= b] ++
+          , channels = [ch | (b', ch) <- pending s, b' < b] ++
             channels s}
 
 setBend :: Beat -> Word8 -> Maybe Word8 -> MidiComposition ()
