@@ -5,13 +5,16 @@ import MusiCompoNator.Core
 import MusiCompoNator.Composition
 import ZMidi.Core
 import Control.Monad.RWS
--- import Control.Arrow
 import Data.Ratio
 import Data.Word
 import Data.List (sortBy)
 
 data MidiInstrument = Piano Word8 | Percussion Word8 Word8
 type Duration       = Beat
+
+-- Special pitches for "hit/mis" drum strokes.
+hit, mis :: (Scale -> Pitch)
+hit = const 0; mis = const (-120)
 
 -- Input  : key-pressed, pitchbend-sensitivity, target ratio
 -- Outpus : 14-bit pitch-bend value (as interpreted in ZMidi.Core).
@@ -67,11 +70,12 @@ instance Functor EventMidi where
 
 -- A phrase is mapped to the events that has to happen, together
 -- with a bound on the number of channels required at each event.
+-- For simplicity, we ignore pitches outside [0x01, 0x7e].
 events :: Phrase2 -> [EventMidi Int]
 events ph = resolvePhrasing 0 $ zip3 cs (map l ps) (unmeasure bs)
   where (cs, ps, bs)  = unPhrase ph
         l (Silence  ) = [ ]
-        l (Sound  p ) = [p + 60] -- in MIDI, the middle c is 60.
+        l (Sound  p ) = if p < (-59) || 66 < p then [] else [p + 60]
         l (p1 :=: p2) = sortBy compare (l p1 ++ l p2)
 
 resolvePhrasing :: Beat -> [([PhraseControl], [Pitch], Beat)] -> [EventMidi Int]
@@ -146,6 +150,8 @@ phrase2eventMidi i phs = map (fmap ((,) i)) $ concat $ map events phs
 data MidiState =
   MPS { channels    :: [Word8]
       , pending     :: [(Beat, Word8)]
+      , sounding    :: [(Word8, [Word8])] -- pending note off
+      , pb_sense    :: [(Word8, Word8)]   -- pb sensitivity
       , cursorB     :: Beat
       , bank        :: Word8
       , velocity    :: Word8
@@ -159,6 +165,8 @@ defaultMidiPlayerState :: MidiState
 defaultMidiPlayerState =
   MPS { channels    = [0..8] ++ [10..15]
       , pending     = mempty
+      , sounding    = zip [0..15] $ return []
+      , pb_sense    = zip [0..15] $ repeat 1
       , cursorB     = 0
       , bank        = 0    -- grand piano
       , velocity    = 0x7f
@@ -184,7 +192,7 @@ type MidiComposition = RWS Scale [(Integer, MidiEvent)] MidiState
 runMidiComposition :: Scale -> MidiComposition a -> (MidiFile, a)
 runMidiComposition s mc =
   (MidiFile (MidiHeader MF1 1 $ TPB tpb)
-           [MidiTrack $ trackHead (quater ms) sense (title ms) ++
+           [MidiTrack $ trackHead (quater ms) (title ms) ++
                         trk ++
                         trackFoot
            ], a)
@@ -193,28 +201,74 @@ runMidiComposition s mc =
         deltaTime _ [             ] = []
         deltaTime b ((t, e) : rest) =
           (fromIntegral $ t - b, e) : deltaTime t rest
-        ps    = collectPitches $ midi_events ms
-        sense = floor (maximum ps - minimum ps) + 1
         trk   = deltaTime 0 $ sortBy (\x y -> compare (fst x) (fst y)) w
-        trackHead bpm sense title =
+        trackHead bpm title =
           [ (0, MetaEvent $ TextEvent SEQUENCE_NAME title)
           , (0, MetaEvent $ SetTempo tpm)
-          ] ++ (concat $ map set $ [0..8] ++ [10..15])
+          ]
           where tpm = (floor $ (10^6*60) / fromIntegral bpm)
-                set = \c -> [(0, ve $ Controller c 101 00)     -- select rpn
-                            ,(0, ve $ Controller c 100 00)     -- select pb
-                            ,(0, ve $ Controller c 006 sense)] -- adjust sense
-        trackFoot = [(0, MetaEvent EndOfTrack)]
+        trackFoot   = [(0, MetaEvent EndOfTrack)]
+
+closeMC :: MidiComposition ()
+closeMC = do
+  es <- midi_events <$> get
+  writeEvents $ sortBy (\(Event b _ _) (Event b' _ _) -> compare b b') es
 
 writeEvents :: [EventMidi (MidiInstrument, Int)] -> MidiComposition ()
 writeEvents [                       ] = return ()
 writeEvents ((Event b (i, n) e) : es) = do
-  moveHead   b
+  moveHead b
   chs <- mapM allocCh $ take n $ repeat b
   writeEvent  b i chs e
   writeEvents es
 
-writeEvent _ _ _ _ = return ()
+writeEvent :: Beat
+              -> MidiInstrument
+              -> [Maybe Word8]
+              -> EffectMidi
+              -> MidiComposition ()
+writeEvent _ _ [             ] _ = return ()
+writeEvent _ _ (Nothing :   _) _ = return ()
+writeEvent b i chs e = do
+  mapM (setBend b pb) chs
+  pbs <- filter (not . (flip elem chs) . Just . fst) . pb_sense <$> get
+  s   <- get
+  put $ s {pb_sense = [(ch, pb) | ch <- [0..15], Just ch `elem` chs] ++ pbs}
+  writeOn  b (startPitch e) chs
+  b' <- handleEvent i chs e
+  writeOff b' chs
+  where ps = allPitch e
+        pb = floor (maximum ps - minimum ps) + 1
+
+writeOn :: Beat -> [Pitch] -> [Maybe Word8] -> MidiComposition ()
+writeOn _ [      ] _               = return ()
+writeOn _ _        [             ] = return ()
+writeOn _ _        (Nothing : _  ) = return ()
+writeOn b (p : ps) (Just ch : chs) = do
+  t  <- ticks . subdivision <$> get <*> return b
+  v  <- velocity <$> get
+  pb <- getPb ch
+  tell [ (t, ve $ PitchBend ch (pbValue k pb p))
+       , (t, ve $ NoteOn    ch k v)]
+  setSounding ch k
+  writeOn b ps chs
+  where k = keyPress p
+
+-- TODO.
+handleEvent :: MidiInstrument -> [Maybe Word8] -> EffectMidi -> MidiComposition Beat
+handleEvent _ _ e = return $ durationOf e
+
+writeOff :: Beat -> [Maybe Word8] -> MidiComposition ()
+writeOff _ [             ] = return ()
+writeOff _ (Nothing : _  ) = return ()
+writeOff b (Just ch : chs) = do
+  t <- ticks . subdivision <$> get <*> return b
+  s <- get
+  case [x | (ch', x) <- sounding s, ch == ch'] of
+    [] -> return [()]
+    (k' : _) -> mapM (\k -> tell [(t, ve $ NoteOff ch k 0)]) k'
+  put $ s {sounding = (ch, []) : (filter (\p -> fst p /= ch) $ sounding s)}
+  writeOff b chs
 
 putChannels :: [Word8] -> MidiComposition ()
 putChannels chs = get >>= \s -> put $ s {channels = chs}
@@ -247,3 +301,23 @@ moveHead b = do
   put $ s { pending = [(b', ch) | (b', ch) <- pending s, b' > cursorB s]
           , cursorB = b }
   mapM_ freeCh $ [ch | (b', ch) <- pending s, b' <= cursorB s ]
+
+setBend :: Beat -> Word8 -> Maybe Word8 -> MidiComposition ()
+setBend _ _ Nothing  = return ()
+setBend b s (Just c) = do
+  f <- ticks . subdivision <$> get
+  tell [(f b, ve $ Controller c 101 00)  -- select rpn
+       ,(f b, ve $ Controller c 100 00)  -- select pb
+       ,(f b, ve $ Controller c 006 s )] -- adjust sense
+
+getPb :: Word8 -> MidiComposition Word8
+getPb ch = do
+  s <- get
+  return $ head [pb | (ch', pb) <- pb_sense s, ch == ch']
+
+setSounding :: Word8 -> Word8 -> MidiComposition ()
+setSounding ch k = do
+  s  <- get
+  let ks  = [(ch', k : xs) | (ch', xs) <- sounding s, ch' == ch]
+  let ks' = [(ch',     xs) | (ch', xs) <- sounding s, ch' /= ch]
+  put $ s {sounding = ks ++ ks'}

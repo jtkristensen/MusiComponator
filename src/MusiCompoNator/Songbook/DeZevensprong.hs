@@ -1,4 +1,4 @@
-module MusiCompoNator.Examples.DeZevensprong where
+module MusiCompoNator.Songbook.DeZevensprong where
 
 
 import MusiCompoNator.Core

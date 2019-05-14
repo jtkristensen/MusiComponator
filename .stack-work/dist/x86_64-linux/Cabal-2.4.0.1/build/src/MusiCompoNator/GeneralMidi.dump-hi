@@ -1,0 +1,2922 @@
+
+==================== FINAL INTERFACE ====================
+2019-05-14 04:07:17.912811542 UTC
+
+interface MusiCompoNator-0.1.0.0-9cKgrVpyNBSE6q4UMpeYIf:MusiCompoNator.GeneralMidi 8063
+  interface hash: 8b01efb108fad3c5f7f4e37358a68f70
+  ABI hash: aa91d9a281525f187080c1d700f07862
+  export-list hash: 39d0784ff1660b65b7cadf39c31331c0
+  orphan hash: 70404ec738cc0c056acd9c9d628c48ae
+  flag hash: 5ac350979ae091721e33adcb1a7c634a
+  opt_hash: 6faf2de08de32d19db9870899d88e59a
+  hpc_hash: 93b885adfe0da089cdf634904fd59f71
+  plugin_hash: ad164012d6b1e14942349d58b1132007
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  MusiCompoNator.GeneralMidi.allPitch
+  MusiCompoNator.GeneralMidi.allocCh
+  MusiCompoNator.GeneralMidi.beatSize
+  MusiCompoNator.GeneralMidi.bendw14
+  MusiCompoNator.GeneralMidi.closeMC
+  MusiCompoNator.GeneralMidi.collectPitches
+  MusiCompoNator.GeneralMidi.defaultMidiPlayerState
+  MusiCompoNator.GeneralMidi.depPhrasing
+  MusiCompoNator.GeneralMidi.durationOf
+  MusiCompoNator.GeneralMidi.endPitch
+  MusiCompoNator.GeneralMidi.events
+  MusiCompoNator.GeneralMidi.freeCh
+  MusiCompoNator.GeneralMidi.getPb
+  MusiCompoNator.GeneralMidi.handleEvent
+  MusiCompoNator.GeneralMidi.hit
+  MusiCompoNator.GeneralMidi.keyPress
+  MusiCompoNator.GeneralMidi.lockUntil
+  MusiCompoNator.GeneralMidi.midiVoice
+  MusiCompoNator.GeneralMidi.mis
+  MusiCompoNator.GeneralMidi.moveHead
+  MusiCompoNator.GeneralMidi.notes
+  MusiCompoNator.GeneralMidi.pbSteps
+  MusiCompoNator.GeneralMidi.pbValue
+  MusiCompoNator.GeneralMidi.phrase2eventMidi
+  MusiCompoNator.GeneralMidi.putChannels
+  MusiCompoNator.GeneralMidi.putCursor
+  MusiCompoNator.GeneralMidi.resolveDep
+  MusiCompoNator.GeneralMidi.resolvePhrasing
+  MusiCompoNator.GeneralMidi.runMidiComposition
+  MusiCompoNator.GeneralMidi.setBend
+  MusiCompoNator.GeneralMidi.setSounding
+  MusiCompoNator.GeneralMidi.startPitch
+  MusiCompoNator.GeneralMidi.ticks
+  MusiCompoNator.GeneralMidi.ve
+  MusiCompoNator.GeneralMidi.writeEvent
+  MusiCompoNator.GeneralMidi.writeEvents
+  MusiCompoNator.GeneralMidi.writeOff
+  MusiCompoNator.GeneralMidi.writeOn
+  MusiCompoNator.GeneralMidi.Duration
+  MusiCompoNator.GeneralMidi.EffectMidi{MusiCompoNator.GeneralMidi.MidiBend MusiCompoNator.GeneralMidi.MidiCut MusiCompoNator.GeneralMidi.MidiNotes MusiCompoNator.GeneralMidi.MidiTie MusiCompoNator.GeneralMidi.MidiVolume}
+  MusiCompoNator.GeneralMidi.EventMidi{MusiCompoNator.GeneralMidi.Event}
+  MusiCompoNator.GeneralMidi.MidiComposition
+  MusiCompoNator.GeneralMidi.MidiInstrument{MusiCompoNator.GeneralMidi.Percussion MusiCompoNator.GeneralMidi.Piano}
+  MusiCompoNator.GeneralMidi.MidiState{MusiCompoNator.GeneralMidi.MPS bank channels cursorB midi_events pb_sense pending quater sounding subdivision title velocity}
+module dependencies: MusiCompoNator.Composition MusiCompoNator.Core
+package dependencies: array-0.5.3.0 base-4.12.0.0 binary-0.8.6.0
+                      bytestring-0.10.8.2 containers-0.6.0.1 deepseq-1.4.4.0
+                      ghc-prim-0.5.3 integer-gmp-1.0.2.0 mtl-2.2.2 transformers-0.5.5.0
+                      zmidi-core-0.9.0
+orphans: bytestring-0.10.8.2:Data.ByteString.Builder
+         transformers-0.5.5.0:Control.Monad.Trans.Error
+         base-4.12.0.0:GHC.Float base-4.12.0.0:GHC.Base
+family instance modules: base-4.12.0.0:Control.Applicative
+                         base-4.12.0.0:Data.Complex base-4.12.0.0:Data.Functor.Compose
+                         base-4.12.0.0:Data.Functor.Const
+                         base-4.12.0.0:Data.Functor.Identity
+                         base-4.12.0.0:Data.Functor.Product base-4.12.0.0:Data.Functor.Sum
+                         base-4.12.0.0:Data.Monoid base-4.12.0.0:Data.Semigroup
+                         base-4.12.0.0:Data.Semigroup.Internal base-4.12.0.0:Data.Version
+                         base-4.12.0.0:Data.Void base-4.12.0.0:GHC.Exts
+                         base-4.12.0.0:GHC.Generics base-4.12.0.0:GHC.IO.Exception
+                         containers-0.6.0.1:Data.IntMap.Internal
+                         containers-0.6.0.1:Data.IntSet.Internal
+import  -/  MusiCompoNator.Composition 31e335831f3e34086892b6446c1cd10c
+  exports: 035dde81bf7c26d2b121d294cb2bf88e
+  BendNext bf3533bee3c8842b0e294da302079c30
+  Legato 8e523def742ef95551480be4535e90f2
+  Phrase2 3c50233d13a8f72a68e96ec8bdca2ee0
+  PhraseControl 47dc9409a60935de588a491e3f60eebe
+  Staccato e8a63328b64da4a00ed29d59abe59eec
+  TieNext 3197247325ca857bc267564fa53c068d
+  Voice 06f0190939cdf6544bf8b89dccbe6d5b
+  Volume 86540c498ddd8d5036762955b72fba60
+  runVoice 97e3470b5e67d9164bcdce335a7d9e1f
+  unPhrase bdec1eb21d33338d3acc63dbb19898c8
+import  -/  MusiCompoNator.Core edfa8b9a8a23ecf8a7be394146840adb
+  exports: 4d3d939d1c391690da2c15e26aaa58c3
+  :=: 37d7752ec0a2b2623492203407d17b6c
+  Beat a3e3b21e6151eeb8601ba0fcb2715af1
+  Measurable 5523319abac081310005112e39f3f161
+  Pitch f368faff747bfc90bc7896c9e248b0ca
+  Scale e31af48d081ddec33910e18dde1cef67
+  Silence d0d987f9d1ddf483a6e1c745ea57b829
+  Sound d3b0525dbe9242bc273080f084f5fd41
+  unmeasure c5dc979942b00b815344d3f03536e1c5
+import  -/  base-4.12.0.0:Data.Foldable 00188ddf89c975fee76bdfad479443c1
+import  -/  base-4.12.0.0:Data.Functor 22aac80fdb6c7b7f60b4aaab86afee64
+import  -/  base-4.12.0.0:Data.List ce2c69da408fdc014383cede9e1f9adf
+import  -/  base-4.12.0.0:Data.OldList c2cab40fed7d27b5e717779f9a3c09ea
+import  -/  base-4.12.0.0:Data.Ratio 96f9a1de850e5ea66ed6c5bd6817461b
+import  -/  base-4.12.0.0:Data.Traversable 257e9f3b6739f5bfbaaf0ac0abb0ddc5
+import  -/  base-4.12.0.0:Data.Tuple c92a835d04b6c075a7031d4e28e53c71
+import  -/  base-4.12.0.0:Data.Word 5f1b3eee5598586d205b9ce2031bc057
+import  -/  base-4.12.0.0:GHC.Base cc906f98291a1b830546e99a96674547
+import  -/  base-4.12.0.0:GHC.List 734a72beb76d276fb4a0ba2689a5711f
+import  -/  base-4.12.0.0:GHC.Num 847723f2584d989dac1eada133ac3fb8
+import  -/  base-4.12.0.0:GHC.Real f7dad82c1d43d80823865d3e6c6636e0
+import  -/  base-4.12.0.0:GHC.Show 4e438f26d903388cc6c2c5d64ed01b98
+import  -/  base-4.12.0.0:Prelude 5c01365ec01f83bd405ac01cbb9a8d76
+import  -/  ghc-prim-0.5.3:GHC.Classes e0d9c979f6368701f34fa421754d2cce
+import  -/  integer-gmp-1.0.2.0:GHC.Integer.Type 7f56f3d142debd8666df241a1ddc7887
+import  -/  mtl-2.2.2:Control.Monad.RWS 57f7419fbcadb058d9bb05ae36071220
+import  -/  mtl-2.2.2:Control.Monad.Reader.Class bfd53ec9164fa16880d07775c83c6ec0
+import  -/  mtl-2.2.2:Control.Monad.State.Class 7b1f06840718b1757a1de559220ba63b
+import  -/  mtl-2.2.2:Control.Monad.Writer.Class 7dda5503ee3995cbb9b9f0826404450e
+import  -/  transformers-0.5.5.0:Control.Monad.Trans.RWS.Lazy 0c9453256ffabab7a67587e9f3b1fffd
+import  -/  zmidi-core-0.9.0:ZMidi.Core 53b17082a5f95040cd3a036a84cc9bdc
+import  -/  zmidi-core-0.9.0:ZMidi.Core.Datatypes 5dde0f0c0267a1142a1e38c7f09c1fa2
+f00fa24304c4348d9674829ba6e398a4
+  $fFunctorEventMidi ::
+    GHC.Base.Functor MusiCompoNator.GeneralMidi.EventMidi
+  DFunId
+  {- HasNoCafRefs, Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ MusiCompoNator.GeneralMidi.EventMidi
+                  MusiCompoNator.GeneralMidi.$fFunctorEventMidi_$cfmap
+                  MusiCompoNator.GeneralMidi.$fFunctorEventMidi_$c<$ -}
+f00fa24304c4348d9674829ba6e398a4
+  $fFunctorEventMidi_$c<$ ::
+    a
+    -> MusiCompoNator.GeneralMidi.EventMidi b
+    -> MusiCompoNator.GeneralMidi.EventMidi a
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*U(U,A,U)>m,
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a
+                   @ b
+                   (x1 :: a)
+                   (ds :: MusiCompoNator.GeneralMidi.EventMidi b) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.Event b1 a1 e ->
+                 MusiCompoNator.GeneralMidi.Event @ a b1 x1 e }) -}
+f00fa24304c4348d9674829ba6e398a4
+  $fFunctorEventMidi_$cfmap ::
+    (a -> b)
+    -> MusiCompoNator.GeneralMidi.EventMidi a
+    -> MusiCompoNator.GeneralMidi.EventMidi b
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,1*C1(U)><S,1*U(U,U,U)>m,
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a
+                   @ b
+                   (f :: a -> b)
+                   (ds :: MusiCompoNator.GeneralMidi.EventMidi a) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.Event b1 a1 e ->
+                 MusiCompoNator.GeneralMidi.Event @ b b1 (f a1) e }) -}
+e3e29fbb574b47e6bbd2aeb25b83f6b8
+  $fShowEffectMidi ::
+    GHC.Show.Show MusiCompoNator.GeneralMidi.EffectMidi
+  DFunId
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ MusiCompoNator.GeneralMidi.EffectMidi
+                  MusiCompoNator.GeneralMidi.$fShowEffectMidi_$cshowsPrec
+                  MusiCompoNator.GeneralMidi.$fShowEffectMidi_$cshow
+                  MusiCompoNator.GeneralMidi.$fShowEffectMidi_$cshowList -}
+e3e29fbb574b47e6bbd2aeb25b83f6b8
+  $fShowEffectMidi1 ::
+    MusiCompoNator.GeneralMidi.EffectMidi -> GHC.Show.ShowS
+  {- Arity: 2, Strictness: <S,1*U><L,U>,
+     Unfolding: (\ (w :: MusiCompoNator.GeneralMidi.EffectMidi)
+                   (w1 :: GHC.Base.String) ->
+                 MusiCompoNator.GeneralMidi.$w$cshowsPrec 0# w w1) -}
+869df208c71da6f3e4685e9d24200610
+  $fShowEffectMidi2 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 0#) -}
+e3e29fbb574b47e6bbd2aeb25b83f6b8
+  $fShowEffectMidi_$cshow ::
+    MusiCompoNator.GeneralMidi.EffectMidi -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (x1 :: MusiCompoNator.GeneralMidi.EffectMidi) ->
+                 MusiCompoNator.GeneralMidi.$fShowEffectMidi_$cshowsPrec
+                   MusiCompoNator.GeneralMidi.$fShowEffectMidi2
+                   x1
+                   (GHC.Types.[] @ GHC.Types.Char)) -}
+e3e29fbb574b47e6bbd2aeb25b83f6b8
+  $fShowEffectMidi_$cshowList ::
+    [MusiCompoNator.GeneralMidi.EffectMidi] -> GHC.Show.ShowS
+  {- Arity: 2, Strictness: <S,1*U><L,U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ (ls :: [MusiCompoNator.GeneralMidi.EffectMidi])
+                   (s :: GHC.Base.String) ->
+                 GHC.Show.showList__
+                   @ MusiCompoNator.GeneralMidi.EffectMidi
+                   MusiCompoNator.GeneralMidi.$fShowEffectMidi1
+                   ls
+                   s) -}
+e3e29fbb574b47e6bbd2aeb25b83f6b8
+  $fShowEffectMidi_$cshowsPrec ::
+    GHC.Types.Int
+    -> MusiCompoNator.GeneralMidi.EffectMidi -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <S(S),1*U(U)><S,1*U><L,U>, Inline: [2],
+     Unfolding: InlineRule (3, True, False)
+                (\ (w :: GHC.Types.Int)
+                   (w1 :: MusiCompoNator.GeneralMidi.EffectMidi)
+                   (w2 :: GHC.Base.String) ->
+                 case w of ww { GHC.Types.I# ww1 ->
+                 MusiCompoNator.GeneralMidi.$w$cshowsPrec ww1 w1 w2 }) -}
+f00fa24304c4348d9674829ba6e398a4
+  $fShowEventMidi ::
+    GHC.Show.Show a =>
+    GHC.Show.Show (MusiCompoNator.GeneralMidi.EventMidi a)
+  DFunId
+  {- Arity: 1, Strictness: <L,U(C(C1(C(U))),A,A)>m, Inline: CONLIKE,
+     Unfolding: DFun: @ a (v :: GHC.Show.Show a).
+                  @ (MusiCompoNator.GeneralMidi.EventMidi a)
+                  (MusiCompoNator.GeneralMidi.$fShowEventMidi_$cshowsPrec @ a v)
+                  (MusiCompoNator.GeneralMidi.$fShowEventMidi_$cshow @ a v)
+                  (MusiCompoNator.GeneralMidi.$fShowEventMidi_$cshowList @ a v) -}
+b93c1763d973fb2c2e654af1a4f2dbe6
+  $fShowEventMidi1 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   MusiCompoNator.GeneralMidi.$fShowEventMidi2) -}
+3e9b0fb8a0b9bcc8bcdba6ca7374217d
+  $fShowEventMidi2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Event "#) -}
+5c70be9273d9853976b2ea7660773c69
+  $fShowEventMidi3 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 11#) -}
+f00fa24304c4348d9674829ba6e398a4
+  $fShowEventMidi_$cshow ::
+    GHC.Show.Show a =>
+    MusiCompoNator.GeneralMidi.EventMidi a -> GHC.Base.String
+  {- Arity: 2,
+     Strictness: <L,1*U(1*C1(C1(C(U))),A,A)><S,1*U(U(U,U),U,U)>,
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a
+                   ($dShow :: GHC.Show.Show a)
+                   (x1 :: MusiCompoNator.GeneralMidi.EventMidi a) ->
+                 MusiCompoNator.GeneralMidi.$fShowEventMidi_$cshowsPrec
+                   @ a
+                   $dShow
+                   MusiCompoNator.GeneralMidi.$fShowEffectMidi2
+                   x1
+                   (GHC.Types.[] @ GHC.Types.Char)) -}
+f00fa24304c4348d9674829ba6e398a4
+  $fShowEventMidi_$cshowList ::
+    GHC.Show.Show a =>
+    [MusiCompoNator.GeneralMidi.EventMidi a] -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <L,U(C(C1(C(U))),A,A)><S,1*U><L,U>,
+     Unfolding: InlineRule (3, True, False)
+                (\ @ a
+                   ($dShow :: GHC.Show.Show a)
+                   (ls :: [MusiCompoNator.GeneralMidi.EventMidi a])
+                   (s :: GHC.Base.String) ->
+                 GHC.Show.showList__
+                   @ (MusiCompoNator.GeneralMidi.EventMidi a)
+                   (MusiCompoNator.GeneralMidi.$fShowEventMidi_$cshowsPrec
+                      @ a
+                      $dShow
+                      MusiCompoNator.GeneralMidi.$fShowEffectMidi2)
+                   ls
+                   s) -}
+f00fa24304c4348d9674829ba6e398a4
+  $fShowEventMidi_$cshowsPrec ::
+    GHC.Show.Show a =>
+    GHC.Types.Int
+    -> MusiCompoNator.GeneralMidi.EventMidi a -> GHC.Show.ShowS
+  {- Arity: 3,
+     Strictness: <L,1*U(1*C1(C1(C(U))),A,A)><S(S),1*U(U)><S,1*U(U(U,U),U,U)>,
+     Inline: [2],
+     Unfolding: InlineRule (3, True, False)
+                (\ @ a
+                   (w :: GHC.Show.Show a)
+                   (w1 :: GHC.Types.Int)
+                   (w2 :: MusiCompoNator.GeneralMidi.EventMidi a) ->
+                 case w1 of ww { GHC.Types.I# ww1 ->
+                 case w2 of ww2 { MusiCompoNator.GeneralMidi.Event ww3 ww4 ww5 ->
+                 MusiCompoNator.GeneralMidi.$w$cshowsPrec1
+                   @ a
+                   w
+                   ww1
+                   ww3
+                   ww4
+                   ww5 } }) -}
+bb55ec9bc7c4bca3d24e733939a748cd
+  $s$fEqMaybe :: GHC.Classes.Eq (GHC.Maybe.Maybe GHC.Word.Word8)
+  {- HasNoCafRefs, Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ (GHC.Maybe.Maybe GHC.Word.Word8)
+                  (\ (ds :: GHC.Maybe.Maybe GHC.Word.Word8)
+                     (ds1 :: GHC.Maybe.Maybe GHC.Word.Word8) ->
+                   case ds of wild {
+                     GHC.Maybe.Nothing
+                     -> case ds1 of wild1 {
+                          GHC.Maybe.Nothing -> GHC.Types.True
+                          GHC.Maybe.Just ipv -> GHC.Types.False }
+                     GHC.Maybe.Just a1
+                     -> case ds1 of wild1 {
+                          GHC.Maybe.Nothing -> GHC.Types.False
+                          GHC.Maybe.Just b1 -> GHC.Word.eqWord8 a1 b1 } })
+                  MusiCompoNator.GeneralMidi.$s$fEqMaybe_$s$fEqMaybe_$c/= -}
+63936076a0f58390dac6a3dde06a8db5
+  $s$fEqMaybe_$s$fEqMaybe_$c/= ::
+    GHC.Maybe.Maybe GHC.Word.Word8
+    -> GHC.Maybe.Maybe GHC.Word.Word8 -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Inline: (sat-args=2),
+     Unfolding: InlineRule (2, False, False)
+                (\ (x1 :: GHC.Maybe.Maybe GHC.Word.Word8)
+                   (y :: GHC.Maybe.Maybe GHC.Word.Word8) ->
+                 case x1 of wild {
+                   GHC.Maybe.Nothing
+                   -> case y of wild1 {
+                        GHC.Maybe.Nothing -> GHC.Types.False
+                        GHC.Maybe.Just ipv -> GHC.Types.True }
+                   GHC.Maybe.Just a1
+                   -> case y of wild1 {
+                        GHC.Maybe.Nothing -> GHC.Types.True
+                        GHC.Maybe.Just b1
+                        -> case GHC.Word.eqWord8 a1 b1 of wild2 {
+                             GHC.Types.False -> GHC.Types.True
+                             GHC.Types.True -> GHC.Types.False } } }) -}
+0adbf68533b68eabec73dfeea1728c81
+  $s^1 :: GHC.Types.Double
+  {- Strictness: x -}
+da9d28cdf5f1752427a4d448ed2bcd16
+  $s^2 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (0) -}
+6ecf730ff1498c706dd31cbb51ff94df
+  $seven1 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (2) -}
+7fb05f755aceef2f29afeb7de1096658
+  $smaximum1 :: MusiCompoNator.Core.Pitch
+  {- Strictness: x -}
+92c921f3ed2c5d2cb40e40b529f500ff
+  $tc'Event :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   16027966351172426683##
+                   5826514915856271688##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'Event2
+                   1#
+                   MusiCompoNator.GeneralMidi.$tc'Event1) -}
+15488a4af071afad03b5ae32308858ae
+  $tc'Event1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+bfffd25ab9a3183cf9db0376ef64b301
+  $tc'Event2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'Event3) -}
+b23486dca5e6ae710a48ca52d6565b51
+  $tc'Event3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'Event"#) -}
+96a40a11936d4ead6bfa7ac9ad395138
+  $tc'MPS :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   8323621115081041667##
+                   7236470605663077976##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'MPS2
+                   0#
+                   MusiCompoNator.GeneralMidi.$tc'MPS1) -}
+60082027d496a0ceb4e489bc442113e8
+  $tc'MPS1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+92f128cac0689ab95077731fde167bdf
+  $tc'MPS2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'MPS3) -}
+6496d25565ec94c882daf1bd2bf00340
+  $tc'MPS3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'MPS"#) -}
+5dc92b3c8a10829f4b91aa024bf43a9f
+  $tc'MidiBend :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   5660408840836305179##
+                   4251953084173290966##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'MidiBend2
+                   0#
+                   MusiCompoNator.GeneralMidi.$tc'MidiBend1) -}
+a62fad31ce7ffefd468300d1c1f7ed23
+  $tc'MidiBend1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+599ada6639cbc24027530152b4b840c5
+  $tc'MidiBend2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'MidiBend3) -}
+e06e26b360e320cbdc9097dc498ffe3e
+  $tc'MidiBend3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'MidiBend"#) -}
+611f7dae2b434f42380e1a945cd1dc1f
+  $tc'MidiCut :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   555034991207120511##
+                   9024462257547700380##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'MidiCut2
+                   0#
+                   MusiCompoNator.GeneralMidi.$tc'MidiCut1) -}
+a4089c5f2597e70604e60aee9f6364e5
+  $tc'MidiCut1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+a935d7a5c67989c8f7d3339f6e752ebc
+  $tc'MidiCut2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'MidiCut3) -}
+f50b67c21813368e4692e77421f25b6d
+  $tc'MidiCut3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'MidiCut"#) -}
+752c318597b2c8f162bed92eecd60cd3
+  $tc'MidiNotes :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   13284662164049105541##
+                   13970424838810659902##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'MidiNotes2
+                   0#
+                   MusiCompoNator.GeneralMidi.$tc'MidiNotes1) -}
+8adc0b5a5eb9a9191c8346c3a2fb208f
+  $tc'MidiNotes1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+92b22fc548b91f5328ea945d61c3cc14
+  $tc'MidiNotes2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'MidiNotes3) -}
+06c5f1c0bd8867d043fc160801127d3e
+  $tc'MidiNotes3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'MidiNotes"#) -}
+7296de44d0765a34d7526b248664d873
+  $tc'MidiTie :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   11107483789668943042##
+                   8818337810403614027##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'MidiTie1
+                   0#
+                   MusiCompoNator.GeneralMidi.$tc'MidiBend1) -}
+1cdaccb21c3770690fbb206f1778e552
+  $tc'MidiTie1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'MidiTie2) -}
+a358336c473fcc2cfa565cf3adf74c0f
+  $tc'MidiTie2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'MidiTie"#) -}
+a548327b90e36dec802054d0917ea564
+  $tc'MidiVolume :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   11355388593710094511##
+                   1540830336085546578##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'MidiVolume2
+                   0#
+                   MusiCompoNator.GeneralMidi.$tc'MidiVolume1) -}
+803ea5d958995234550505e09424e0b6
+  $tc'MidiVolume1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+c9439c94bfe285101671884a02dc6bc3
+  $tc'MidiVolume2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'MidiVolume3) -}
+d8a44ecb575e0e7fc0f32df0275b12d1
+  $tc'MidiVolume3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'MidiVolume"#) -}
+7d84061ebd5a6b2f5392296a2c4fd8c7
+  $tc'Percussion :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   3984584800419170054##
+                   7103548259471445167##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'Percussion2
+                   0#
+                   MusiCompoNator.GeneralMidi.$tc'Percussion1) -}
+fa001cc1b9c93c3fbfa9f7f32cd63153
+  $tc'Percussion1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+048c99141ad58c9ba13cb3079f24bab1
+  $tc'Percussion2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'Percussion3) -}
+3f15c93ffabd896d2ba46d374e51720e
+  $tc'Percussion3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'Percussion"#) -}
+371defb17c2b4151f82b6c8f56430443
+  $tc'Piano :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   16264469182067709372##
+                   5619842315141907222##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tc'Piano2
+                   0#
+                   MusiCompoNator.GeneralMidi.$tc'Piano1) -}
+34a5df23f2bc1f35d462946972630bef
+  $tc'Piano1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+b9ad31ba53e7a654d0f0d660da87e68b
+  $tc'Piano2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tc'Piano3) -}
+d8a3752d1c71cfb89e327fda844fbcc8
+  $tc'Piano3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'Piano"#) -}
+d895597cfc76def8e696505e3d275e22
+  $tcEffectMidi :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   684935137020917318##
+                   2202908403141585734##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tcEffectMidi1
+                   0#
+                   GHC.Types.krep$*) -}
+f06dae30dd800b501f4c833b55bd2cae
+  $tcEffectMidi1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tcEffectMidi2) -}
+7c5636db8de719ea272ebb8e751d2d1d
+  $tcEffectMidi2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("EffectMidi"#) -}
+bc29c352fabefff328eebc17a10d07fc
+  $tcEventMidi :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   10214969424723147588##
+                   10483825380325683056##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tcEventMidi1
+                   0#
+                   GHC.Types.krep$*Arr*) -}
+ef0ec1e091cafd1b1a9fcb90a74125db
+  $tcEventMidi1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tcEventMidi2) -}
+5686513e3904c92996de3051148c6723
+  $tcEventMidi2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("EventMidi"#) -}
+bd53df35ece775cd5e084e6a484290f0
+  $tcMidiInstrument :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   18373750760866240678##
+                   5453112922719191538##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tcMidiInstrument1
+                   0#
+                   GHC.Types.krep$*) -}
+77ef3cc148fcacf0d8326130020cfeed
+  $tcMidiInstrument1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tcMidiInstrument2) -}
+9bf381c582960ba778708181f00f9e49
+  $tcMidiInstrument2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("MidiInstrument"#) -}
+72e9896ae317bbf1de4a5c572d99c525
+  $tcMidiState :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   13780904523837819483##
+                   2293127426210181866##
+                   MusiCompoNator.GeneralMidi.$trModule
+                   MusiCompoNator.GeneralMidi.$tcMidiState1
+                   0#
+                   GHC.Types.krep$*) -}
+be4aaf5307db8f634651333071171836
+  $tcMidiState1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$tcMidiState2) -}
+1612034bcf8a21511be61eb69a14d1b2
+  $tcMidiState2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("MidiState"#) -}
+1c519d0f22d9ba67c97a43001925226b
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module
+                   MusiCompoNator.GeneralMidi.$trModule3
+                   MusiCompoNator.GeneralMidi.$trModule1) -}
+0edf7f588b280ad5256aefd7e203ed38
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$trModule2) -}
+e170d02e6f2c967bd6855bddb49095b8
+  $trModule2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("MusiCompoNator.GeneralMidi"#) -}
+2cc9fe7c394682dc76a36ab182e0ec5e
+  $trModule3 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   MusiCompoNator.GeneralMidi.$trModule4) -}
+a2faf83687cca06d52f6f41d7addd13f
+  $trModule4 :: GHC.Prim.Addr#
+  {- HasNoCafRefs,
+     Unfolding: ("MusiCompoNator-0.1.0.0-9cKgrVpyNBSE6q4UMpeYIf"#) -}
+e3e29fbb574b47e6bbd2aeb25b83f6b8
+  $w$cshowsPrec ::
+    GHC.Prim.Int#
+    -> MusiCompoNator.GeneralMidi.EffectMidi
+    -> GHC.Base.String
+    -> GHC.Base.String
+  {- Arity: 3, Strictness: <S,U><S,1*U><L,U>, Inline: [2] -}
+c56f766422845279c1e536542aedebd5
+  $w$cshowsPrec1 ::
+    GHC.Show.Show a =>
+    GHC.Prim.Int#
+    -> MusiCompoNator.Core.Beat
+    -> a
+    -> MusiCompoNator.GeneralMidi.EffectMidi
+    -> GHC.Show.ShowS
+  {- Arity: 5,
+     Strictness: <L,1*U(1*C1(C1(C(U))),A,A)><S,U><L,U(U,U)><L,U><L,U>,
+     Inline: [2],
+     Unfolding: (\ @ a
+                   (w :: GHC.Show.Show a)
+                   (ww :: GHC.Prim.Int#)
+                   (ww1 :: MusiCompoNator.Core.Beat)
+                   (ww2 :: a)
+                   (ww3 :: MusiCompoNator.GeneralMidi.EffectMidi) ->
+                 let {
+                   f :: GHC.Base.String -> GHC.Base.String
+                   = GHC.Show.showsPrec
+                       @ a
+                       w
+                       MusiCompoNator.GeneralMidi.$fShowEventMidi3
+                       ww2
+                 } in
+                 let {
+                   g :: GHC.Base.String -> GHC.Base.String
+                     {- Arity: 1, Strictness: <L,U> -}
+                   = \ (x1 :: GHC.Base.String) ->
+                     case ww1 of ww4 { GHC.Real.:% ww5 ww6 ->
+                     case GHC.Real.$w$s$cshowsPrec
+                            11#
+                            ww5
+                            ww6
+                            (GHC.Types.:
+                               @ GHC.Types.Char
+                               GHC.Show.showSpace1
+                               (f (GHC.Types.:
+                                     @ GHC.Types.Char
+                                     GHC.Show.showSpace1
+                                     (MusiCompoNator.GeneralMidi.$w$cshowsPrec
+                                        11#
+                                        ww3
+                                        x1)))) of ww7 { (#,#) ww8 ww9 ->
+                     GHC.Types.: @ GHC.Types.Char ww8 ww9 } }
+                 } in
+                 case GHC.Prim.>=# ww 11# of lwild {
+                   DEFAULT
+                   -> \ (x1 :: GHC.Base.String) ->
+                      GHC.Base.++
+                        @ GHC.Types.Char
+                        MusiCompoNator.GeneralMidi.$fShowEventMidi1
+                        (g x1)
+                   1#
+                   -> \ (x1 :: GHC.Base.String) ->
+                      GHC.Types.:
+                        @ GHC.Types.Char
+                        GHC.Show.$fShow(,)4
+                        (GHC.Base.++
+                           @ GHC.Types.Char
+                           MusiCompoNator.GeneralMidi.$fShowEventMidi1
+                           (g (GHC.Types.: @ GHC.Types.Char GHC.Show.$fShow(,)2 x1))) }) -}
+00cfc159f7de50e0378281b65322291a
+  $w$s^ ::
+    GHC.Types.Double -> GHC.Integer.Type.Integer -> GHC.Prim.Double#
+  {- Arity: 2, Strictness: <L,1*U(U)><S,U>, Inline: [1],
+     Unfolding: (\ (w :: GHC.Types.Double)
+                   (w1 :: GHC.Integer.Type.Integer) ->
+                 case GHC.Integer.Type.ltInteger#
+                        w1
+                        MusiCompoNator.GeneralMidi.$s^2 of wild {
+                   DEFAULT
+                   -> case GHC.Integer.Type.eqInteger#
+                             w1
+                             MusiCompoNator.GeneralMidi.$s^2 of wild1 {
+                        DEFAULT
+                        -> case w of ww { GHC.Types.D# ww1 ->
+                           MusiCompoNator.GeneralMidi.$wf ww1 w1 }
+                        1# -> 1.0## }
+                   1#
+                   -> case MusiCompoNator.GeneralMidi.$s^1
+                      ret_ty GHC.Prim.Double#
+                      of {} }) -}
+deb346e2dc194170c30d50914fcb52b4
+  $wallocCh ::
+    MusiCompoNator.GeneralMidi.Duration
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (# GHC.Maybe.Maybe GHC.Word.Word8,
+          MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)] #)
+  {- Arity: 2,
+     Strictness: <L,1*U(U,U)><L,1*U(U,U,U,U,U(U,U),U,U,U,U,U,U)>,
+     Inline: [2],
+     Unfolding: (\ (w :: MusiCompoNator.GeneralMidi.Duration)
+                   (w1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 let {
+                   ds1 :: Data.Functor.Identity.Identity
+                            (GHC.Maybe.Maybe GHC.Word.Word8,
+                             MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+                   = case w1 of wild { MusiCompoNator.GeneralMidi.MPS ds ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                     case ds of wild1 {
+                       []
+                       -> (GHC.Maybe.Nothing @ GHC.Word.Word8, wild,
+                           GHC.Types.[]
+                             @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent))
+                            `cast`
+                          (Nth:3
+                               (Nth:3
+                                    (<[MusiCompoNator.Core.Pitch]>_R
+                                     ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                                     ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                                   <(GHC.Maybe.Maybe GHC.Word.Word8,
+                                                     MusiCompoNator.GeneralMidi.MidiState,
+                                                     [(GHC.Integer.Type.Integer,
+                                                       ZMidi.Core.Datatypes.MidiEvent)])>_R))))
+                       : ch rest
+                       -> (GHC.Maybe.Just @ GHC.Word.Word8 ch,
+                           MusiCompoNator.GeneralMidi.MPS
+                             rest
+                             (GHC.Types.:
+                                @ (MusiCompoNator.Core.Beat, GHC.Word.Word8)
+                                (case ds5 of ww { GHC.Real.:% ww1 ww2 ->
+                                 case w of ww3 { GHC.Real.:% ww4 ww5 ->
+                                 case GHC.Real.$w$s$c+ ww1 ww2 ww4 ww5 of ww6 { (#,#) ww7 ww8 ->
+                                 GHC.Real.:% @ GHC.Integer.Type.Integer ww7 ww8 } } },
+                                 ch)
+                                ds2)
+                             ds3
+                             ds4
+                             ds5
+                             ds6
+                             ds7
+                             ds8
+                             ds9
+                             ds10
+                             ds11,
+                           GHC.Types.[]
+                             @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent))
+                            `cast`
+                          (Nth:3
+                               (Nth:3
+                                    (<[MusiCompoNator.Core.Pitch]>_R
+                                     ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                                     ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                                   <(GHC.Maybe.Maybe GHC.Word.Word8,
+                                                     MusiCompoNator.GeneralMidi.MidiState,
+                                                     [(GHC.Integer.Type.Integer,
+                                                       ZMidi.Core.Datatypes.MidiEvent)])>_R)))) } }
+                 } in
+                 (# case ds1
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <(GHC.Maybe.Maybe GHC.Word.Word8,
+                                MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                    b1 },
+                    case ds1
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <(GHC.Maybe.Maybe GHC.Word.Word8,
+                                MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                    s'' },
+                    case ds1
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <(GHC.Maybe.Maybe GHC.Word.Word8,
+                                MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                    w' } #)) -}
+c0d09e1535c42abfa2a701d6256256ee
+  $wbeatSize ::
+    (forall a. (GHC.Num.Num a, GHC.Classes.Ord a) => m a -> [a])
+    -> m MusiCompoNator.Core.Beat -> GHC.Integer.Type.Integer
+  {- Arity: 2, Strictness: <C(C(C(S))),1*C1(C1(C1(U)))><L,U>,
+     Inline: [2],
+     Unfolding: (\ @ m :: * -> *
+                   (ww :: forall a. (GHC.Num.Num a, GHC.Classes.Ord a) => m a -> [a])
+                   (w :: m MusiCompoNator.Core.Beat) ->
+                 MusiCompoNator.GeneralMidi.beatSize_go
+                   (ww
+                      @ MusiCompoNator.Core.Beat
+                      GHC.Real.$fFractionalRatio_$s$fNumRatio
+                      GHC.Real.$fOrdRatio_$s$fOrdRatio
+                      w)
+                   MusiCompoNator.GeneralMidi.beatSize1) -}
+535db3ef6b693526225e270ec35ffadb
+  $wf ::
+    GHC.Prim.Double# -> GHC.Integer.Type.Integer -> GHC.Prim.Double#
+  {- Arity: 2, Strictness: <S,U><S,U>, Inline: [2] -}
+021b2d760d8c1cacd28f1ba3df629c92
+  $wkeyPress ::
+    GHC.Integer.Type.Integer
+    -> GHC.Integer.Type.Integer -> GHC.Prim.Word#
+  {- Arity: 2, Strictness: <S,U><S,U>, Inline: [2],
+     Unfolding: (\ (ww :: GHC.Integer.Type.Integer)
+                   (ww1 :: GHC.Integer.Type.Integer) ->
+                 case GHC.Integer.Type.eqInteger#
+                        ww1
+                        MusiCompoNator.GeneralMidi.$s^2 of wild {
+                   DEFAULT
+                   -> case GHC.Integer.Type.integerToWord
+                             (GHC.Integer.Type.divInteger ww ww1) of wild1 { DEFAULT ->
+                      GHC.Prim.narrow8Word# wild1 }
+                   1# -> case GHC.Real.divZeroError ret_ty GHC.Prim.Word# of {} }) -}
+355dd0258230e5975ff4dba3fc65b852
+  $wmidiVoice ::
+    MusiCompoNator.GeneralMidi.MidiInstrument
+    -> MusiCompoNator.Composition.Voice a
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (# (), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)] #)
+  {- Arity: 4,
+     Strictness: <L,U><L,1*C1(U(1*U,U(1*U,1*U,A)))><L,U><L,1*U(U,U,U,U,U,U,U,U,U,U,1*U)>,
+     Inline: [2],
+     Unfolding: (\ @ a
+                   (w :: MusiCompoNator.GeneralMidi.MidiInstrument)
+                   (w1 :: MusiCompoNator.Composition.Voice a)
+                   (w2 :: [MusiCompoNator.Core.Pitch])
+                   (w3 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 (# GHC.Tuple.(),
+                    case w3 of wild { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                    let {
+                      phs :: [MusiCompoNator.Composition.Phrase2]
+                      = case MusiCompoNator.Composition.$wrunVoice
+                               @ a
+                               w1
+                               w2 of ww { (#,,#) ww1 ww2 ww3 ->
+                        ww2 }
+                    } in
+                    MusiCompoNator.GeneralMidi.MPS
+                      ds
+                      ds1
+                      ds2
+                      ds3
+                      ds4
+                      ds5
+                      ds6
+                      (case GHC.Base.map
+                              @ (MusiCompoNator.Composition.Phrase
+                                   MusiCompoNator.Composition.PhraseControl
+                                   (MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch)
+                                   MusiCompoNator.Core.Beat)
+                              @ GHC.Integer.Type.Integer
+                              MusiCompoNator.GeneralMidi.beatSize_$sbeatSize
+                              phs of wild1 {
+                         [] -> GHC.List.maximum1
+                         : ipv ipv1
+                         -> GHC.Integer.Type.lcmInteger
+                              ds7
+                              (GHC.List.maximum_go ipv1 ipv) })
+                      ds8
+                      ds9
+                      (GHC.Base.++
+                         @ (MusiCompoNator.GeneralMidi.EventMidi
+                              (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int))
+                         (MusiCompoNator.GeneralMidi.phrase2eventMidi
+                            @ MusiCompoNator.GeneralMidi.MidiInstrument
+                            w
+                            phs)
+                         ds10) },
+                    GHC.Types.[]
+                      @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent) #)) -}
+02b3954a0630340be588ee98a0c4b0eb
+  $wmoveHead ::
+    MusiCompoNator.Core.Beat
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (# (), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)] #)
+  {- Arity: 2, Strictness: <L,U><L,1*U(U,U,U,U,U(U,U),U,U,U,U,U,U)>,
+     Inline: [2],
+     Unfolding: (\ (w :: MusiCompoNator.Core.Beat)
+                   (w1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 let {
+                   ds1 :: Data.Functor.Identity.Identity
+                            ((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+                   = case w1 of wild { MusiCompoNator.GeneralMidi.MPS ds ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                     letrec {
+                       $wgo2 :: [(MusiCompoNator.Core.Beat, GHC.Word.Word8)]
+                                -> MusiCompoNator.GeneralMidi.MidiState
+                                -> (# (), MusiCompoNator.GeneralMidi.MidiState,
+                                      [(GHC.Integer.Type.Integer,
+                                        ZMidi.Core.Datatypes.MidiEvent)] #)
+                         {- Arity: 2, Strictness: <S,1*U><L,U(U,U,U,U,U,U,U,U,U,U,U)>,
+                            Inline: [2] -}
+                       = \ (w2 :: [(MusiCompoNator.Core.Beat, GHC.Word.Word8)])
+                           (w3 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                         case w2 of wild1 {
+                           []
+                           -> (# GHC.Tuple.(), w3,
+                                 GHC.Types.[]
+                                   @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent) #)
+                           : y ys
+                           -> case y of wild2 { (,) b' ch ->
+                              case b' of ww { GHC.Real.:% ww1 ww2 ->
+                              case ds5 of ww3 { GHC.Real.:% ww4 ww5 ->
+                              case GHC.Integer.Type.leInteger#
+                                     (GHC.Integer.Type.timesInteger ww1 ww5)
+                                     (GHC.Integer.Type.timesInteger ww4 ww2) of wild3 {
+                                DEFAULT -> $wgo2 ys w3
+                                1#
+                                -> let {
+                                     ds12 :: Data.Functor.Identity.Identity
+                                               ((), MusiCompoNator.GeneralMidi.MidiState,
+                                                [(GHC.Integer.Type.Integer,
+                                                  ZMidi.Core.Datatypes.MidiEvent)])
+                                     = case $wgo2
+                                              ys
+                                              (case w3 of wild4 { MusiCompoNator.GeneralMidi.MPS ds13 ds14 ds15 ds16 ds17 ds18 ds19 ds20 ds21 ds22 ds23 ->
+                                               MusiCompoNator.GeneralMidi.MPS
+                                                 (GHC.Types.: @ GHC.Word.Word8 ch ds13)
+                                                 ds14
+                                                 ds15
+                                                 ds16
+                                                 ds17
+                                                 ds18
+                                                 ds19
+                                                 ds20
+                                                 ds21
+                                                 ds22
+                                                 ds23 }) of ww7 { (#,,#) ww8 ww9 ww10 ->
+                                       (ww8, ww9, ww10)
+                                         `cast`
+                                       (Sym (Data.Functor.Identity.N:Identity[0]
+                                                 <((), MusiCompoNator.GeneralMidi.MidiState,
+                                                   [(GHC.Integer.Type.Integer,
+                                                     ZMidi.Core.Datatypes.MidiEvent)])>_R)) }
+                                   } in
+                                   (# case ds12
+                                             `cast`
+                                           (Data.Functor.Identity.N:Identity[0]
+                                                <((), MusiCompoNator.GeneralMidi.MidiState,
+                                                  [(GHC.Integer.Type.Integer,
+                                                    ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild4 { (,,) b1 s'' w' ->
+                                      b1 },
+                                      case ds12
+                                             `cast`
+                                           (Data.Functor.Identity.N:Identity[0]
+                                                <((), MusiCompoNator.GeneralMidi.MidiState,
+                                                  [(GHC.Integer.Type.Integer,
+                                                    ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild4 { (,,) b1 s'' w' ->
+                                      s'' },
+                                      GHC.Base.++
+                                        @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)
+                                        (GHC.Types.[]
+                                           @ (GHC.Integer.Type.Integer,
+                                              ZMidi.Core.Datatypes.MidiEvent))
+                                        (case ds12
+                                                `cast`
+                                              (Data.Functor.Identity.N:Identity[0]
+                                                   <((), MusiCompoNator.GeneralMidi.MidiState,
+                                                     [(GHC.Integer.Type.Integer,
+                                                       ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild4 { (,,) b1 s'' w' ->
+                                         w' }) #) } } } } }
+                     } in
+                     case $wgo2
+                            ds2
+                            (MusiCompoNator.GeneralMidi.MPS
+                               ds
+                               (letrec {
+                                  go :: [(MusiCompoNator.Core.Beat, GHC.Word.Word8)]
+                                        -> [(MusiCompoNator.Core.Beat, GHC.Word.Word8)]
+                                    {- Arity: 1, Strictness: <S,1*U> -}
+                                  = \ (ds12 :: [(MusiCompoNator.Core.Beat, GHC.Word.Word8)]) ->
+                                    case ds12 of wild1 {
+                                      []
+                                      -> GHC.Types.[] @ (MusiCompoNator.Core.Beat, GHC.Word.Word8)
+                                      : y ys
+                                      -> case y of wild2 { (,) b' ch ->
+                                         case b' of ww { GHC.Real.:% ww1 ww2 ->
+                                         case ds5 of ww3 { GHC.Real.:% ww4 ww5 ->
+                                         case GHC.Real.$w$s$ccompare ww1 ww2 ww4 ww5 of wild3 {
+                                           DEFAULT -> go ys
+                                           GHC.Types.GT
+                                           -> GHC.Types.:
+                                                @ (MusiCompoNator.Core.Beat, GHC.Word.Word8)
+                                                wild2
+                                                (go ys) } } } } }
+                                } in
+                                go ds2)
+                               ds3
+                               ds4
+                               w
+                               ds6
+                               ds7
+                               ds8
+                               ds9
+                               ds10
+                               ds11) of ww { (#,,#) ww1 ww2 ww3 ->
+                     (ww1, ww2, ww3)
+                       `cast`
+                     (Sym (Data.Functor.Identity.N:Identity[0]
+                               <((), MusiCompoNator.GeneralMidi.MidiState,
+                                 [(GHC.Integer.Type.Integer,
+                                   ZMidi.Core.Datatypes.MidiEvent)])>_R)) } }
+                 } in
+                 (# case ds1
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <((), MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                    b1 },
+                    case ds1
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <((), MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                    s'' },
+                    case ds1
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <((), MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                    w' } #)) -}
+6aefcbd113937390ccdfddfe6ac04010
+  $wnotes ::
+    MusiCompoNator.Core.Beat
+    -> [MusiCompoNator.Composition.PhraseControl]
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.Core.Beat
+    -> (# MusiCompoNator.Core.Beat, GHC.Types.Int,
+          MusiCompoNator.GeneralMidi.EffectMidi #)
+  {- Arity: 4, Strictness: <L,U><S,1*U><L,U><L,U>, Inline: [2] -}
+507b5a4ad1a854f1d6b5763a21fc4626
+  $wpbValue ::
+    GHC.Prim.Word#
+    -> GHC.Prim.Word#
+    -> GHC.Integer.Type.Integer
+    -> GHC.Integer.Type.Integer
+    -> GHC.Prim.Word#
+  {- Arity: 4, Strictness: <S,U><S,U><S,1*U><S,U>, Inline: [2],
+     Unfolding: (\ (ww :: GHC.Prim.Word#)
+                   (ww1 :: GHC.Prim.Word#)
+                   (ww2 :: GHC.Integer.Type.Integer)
+                   (ww3 :: GHC.Integer.Type.Integer) ->
+                 case GHC.Integer.Type.wordToInteger ww of dt1 { DEFAULT ->
+                 case GHC.Real.$w$s$c-
+                        ww2
+                        ww3
+                        dt1
+                        GHC.Real.$fEnumRatio1 of ww6 { (#,#) ww7 ww8 ->
+                 case GHC.Real.$w$s$cfromRational
+                        MusiCompoNator.GeneralMidi.pbValue2
+                        (GHC.Integer.Type.smallInteger
+                           (GHC.Prim.word2Int# ww1)) of ww4 { (#,#) ww5 ww9 ->
+                 case GHC.Real.$w$sreduce
+                        (GHC.Integer.Type.timesInteger ww7 ww5)
+                        (GHC.Integer.Type.timesInteger
+                           ww8
+                           ww9) of ww10 { (#,#) ww11 ww12 ->
+                 case GHC.Integer.Type.eqInteger#
+                        ww12
+                        MusiCompoNator.GeneralMidi.$s^2 of wild {
+                   DEFAULT
+                   -> case GHC.Integer.Type.integerToWord
+                             (GHC.Integer.Type.modInteger
+                                (GHC.Integer.Type.plusInteger
+                                   (GHC.Integer.Type.divInteger ww11 ww12)
+                                   MusiCompoNator.GeneralMidi.pbValue1)
+                                ZMidi.Core.Datatypes.$fNumWord2) of wild1 { DEFAULT ->
+                      GHC.Prim.narrow16Word# wild1 }
+                   1#
+                   -> case GHC.Real.divZeroError
+                      ret_ty GHC.Prim.Word#
+                      of {} } } } } }) -}
+cf661002c44a0e78090963ab48309a95
+  $wresolveDep ::
+    [MusiCompoNator.Composition.PhraseControl]
+    -> MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int
+    -> [MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int]
+    -> (# MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int,
+          [MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int] #)
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,1*U><L,U(U,U(U),U)><S,1*U>, Inline: [2] -}
+368148617836ffa53747b3194bd32330
+  $wrunMidiComposition ::
+    MusiCompoNator.Core.Scale
+    -> MusiCompoNator.GeneralMidi.MidiComposition a
+    -> (# ZMidi.Core.Datatypes.MidiFile, a #)
+  {- Arity: 2,
+     Strictness: <L,U><L,1*C1(C1(U(1*U,U(A,A,A,A,A,A,A,U,1*U,1*U(U),A),1*U)))>,
+     Inline: [2],
+     Unfolding: (\ @ a
+                   (w :: MusiCompoNator.Core.Scale)
+                   (w1 :: MusiCompoNator.GeneralMidi.MidiComposition a) ->
+                 let {
+                   ds :: Data.Functor.Identity.Identity
+                           (a, MusiCompoNator.GeneralMidi.MidiState,
+                            [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+                   = w1
+                       `cast`
+                     (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                          <MusiCompoNator.Core.Scale>_R
+                          <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                          <MusiCompoNator.GeneralMidi.MidiState>_N
+                          <Data.Functor.Identity.Identity>_R
+                          <a>_N)
+                       w
+                       MusiCompoNator.GeneralMidi.defaultMidiPlayerState
+                 } in
+                 (# ZMidi.Core.Datatypes.MidiFile
+                      (ZMidi.Core.Datatypes.MidiHeader
+                         ZMidi.Core.Datatypes.MF1
+                         MusiCompoNator.GeneralMidi.runMidiComposition10
+                         (ZMidi.Core.Datatypes.TPB
+                            (case MusiCompoNator.GeneralMidi.runMidiComposition9 of ww { GHC.Real.:% ww1 ww2 ->
+                             case ds
+                                    `cast`
+                                  (Data.Functor.Identity.N:Identity[0]
+                                       <(a, MusiCompoNator.GeneralMidi.MidiState,
+                                         [(GHC.Integer.Type.Integer,
+                                           ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) a1 ms w2 ->
+                             case ms of wild1 { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                             case GHC.Integer.Type.integerToWord
+                                    (MusiCompoNator.GeneralMidi.$wticks
+                                       ds8
+                                       ww1
+                                       ww2) of wild2 { DEFAULT ->
+                             GHC.Word.W16# (GHC.Prim.narrow16Word# wild2) } } } })))
+                      (GHC.Types.:
+                         @ ZMidi.Core.Datatypes.MidiTrack
+                         (GHC.Types.:
+                            @ (ZMidi.Core.Datatypes.DeltaTime, ZMidi.Core.Datatypes.MidiEvent)
+                            (MusiCompoNator.GeneralMidi.runMidiComposition4
+                               `cast`
+                             (Sym (ZMidi.Core.Datatypes.N:DeltaTime[0])),
+                             ZMidi.Core.Datatypes.MetaEvent
+                               (ZMidi.Core.Datatypes.TextEvent
+                                  ZMidi.Core.Datatypes.SEQUENCE_NAME
+                                  (case ds
+                                          `cast`
+                                        (Data.Functor.Identity.N:Identity[0]
+                                             <(a, MusiCompoNator.GeneralMidi.MidiState,
+                                               [(GHC.Integer.Type.Integer,
+                                                 ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) a1 ms w2 ->
+                                   case ms of wild1 { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                                   ds9 } })))
+                            (GHC.Types.:
+                               @ (ZMidi.Core.Datatypes.DeltaTime, ZMidi.Core.Datatypes.MidiEvent)
+                               (MusiCompoNator.GeneralMidi.runMidiComposition4
+                                  `cast`
+                                (Sym (ZMidi.Core.Datatypes.N:DeltaTime[0])),
+                                ZMidi.Core.Datatypes.MetaEvent
+                                  (ZMidi.Core.Datatypes.SetTempo
+                                     (case MusiCompoNator.GeneralMidi.runMidiComposition6 of wild { GHC.Types.D# x1 ->
+                                      case ds
+                                             `cast`
+                                           (Data.Functor.Identity.N:Identity[0]
+                                                <(a, MusiCompoNator.GeneralMidi.MidiState,
+                                                  [(GHC.Integer.Type.Integer,
+                                                    ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild1 { (,,) a1 ms w2 ->
+                                      case ms of wild2 { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                                      case ds10 of wild3 { GHC.Types.I# i ->
+                                      case GHC.Prim./##
+                                             (GHC.Prim.*## x1 60.0##)
+                                             (GHC.Prim.int2Double# i) of wild4 { DEFAULT ->
+                                      let {
+                                        n :: GHC.Prim.Int# = GHC.Prim.double2Int# wild4
+                                      } in
+                                      case GHC.Prim.<## wild4 (GHC.Prim.int2Double# n) of lwild {
+                                        DEFAULT
+                                        -> GHC.Word.W32#
+                                             (GHC.Prim.narrow32Word# (GHC.Prim.int2Word# n))
+                                        1#
+                                        -> GHC.Word.W32#
+                                             (GHC.Prim.narrow32Word#
+                                                (GHC.Prim.int2Word#
+                                                   (GHC.Prim.-# n 1#))) } } } } } })))
+                               (case ds
+                                       `cast`
+                                     (Data.Functor.Identity.N:Identity[0]
+                                          <(a, MusiCompoNator.GeneralMidi.MidiState,
+                                            [(GHC.Integer.Type.Integer,
+                                              ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) a1 ms w2 ->
+                                GHC.Base.++
+                                  @ (ZMidi.Core.Datatypes.DeltaTime, ZMidi.Core.Datatypes.MidiEvent)
+                                  (MusiCompoNator.GeneralMidi.runMidiComposition_deltaTime
+                                     MusiCompoNator.GeneralMidi.$s^2
+                                     (Data.OldList.sortBy
+                                        @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)
+                                        MusiCompoNator.GeneralMidi.runMidiComposition5
+                                        w2))
+                                  MusiCompoNator.GeneralMidi.runMidiComposition1 })))
+                           `cast`
+                         (Sym (ZMidi.Core.Datatypes.N:MidiTrack[0]))
+                         (GHC.Types.[] @ ZMidi.Core.Datatypes.MidiTrack)),
+                    case ds
+                           `cast`
+                         (Data.Functor.Identity.N:Identity[0]
+                              <(a, MusiCompoNator.GeneralMidi.MidiState,
+                                [(GHC.Integer.Type.Integer,
+                                  ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) a1 ms w2 ->
+                    a1 } #)) -}
+ad7550a559b0abd2093c780a42b661ae
+  $wsetBend ::
+    MusiCompoNator.Core.Beat
+    -> GHC.Word.Word8
+    -> GHC.Maybe.Maybe GHC.Word.Word8
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (# (), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)] #)
+  {- Arity: 4,
+     Strictness: <L,U(U,U)><L,U><S,1*U><L,U(U,U,U,U,U,U,U,U,U,U,U)>,
+     Inline: [2],
+     Unfolding: (\ (w :: MusiCompoNator.Core.Beat)
+                   (w1 :: GHC.Word.Word8)
+                   (w2 :: GHC.Maybe.Maybe GHC.Word.Word8)
+                   (w3 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case w2 of wild {
+                   GHC.Maybe.Nothing
+                   -> (# GHC.Tuple.(), w3,
+                         GHC.Types.[]
+                           @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent) #)
+                   GHC.Maybe.Just c
+                   -> (# GHC.Tuple.(), w3,
+                         GHC.Types.:
+                           @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)
+                           (case w of ww { GHC.Real.:% ww1 ww2 ->
+                            case w3 of wild1 { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                            MusiCompoNator.GeneralMidi.$wticks ds7 ww1 ww2 } },
+                            ZMidi.Core.Datatypes.VoiceEvent
+                              ZMidi.Core.Datatypes.RS_OFF
+                              (ZMidi.Core.Datatypes.Controller
+                                 c
+                                 MusiCompoNator.GeneralMidi.setBend4
+                                 MusiCompoNator.GeneralMidi.defaultMidiPlayerState5))
+                           (GHC.Types.:
+                              @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)
+                              (case w of ww { GHC.Real.:% ww1 ww2 ->
+                               case w3 of wild1 { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                               MusiCompoNator.GeneralMidi.$wticks ds7 ww1 ww2 } },
+                               ZMidi.Core.Datatypes.VoiceEvent
+                                 ZMidi.Core.Datatypes.RS_OFF
+                                 (ZMidi.Core.Datatypes.Controller
+                                    c
+                                    MusiCompoNator.GeneralMidi.setBend3
+                                    MusiCompoNator.GeneralMidi.defaultMidiPlayerState5))
+                              (GHC.Types.:
+                                 @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)
+                                 (case w of ww { GHC.Real.:% ww1 ww2 ->
+                                  case w3 of wild1 { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                                  MusiCompoNator.GeneralMidi.$wticks ds7 ww1 ww2 } },
+                                  ZMidi.Core.Datatypes.VoiceEvent
+                                    ZMidi.Core.Datatypes.RS_OFF
+                                    (ZMidi.Core.Datatypes.Controller
+                                       c
+                                       MusiCompoNator.GeneralMidi.setBend2
+                                       w1))
+                                 (GHC.Types.[]
+                                    @ (GHC.Integer.Type.Integer,
+                                       ZMidi.Core.Datatypes.MidiEvent)))) #) }) -}
+f885fc1b153de4d0d37bcb28dc40495a
+  $wsetSounding ::
+    GHC.Word.Word8
+    -> GHC.Word.Word8
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (# (), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)] #)
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,U(U)><L,U><L,1*U(U,U,U,U,U,U,U,U,U,U,U)>,
+     Inline: [2],
+     Unfolding: (\ (w :: GHC.Word.Word8)
+                   (w1 :: GHC.Word.Word8)
+                   (w2 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 (# GHC.Tuple.(),
+                    case w2 of wild { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                    MusiCompoNator.GeneralMidi.MPS
+                      ds
+                      ds1
+                      (let {
+                         z1 :: [(GHC.Word.Word8, [GHC.Word.Word8])]
+                         = letrec {
+                             go :: [(GHC.Word.Word8, [GHC.Word.Word8])]
+                                   -> [(GHC.Word.Word8, [GHC.Word.Word8])]
+                               {- Arity: 1, Strictness: <S,1*U> -}
+                             = \ (ds11 :: [(GHC.Word.Word8, [GHC.Word.Word8])]) ->
+                               case ds11 of wild1 {
+                                 [] -> GHC.Types.[] @ (GHC.Word.Word8, [GHC.Word.Word8])
+                                 : y ys
+                                 -> case y of wild2 { (,) ch' xs ->
+                                    case ch' of wild3 { GHC.Word.W8# x1 ->
+                                    case w of wild4 { GHC.Word.W8# y1 ->
+                                    case GHC.Prim.neWord# x1 y1 of lwild {
+                                      DEFAULT -> go ys
+                                      1#
+                                      -> GHC.Types.:
+                                           @ (GHC.Word.Word8, [GHC.Word.Word8])
+                                           wild2
+                                           (go ys) } } } } }
+                           } in
+                           go ds2
+                       } in
+                       letrec {
+                         go :: [(GHC.Word.Word8, [GHC.Word.Word8])]
+                               -> [(GHC.Word.Word8, [GHC.Word.Word8])]
+                           {- Arity: 1, Strictness: <S,1*U> -}
+                         = \ (ds11 :: [(GHC.Word.Word8, [GHC.Word.Word8])]) ->
+                           case ds11 of wild1 {
+                             [] -> z1
+                             : y ys
+                             -> case y of wild2 { (,) ch' xs ->
+                                case ch' of wild3 { GHC.Word.W8# x1 ->
+                                case w of wild4 { GHC.Word.W8# y1 ->
+                                case GHC.Prim.eqWord# x1 y1 of lwild {
+                                  DEFAULT -> go ys
+                                  1#
+                                  -> GHC.Types.:
+                                       @ (GHC.Word.Word8, [GHC.Word.Word8])
+                                       (wild3, GHC.Types.: @ GHC.Word.Word8 w1 xs)
+                                       (go ys) } } } } }
+                       } in
+                       go ds2)
+                      ds3
+                      ds4
+                      ds5
+                      ds6
+                      ds7
+                      ds8
+                      ds9
+                      ds10 },
+                    GHC.Types.[]
+                      @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent) #)) -}
+8ceeb4607f6d7da0cace2943e8c5b6d5
+  $wticks ::
+    GHC.Integer.Type.Integer
+    -> GHC.Integer.Type.Integer
+    -> GHC.Integer.Type.Integer
+    -> GHC.Integer.Type.Integer
+  {- Arity: 3, Strictness: <S,U><S,U><S,U>, Inline: [2],
+     Unfolding: (\ (w :: GHC.Integer.Type.Integer)
+                   (ww :: GHC.Integer.Type.Integer)
+                   (ww1 :: GHC.Integer.Type.Integer) ->
+                 case GHC.Integer.Type.eqInteger#
+                        ww1
+                        MusiCompoNator.GeneralMidi.$s^2 of wild {
+                   DEFAULT
+                   -> GHC.Integer.Type.timesInteger
+                        (GHC.Integer.Type.divInteger w ww1)
+                        ww
+                   1#
+                   -> case GHC.Real.divZeroError
+                      ret_ty GHC.Integer.Type.Integer
+                      of {} }) -}
+65614d51b6c0c120aa2b27dced3d37f4
+  $wwriteEvent ::
+    MusiCompoNator.Core.Beat
+    -> [GHC.Maybe.Maybe GHC.Word.Word8]
+    -> MusiCompoNator.GeneralMidi.EffectMidi
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 3, Strictness: <L,U(U,U)><S,1*U><L,U>, Inline: [2] -}
+1a49ee8e70c0331f0f0a3467420430fc
+  $wwriteEvents ::
+    [MusiCompoNator.GeneralMidi.EventMidi
+       (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)]
+    -> MusiCompoNator.Core.Scale
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (# (), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)] #)
+  {- Arity: 3,
+     Strictness: <S,1*U><L,U><L,U(U,U,U,U,U(U,U),U,U,U,U,U,U)>,
+     Inline: [2] -}
+7b1dc04fd87b01d5645a3d5de98774e9
+  $wwriteOff ::
+    MusiCompoNator.Core.Beat
+    -> [GHC.Maybe.Maybe GHC.Word.Word8]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (# (), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)] #)
+  {- Arity: 3,
+     Strictness: <L,U(U,U)><S,1*U><L,U(U,U,U,U,U,U,U,U,U,U,U)>,
+     Inline: [2] -}
+b970f7db855ccaa2123d1a1f2f9079d2
+  type Duration = MusiCompoNator.Core.Beat
+e3e29fbb574b47e6bbd2aeb25b83f6b8
+  data EffectMidi
+    = MidiBend MusiCompoNator.GeneralMidi.EffectMidi
+               MusiCompoNator.GeneralMidi.EffectMidi
+    | MidiTie MusiCompoNator.GeneralMidi.EffectMidi
+              MusiCompoNator.GeneralMidi.EffectMidi
+    | MidiVolume GHC.Word.Word8 MusiCompoNator.GeneralMidi.EffectMidi
+    | MidiCut MusiCompoNator.Core.Beat
+              MusiCompoNator.GeneralMidi.EffectMidi
+    | MidiNotes MusiCompoNator.Core.Beat [MusiCompoNator.Core.Pitch]
+f00fa24304c4348d9674829ba6e398a4
+  data EventMidi a
+    = Event MusiCompoNator.Core.Beat
+            a
+            MusiCompoNator.GeneralMidi.EffectMidi
+8d0c142ae02cf9e2e3bda8618d87e814
+  type MidiComposition =
+    Control.Monad.Trans.RWS.Lazy.RWS
+      MusiCompoNator.Core.Scale
+      [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]
+      MusiCompoNator.GeneralMidi.MidiState
+    :: * -> *
+5aaf91726e754cd0af17e79f74e4b0fb
+  data MidiInstrument
+    = Piano GHC.Word.Word8 | Percussion GHC.Word.Word8 GHC.Word.Word8
+8c6329230920e318c480600b520fa622
+  data MidiState
+    = MPS {channels :: [GHC.Word.Word8],
+           pending :: [(MusiCompoNator.Core.Beat, GHC.Word.Word8)],
+           sounding :: [(GHC.Word.Word8, [GHC.Word.Word8])],
+           pb_sense :: [(GHC.Word.Word8, GHC.Word.Word8)],
+           cursorB :: MusiCompoNator.Core.Beat,
+           bank :: GHC.Word.Word8,
+           velocity :: GHC.Word.Word8,
+           subdivision :: GHC.Integer.Type.Integer,
+           title :: GHC.Base.String,
+           quater :: GHC.Types.Int,
+           midi_events :: [MusiCompoNator.GeneralMidi.EventMidi
+                             (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)]}
+ccbfe20002495ce78d8620a2feeb0361
+  allPitch ::
+    MusiCompoNator.GeneralMidi.EffectMidi
+    -> [MusiCompoNator.Core.Pitch]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U> -}
+361ec1e655c42a8afd0bc1d1ea30fd70
+  allocCh ::
+    MusiCompoNator.GeneralMidi.Duration
+    -> MusiCompoNator.GeneralMidi.MidiComposition
+         (GHC.Maybe.Maybe GHC.Word.Word8)
+  {- Arity: 3,
+     Strictness: <L,1*U(U,U)><L,A><L,1*U(U,U,U,U,U(U,U),U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.allocCh1
+                  `cast`
+                (<MusiCompoNator.GeneralMidi.Duration>_R
+                 ->_R Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                               <[MusiCompoNator.Core.Pitch]>_R
+                               <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                               <MusiCompoNator.GeneralMidi.MidiState>_N
+                               <Data.Functor.Identity.Identity>_R
+                               <GHC.Maybe.Maybe GHC.Word.Word8>_N)) -}
+f2425856e9b0159d630ea4e69a3b7d6d
+  allocCh1 ::
+    MusiCompoNator.GeneralMidi.Duration
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> Data.Functor.Identity.Identity
+         (GHC.Maybe.Maybe GHC.Word.Word8,
+          MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 3,
+     Strictness: <L,1*U(U,U)><L,A><L,1*U(U,U,U,U,U(U,U),U,U,U,U,U,U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (3, True, False)
+                (\ (w :: MusiCompoNator.GeneralMidi.Duration)
+                   (w1 :: [MusiCompoNator.Core.Pitch])
+                   (w2 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case MusiCompoNator.GeneralMidi.$wallocCh
+                        w
+                        w2 of ww { (#,,#) ww1 ww2 ww3 ->
+                 (ww1, ww2, ww3)
+                   `cast`
+                 (Sym (Data.Functor.Identity.N:Identity[0]
+                           <(GHC.Maybe.Maybe GHC.Word.Word8,
+                             MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer,
+                               ZMidi.Core.Datatypes.MidiEvent)])>_R)) }) -}
+8c6329230920e318c480600b520fa622
+  bank :: MusiCompoNator.GeneralMidi.MidiState -> GHC.Word.Word8
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLLLLSLLLLL),1*U(A,A,A,A,A,1*U(U),A,A,A,A,A)>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds6 }) -}
+7e6a83a6c46786f3707e4344383d1f8f
+  beatSize ::
+    MusiCompoNator.Core.Measurable m =>
+    m MusiCompoNator.Core.Beat -> GHC.Integer.Type.Integer
+  {- Arity: 2,
+     Strictness: <S(LLLC(C(C(S)))),1*U(A,A,A,1*C1(C1(C1(U))))><L,U>,
+     Inline: [2],
+     Unfolding: InlineRule (2, True, False)
+                (\ @ m :: * -> *
+                   (w :: MusiCompoNator.Core.Measurable m)
+                   (w1 :: m MusiCompoNator.Core.Beat) ->
+                 case w of ww { MusiCompoNator.Core.C:Measurable ww1 ww2 ww3 ww4 ->
+                 MusiCompoNator.GeneralMidi.$wbeatSize @ m ww4 w1 }) -}
+39433d172275326f45219beb1996161f
+  beatSize1 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (4) -}
+e653a0286f0cad0218205f3a27fbe45b
+  beatSize_$sbeatSize ::
+    MusiCompoNator.Composition.Phrase
+      MusiCompoNator.Composition.PhraseControl
+      (MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch)
+      MusiCompoNator.Core.Beat
+    -> GHC.Integer.Type.Integer
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (m :: MusiCompoNator.Composition.Phrase
+                           MusiCompoNator.Composition.PhraseControl
+                           (MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch)
+                           MusiCompoNator.Core.Beat) ->
+                 case MusiCompoNator.Composition.$wunPhrase
+                        @ MusiCompoNator.Core.Beat
+                        @ MusiCompoNator.Composition.PhraseControl
+                        @ (MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch)
+                        GHC.Real.$fFractionalRatio_$s$fNumRatio
+                        GHC.Real.$fOrdRatio_$s$fOrdRatio
+                        m of ww { (#,,#) ww1 ww2 ww3 ->
+                 MusiCompoNator.GeneralMidi.beatSize_go
+                   (MusiCompoNator.Core.$w$cunmeasure
+                      @ MusiCompoNator.Core.Beat
+                      GHC.Real.$fFractionalRatio_$s$fNumRatio
+                      ww3)
+                   MusiCompoNator.GeneralMidi.beatSize1 }) -}
+9d3fa619c9fe54892a6753b7c2e59b10
+  beatSize_go ::
+    [GHC.Real.Ratio GHC.Integer.Type.Integer]
+    -> GHC.Integer.Type.Integer -> GHC.Integer.Type.Integer
+  {- Arity: 2, Strictness: <S,1*U><S,U> -}
+8faf48fb383734b87ca30021136bcf01
+  bendw14 ::
+    GHC.Word.Word8
+    -> MusiCompoNator.Core.Pitch -> ZMidi.Core.Datatypes.Word14
+  {- Arity: 2, Strictness: <S(S),1*U(U)><S(SS),1*U(U,U)>m,
+     Unfolding: InlineRule (2, True, False)
+                (\ (sense :: GHC.Word.Word8) (p :: MusiCompoNator.Core.Pitch) ->
+                 MusiCompoNator.GeneralMidi.pbValue
+                   (MusiCompoNator.GeneralMidi.keyPress p)
+                   sense
+                   p) -}
+8c6329230920e318c480600b520fa622
+  channels ::
+    MusiCompoNator.GeneralMidi.MidiState -> [GHC.Word.Word8]
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(SLLLLLLLLLL),1*U(1*U,A,A,A,A,A,A,A,A,A,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds1 }) -}
+ef08d605aae825a72e1e4e25eaf4c5f7
+  closeMC :: MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 2, Strictness: <L,U><L,1*U(U,U,U,U,U(U,U),U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.closeMC1
+                  `cast`
+                (Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                          <[MusiCompoNator.Core.Pitch]>_R
+                          <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                          <MusiCompoNator.GeneralMidi.MidiState>_N
+                          <Data.Functor.Identity.Identity>_R
+                          <()>_N)) -}
+8323718b291615480beab4042d11b7e5
+  closeMC1 ::
+    [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> Data.Functor.Identity.Identity
+         ((), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 2, Strictness: <L,U><L,1*U(U,U,U,U,U(U,U),U,U,U,U,U,U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w :: [MusiCompoNator.Core.Pitch])
+                   (w1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 let {
+                   ds1 :: Data.Functor.Identity.Identity
+                            ((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+                   = case w1 of wild { MusiCompoNator.GeneralMidi.MPS ds ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                     case MusiCompoNator.GeneralMidi.$wwriteEvents
+                            (Data.OldList.sortBy
+                               @ (MusiCompoNator.GeneralMidi.EventMidi
+                                    (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int))
+                               MusiCompoNator.GeneralMidi.closeMC2
+                               ds11)
+                            w
+                            wild of ww { (#,,#) ww1 ww2 ww3 ->
+                     (ww1, ww2, ww3)
+                       `cast`
+                     (Sym (Data.Functor.Identity.N:Identity[0]
+                               <((), MusiCompoNator.GeneralMidi.MidiState,
+                                 [(GHC.Integer.Type.Integer,
+                                   ZMidi.Core.Datatypes.MidiEvent)])>_R)) } }
+                 } in
+                 (case ds1
+                         `cast`
+                       (Data.Functor.Identity.N:Identity[0]
+                            <((), MusiCompoNator.GeneralMidi.MidiState,
+                              [(GHC.Integer.Type.Integer,
+                                ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                  b1 },
+                  case ds1
+                         `cast`
+                       (Data.Functor.Identity.N:Identity[0]
+                            <((), MusiCompoNator.GeneralMidi.MidiState,
+                              [(GHC.Integer.Type.Integer,
+                                ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                  s'' },
+                  case ds1
+                         `cast`
+                       (Data.Functor.Identity.N:Identity[0]
+                            <((), MusiCompoNator.GeneralMidi.MidiState,
+                              [(GHC.Integer.Type.Integer,
+                                ZMidi.Core.Datatypes.MidiEvent)])>_R) of wild { (,,) b1 s'' w' ->
+                  w' })
+                   `cast`
+                 (Sym (Data.Functor.Identity.N:Identity[0]
+                           <((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer,
+                               ZMidi.Core.Datatypes.MidiEvent)])>_R))) -}
+11c893f48100c003423c334f470f0ae8
+  closeMC2 ::
+    MusiCompoNator.GeneralMidi.EventMidi
+      (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)
+    -> MusiCompoNator.GeneralMidi.EventMidi
+         (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)
+    -> GHC.Types.Ordering
+  {- Arity: 2,
+     Strictness: <S(S(SS)LL),1*U(1*U(U,U),A,A)><S(S(SS)LL),1*U(1*U(U,U),A,A)>,
+     Unfolding: InlineRule (2, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.EventMidi
+                            (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int))
+                   (ds1 :: MusiCompoNator.GeneralMidi.EventMidi
+                             (MusiCompoNator.GeneralMidi.MidiInstrument,
+                              GHC.Types.Int))[OneShot] ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.Event b ds2 ds3 ->
+                 case ds1 of wild1 { MusiCompoNator.GeneralMidi.Event b' ds4 ds5 ->
+                 GHC.Real.$fEnumRatio_$s$ccompare b b' } }) -}
+76afd4699d20e78bdbe2495e8cdc30ac
+  collectPitches ::
+    [MusiCompoNator.GeneralMidi.EventMidi a]
+    -> [MusiCompoNator.Core.Pitch]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: (\ @ a
+                   (es :: [MusiCompoNator.GeneralMidi.EventMidi a]) ->
+                 MusiCompoNator.GeneralMidi.collectPitches1 @ a es) -}
+478cdea375708d9df53e388f1918ed99
+  collectPitches1 ::
+    [MusiCompoNator.GeneralMidi.EventMidi a]
+    -> [MusiCompoNator.Core.Pitch]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U> -}
+8c6329230920e318c480600b520fa622
+  cursorB ::
+    MusiCompoNator.GeneralMidi.MidiState -> MusiCompoNator.Core.Beat
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLLLSLLLLLL),1*U(A,A,A,A,1*U(U,U),A,A,A,A,A,A)>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds5 }) -}
+46b55e01fe51cfe3728a98c6c1a55ea3
+  defaultMidiPlayerState :: MusiCompoNator.GeneralMidi.MidiState
+  {- Unfolding: (MusiCompoNator.GeneralMidi.MPS
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState10
+                   (GHC.Types.[] @ (MusiCompoNator.Core.Beat, GHC.Word.Word8))
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState8
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState7
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState6
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState5
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState4
+                   MusiCompoNator.GeneralMidi.beatSize1
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState2
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState1
+                   (GHC.Types.[]
+                      @ (MusiCompoNator.GeneralMidi.EventMidi
+                           (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)))) -}
+f04e865051042d529aa02e7e06e737ca
+  defaultMidiPlayerState1 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 120#) -}
+dc22923c5ebc9f622e57c7fb062cc2c9
+  defaultMidiPlayerState10 :: [GHC.Word.Word8]
+  {- Unfolding: (GHC.Base.++
+                   @ GHC.Word.Word8
+                   (GHC.Word.$w$cenumFromTo2 0## 8##)
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState11) -}
+6cb1813f4bd7347ad7e83f5e5558b910
+  defaultMidiPlayerState11 :: [GHC.Word.Word8]
+  {- Unfolding: (GHC.Word.$w$cenumFromTo2 10## 15##) -}
+9b625b9d7a3316de6160cd1ea14e4c42
+  defaultMidiPlayerState2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState3) -}
+c3653ebe09589425047b8eea0a9b23c2
+  defaultMidiPlayerState3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("untitled"#) -}
+2e87b82a288489094bebb7d0bac72dc4
+  defaultMidiPlayerState4 :: GHC.Word.Word8
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Word.W8# 127##) -}
+7a99ca88f755670ce0322776f10daae8
+  defaultMidiPlayerState5 :: GHC.Word.Word8
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Word.W8# 0##) -}
+e41aaddb785441053d95385f9f6d5741
+  defaultMidiPlayerState6 :: GHC.Real.Ratio GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Real.:%
+                   @ GHC.Integer.Type.Integer
+                   MusiCompoNator.GeneralMidi.$s^2
+                   GHC.Real.$fEnumRatio1) -}
+7aacb6f53c536d13132213b626f5a3c5
+  defaultMidiPlayerState7 :: [(GHC.Word.Word8, GHC.Word.Word8)]
+  {- Unfolding: (GHC.List.zip
+                   @ GHC.Word.Word8
+                   @ GHC.Word.Word8
+                   (GHC.Word.$w$cenumFromTo2 0## 15##)
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState_xs) -}
+0d68f43cb067166c181971000ca24690
+  defaultMidiPlayerState8 :: [(GHC.Word.Word8, [GHC.Word.Word8])]
+  {- Unfolding: (GHC.List.zip
+                   @ GHC.Word.Word8
+                   @ [GHC.Word.Word8]
+                   (GHC.Word.$w$cenumFromTo2 0## 15##)
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState9) -}
+190c90ff83b270582c2dbdcc98fb2d73
+  defaultMidiPlayerState9 :: [[GHC.Word.Word8]]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ [GHC.Word.Word8]
+                   (GHC.Types.[] @ GHC.Word.Word8)
+                   (GHC.Types.[] @ [GHC.Word.Word8])) -}
+32771bedaca1dc31aa8ef9a44baf6ac8
+  defaultMidiPlayerState_xs :: [GHC.Word.Word8]
+  {- HasNoCafRefs, Strictness: m2 -}
+36f9939a4a85b0d4107a4338ee920d64
+  depPhrasing ::
+    [MusiCompoNator.Composition.PhraseControl]
+    -> ([MusiCompoNator.Composition.PhraseControl],
+        [MusiCompoNator.Composition.PhraseControl])
+  {- Arity: 1, HasNoCafRefs, Strictness: <L,U>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ (cs :: [MusiCompoNator.Composition.PhraseControl]) ->
+                 (GHC.Base.build
+                    @ MusiCompoNator.Composition.PhraseControl
+                    (\ @ b
+                       (c :: MusiCompoNator.Composition.PhraseControl -> b -> b)[OneShot]
+                       (n :: b)[OneShot] ->
+                     GHC.Base.foldr
+                       @ MusiCompoNator.Composition.PhraseControl
+                       @ b
+                       (GHC.List.filterFB
+                          @ MusiCompoNator.Composition.PhraseControl
+                          @ b
+                          c
+                          MusiCompoNator.GeneralMidi.depPhrasing2)
+                       n
+                       cs),
+                  GHC.Base.build
+                    @ MusiCompoNator.Composition.PhraseControl
+                    (\ @ b
+                       (c :: MusiCompoNator.Composition.PhraseControl -> b -> b)[OneShot]
+                       (n :: b)[OneShot] ->
+                     GHC.Base.foldr
+                       @ MusiCompoNator.Composition.PhraseControl
+                       @ b
+                       (GHC.List.filterFB
+                          @ MusiCompoNator.Composition.PhraseControl
+                          @ b
+                          c
+                          MusiCompoNator.GeneralMidi.depPhrasing1)
+                       n
+                       cs))) -}
+df14291ecf9a0f59d95287a0110ad945
+  depPhrasing1 ::
+    MusiCompoNator.Composition.PhraseControl -> GHC.Types.Bool
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (c :: MusiCompoNator.Composition.PhraseControl) ->
+                 case c of wild {
+                   DEFAULT -> GHC.Types.False
+                   MusiCompoNator.Composition.Volume a1 -> GHC.Types.True
+                   MusiCompoNator.Composition.Legato -> GHC.Types.True
+                   MusiCompoNator.Composition.Staccato a1 -> GHC.Types.True }) -}
+8e30fb9e03713c287835e634659df734
+  depPhrasing2 ::
+    MusiCompoNator.Composition.PhraseControl -> GHC.Types.Bool
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (c :: MusiCompoNator.Composition.PhraseControl) ->
+                 case c of wild {
+                   DEFAULT -> GHC.Types.True
+                   MusiCompoNator.Composition.Volume a1 -> GHC.Types.False
+                   MusiCompoNator.Composition.Legato -> GHC.Types.False
+                   MusiCompoNator.Composition.Staccato a1 -> GHC.Types.False }) -}
+ddd3ef9bd9ddd37b06a94bc175767d7a
+  durationOf ::
+    MusiCompoNator.GeneralMidi.EffectMidi -> GHC.Real.Rational
+  {- Arity: 1, Strictness: <S,1*U> -}
+1d20e2dbe21ab101749e3c88260a3c59
+  endPitch ::
+    MusiCompoNator.GeneralMidi.EffectMidi
+    -> [MusiCompoNator.Core.Pitch]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U> -}
+c6431f6da2cb7a186d1c4e63b3ba1adb
+  events ::
+    MusiCompoNator.Composition.Phrase2
+    -> [MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int]
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (ph :: MusiCompoNator.Composition.Phrase2) ->
+                 case MusiCompoNator.Composition.$wunPhrase
+                        @ MusiCompoNator.Core.Beat
+                        @ MusiCompoNator.Composition.PhraseControl
+                        @ (MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch)
+                        GHC.Real.$fFractionalRatio_$s$fNumRatio
+                        GHC.Real.$fOrdRatio_$s$fOrdRatio
+                        ph of ww { (#,,#) ww1 ww2 ww3 ->
+                 MusiCompoNator.GeneralMidi.resolvePhrasing
+                   MusiCompoNator.GeneralMidi.defaultMidiPlayerState6
+                   (GHC.List.zip3
+                      @ [MusiCompoNator.Composition.PhraseControl]
+                      @ [MusiCompoNator.Core.Pitch]
+                      @ MusiCompoNator.Core.Beat
+                      ww1
+                      (GHC.Base.map
+                         @ (MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch)
+                         @ [MusiCompoNator.Core.Pitch]
+                         MusiCompoNator.GeneralMidi.events_l
+                         ww2)
+                      (MusiCompoNator.Core.$w$cunmeasure
+                         @ MusiCompoNator.Core.Beat
+                         GHC.Real.$fFractionalRatio_$s$fNumRatio
+                         ww3)) }) -}
+67269199c4c47902f6e4a54a5865bdcf
+  events_l ::
+    MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch
+    -> [MusiCompoNator.Core.Pitch]
+  {- Arity: 1, Strictness: <S,1*U> -}
+c9d9d5c0cd7b4fcbc911ac28ace8aff7
+  freeCh ::
+    GHC.Word.Word8 -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,U><L,A><L,1*U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.freeCh1
+                  `cast`
+                (<GHC.Word.Word8>_R
+                 ->_R (<[MusiCompoNator.Core.Pitch]>_R
+                       ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                       ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                     <((), MusiCompoNator.GeneralMidi.MidiState,
+                                       [(GHC.Integer.Type.Integer,
+                                         ZMidi.Core.Datatypes.MidiEvent)])>_R)) ; Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                                                                           <[MusiCompoNator.Core.Pitch]>_R
+                                                                                           <[(GHC.Integer.Type.Integer,
+                                                                                              ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                                                                           <MusiCompoNator.GeneralMidi.MidiState>_N
+                                                                                           <Data.Functor.Identity.Identity>_R
+                                                                                           <()>_N)) -}
+9b8572ffe7f50bd5c13e7538b255289a
+  freeCh1 ::
+    GHC.Word.Word8
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> ((), MusiCompoNator.GeneralMidi.MidiState,
+        [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,U><L,A><L,1*U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (3, True, False)
+                (\ (ch :: GHC.Word.Word8)
+                   (eta :: [MusiCompoNator.Core.Pitch])
+                   (eta1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 (GHC.Tuple.(),
+                  case eta1 of wild { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                  MusiCompoNator.GeneralMidi.MPS
+                    (GHC.Types.: @ GHC.Word.Word8 ch ds)
+                    ds1
+                    ds2
+                    ds3
+                    ds4
+                    ds5
+                    ds6
+                    ds7
+                    ds8
+                    ds9
+                    ds10 },
+                  GHC.Types.[]
+                    @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent))) -}
+aa7a7739fe7a9674c8e63656eb0a154f
+  getPb ::
+    GHC.Word.Word8
+    -> MusiCompoNator.GeneralMidi.MidiComposition GHC.Word.Word8
+  {- Arity: 3,
+     Strictness: <L,U(U)><L,A><L,U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.getPb1
+                  `cast`
+                (<GHC.Word.Word8>_R
+                 ->_R (<[MusiCompoNator.Core.Pitch]>_R
+                       ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                       ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                     <(GHC.Word.Word8, MusiCompoNator.GeneralMidi.MidiState,
+                                       [(GHC.Integer.Type.Integer,
+                                         ZMidi.Core.Datatypes.MidiEvent)])>_R)) ; Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                                                                           <[MusiCompoNator.Core.Pitch]>_R
+                                                                                           <[(GHC.Integer.Type.Integer,
+                                                                                              ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                                                                           <MusiCompoNator.GeneralMidi.MidiState>_N
+                                                                                           <Data.Functor.Identity.Identity>_R
+                                                                                           <GHC.Word.Word8>_N)) -}
+f05ec77404840e5b4bbaef61e53e6578
+  getPb1 ::
+    GHC.Word.Word8
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> (GHC.Word.Word8, MusiCompoNator.GeneralMidi.MidiState,
+        [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 3,
+     Strictness: <L,U(U)><L,A><L,U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (3, True, False)
+                (\ (ch :: GHC.Word.Word8)
+                   (eta :: [MusiCompoNator.Core.Pitch])
+                   (eta1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 (case eta1 of wild { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                  letrec {
+                    go :: [(GHC.Word.Word8, GHC.Word.Word8)] -> GHC.Word.Word8
+                      <join 1> {- Arity: 1 -}
+                    = \ (ds11 :: [(GHC.Word.Word8, GHC.Word.Word8)]) ->
+                      case ds11 of wild1 {
+                        [] -> GHC.List.badHead @ GHC.Word.Word8
+                        : y ys
+                        -> case y of wild2 { (,) ch' pb ->
+                           case ch of wild3 { GHC.Word.W8# x1 ->
+                           case ch' of wild4 { GHC.Word.W8# y1 ->
+                           case GHC.Prim.eqWord# x1 y1 of lwild {
+                             DEFAULT -> go ys 1# -> pb } } } } }
+                  } in
+                  go ds3 },
+                  eta1,
+                  GHC.Types.[]
+                    @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent))) -}
+fda5dd53355b708bfb8662d7fc99c90b
+  handleEvent ::
+    MusiCompoNator.GeneralMidi.MidiInstrument
+    -> [GHC.Maybe.Maybe GHC.Word.Word8]
+    -> MusiCompoNator.GeneralMidi.EffectMidi
+    -> MusiCompoNator.GeneralMidi.MidiComposition
+         MusiCompoNator.Core.Beat
+  {- Arity: 3, Strictness: <L,A><L,A><L,1*U>,
+     Unfolding: InlineRule (3, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiInstrument)
+                   (ds1 :: [GHC.Maybe.Maybe GHC.Word.Word8])
+                   (e :: MusiCompoNator.GeneralMidi.EffectMidi) ->
+                 let {
+                   eta :: GHC.Real.Rational = MusiCompoNator.GeneralMidi.durationOf e
+                 } in
+                 (\ (eta1 :: [MusiCompoNator.Core.Pitch])
+                    (eta2 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                  (eta, eta2,
+                   GHC.Types.[]
+                     @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)))
+                   `cast`
+                 ((<[MusiCompoNator.Core.Pitch]>_R
+                   ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                   ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                 <(GHC.Real.Rational, MusiCompoNator.GeneralMidi.MidiState,
+                                   [(GHC.Integer.Type.Integer,
+                                     ZMidi.Core.Datatypes.MidiEvent)])>_R)) ; Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                                                                       <[MusiCompoNator.Core.Pitch]>_R
+                                                                                       <[(GHC.Integer.Type.Integer,
+                                                                                          ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                                                                       <MusiCompoNator.GeneralMidi.MidiState>_N
+                                                                                       <Data.Functor.Identity.Identity>_R
+                                                                                       <GHC.Real.Rational>_N))) -}
+98730417ae750c7815ebd900db294a40
+  hit :: MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch
+  {- Arity: 1, HasNoCafRefs, Strictness: <L,A>m,
+     Unfolding: InlineRule (1, True, True)
+                (\ (ds :: MusiCompoNator.Core.Scale) ->
+                 MusiCompoNator.GeneralMidi.defaultMidiPlayerState6) -}
+dd99373045c72831b1eca3577a2e402a
+  keyPress :: GHC.Real.Rational -> GHC.Word.Word8
+  {- Arity: 1, Strictness: <S(SS),1*U(U,U)>m, Inline: [2],
+     Unfolding: InlineRule (1, True, False)
+                (\ (w :: GHC.Real.Rational) ->
+                 case w of ww { GHC.Real.:% ww1 ww2 ->
+                 case MusiCompoNator.GeneralMidi.$wkeyPress
+                        ww1
+                        ww2 of ww3 { DEFAULT ->
+                 GHC.Word.W8# ww3 } }) -}
+19e39616cccfc96055aa6d061fcc6390
+  lockUntil ::
+    GHC.Word.Word8
+    -> MusiCompoNator.Core.Beat
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <L,U><L,U><L,A><L,1*U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.lockUntil1
+                  `cast`
+                (<GHC.Word.Word8>_R
+                 ->_R <MusiCompoNator.Core.Beat>_R
+                 ->_R (<[MusiCompoNator.Core.Pitch]>_R
+                       ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                       ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                     <((), MusiCompoNator.GeneralMidi.MidiState,
+                                       [(GHC.Integer.Type.Integer,
+                                         ZMidi.Core.Datatypes.MidiEvent)])>_R)) ; Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                                                                           <[MusiCompoNator.Core.Pitch]>_R
+                                                                                           <[(GHC.Integer.Type.Integer,
+                                                                                              ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                                                                           <MusiCompoNator.GeneralMidi.MidiState>_N
+                                                                                           <Data.Functor.Identity.Identity>_R
+                                                                                           <()>_N)) -}
+25e1dbadf9bff367e4764c7ec7f7ea7d
+  lockUntil1 ::
+    GHC.Word.Word8
+    -> MusiCompoNator.Core.Beat
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> ((), MusiCompoNator.GeneralMidi.MidiState,
+        [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <L,U><L,U><L,A><L,1*U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (4, True, False)
+                (\ (ch :: GHC.Word.Word8)
+                   (b :: MusiCompoNator.Core.Beat)
+                   (eta :: [MusiCompoNator.Core.Pitch])
+                   (eta1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 (GHC.Tuple.(),
+                  case eta1 of wild { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                  MusiCompoNator.GeneralMidi.MPS
+                    ds
+                    (GHC.Types.:
+                       @ (MusiCompoNator.Core.Beat, GHC.Word.Word8)
+                       (b, ch)
+                       ds1)
+                    ds2
+                    ds3
+                    ds4
+                    ds5
+                    ds6
+                    ds7
+                    ds8
+                    ds9
+                    ds10 },
+                  GHC.Types.[]
+                    @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent))) -}
+678a7821ce8579a477c24bae50d1ca54
+  midiVoice ::
+    MusiCompoNator.GeneralMidi.MidiInstrument
+    -> MusiCompoNator.Composition.Voice a
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 4,
+     Strictness: <L,U><L,1*C1(U(1*U,U(1*U,1*U,A)))><L,U><L,1*U(U,U,U,U,U,U,U,U,U,U,1*U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.midiVoice1
+                  `cast`
+                (forall (a :: <*>_N).
+                 <MusiCompoNator.GeneralMidi.MidiInstrument>_R
+                 ->_R <MusiCompoNator.Composition.Voice a>_R
+                 ->_R (<[MusiCompoNator.Core.Pitch]>_R
+                       ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                       ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                     <((), MusiCompoNator.GeneralMidi.MidiState,
+                                       [(GHC.Integer.Type.Integer,
+                                         ZMidi.Core.Datatypes.MidiEvent)])>_R)) ; Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                                                                           <[MusiCompoNator.Core.Pitch]>_R
+                                                                                           <[(GHC.Integer.Type.Integer,
+                                                                                              ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                                                                           <MusiCompoNator.GeneralMidi.MidiState>_N
+                                                                                           <Data.Functor.Identity.Identity>_R
+                                                                                           <()>_N)) -}
+4c452800ee90486a11dd1559be982a63
+  midiVoice1 ::
+    MusiCompoNator.GeneralMidi.MidiInstrument
+    -> MusiCompoNator.Composition.Voice a
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> ((), MusiCompoNator.GeneralMidi.MidiState,
+        [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 4,
+     Strictness: <L,U><L,1*C1(U(1*U,U(1*U,1*U,A)))><L,U><L,1*U(U,U,U,U,U,U,U,U,U,U,1*U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (4, True, False)
+                (\ @ a
+                   (w :: MusiCompoNator.GeneralMidi.MidiInstrument)
+                   (w1 :: MusiCompoNator.Composition.Voice a)
+                   (w2 :: [MusiCompoNator.Core.Pitch])
+                   (w3 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case MusiCompoNator.GeneralMidi.$wmidiVoice
+                        @ a
+                        w
+                        w1
+                        w2
+                        w3 of ww { (#,,#) ww1 ww2 ww3 ->
+                 (ww1, ww2, ww3) }) -}
+8c6329230920e318c480600b520fa622
+  midi_events ::
+    MusiCompoNator.GeneralMidi.MidiState
+    -> [MusiCompoNator.GeneralMidi.EventMidi
+          (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)]
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLLLLLLLLLS),1*U(A,A,A,A,A,A,A,A,A,A,1*U)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds11 }) -}
+506a42d4b2cdbcdcdafa6f2db6a83c5f
+  mis :: MusiCompoNator.Core.Scale -> MusiCompoNator.Core.Pitch
+  {- Arity: 1, HasNoCafRefs, Strictness: <L,A>m,
+     Unfolding: InlineRule (1, True, True)
+                (\ (ds :: MusiCompoNator.Core.Scale) ->
+                 MusiCompoNator.GeneralMidi.mis_x) -}
+16f585e19c6e405739c8f7dd55d3bfa1
+  mis_dt :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (-120) -}
+5ebefe80474a79a1d3b1817b382f2d58
+  mis_x :: MusiCompoNator.Core.Pitch
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Real.:%
+                   @ GHC.Integer.Type.Integer
+                   MusiCompoNator.GeneralMidi.mis_dt
+                   GHC.Real.$fEnumRatio1) -}
+ca7b606dc76b5b88dd3b87103e1d1474
+  moveHead ::
+    MusiCompoNator.Core.Beat
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 3,
+     Strictness: <L,U><L,A><L,1*U(U,U,U,U,U(U,U),U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.moveHead1
+                  `cast`
+                (<MusiCompoNator.Core.Beat>_R
+                 ->_R Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                               <[MusiCompoNator.Core.Pitch]>_R
+                               <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                               <MusiCompoNator.GeneralMidi.MidiState>_N
+                               <Data.Functor.Identity.Identity>_R
+                               <()>_N)) -}
+8324bb60e71eef16d6e23a1dad5708f6
+  moveHead1 ::
+    MusiCompoNator.Core.Beat
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> Data.Functor.Identity.Identity
+         ((), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 3,
+     Strictness: <L,U><L,A><L,1*U(U,U,U,U,U(U,U),U,U,U,U,U,U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (3, True, False)
+                (\ (w :: MusiCompoNator.Core.Beat)
+                   (w1 :: [MusiCompoNator.Core.Pitch])
+                   (w2 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case MusiCompoNator.GeneralMidi.$wmoveHead
+                        w
+                        w2 of ww { (#,,#) ww1 ww2 ww3 ->
+                 (ww1, ww2, ww3)
+                   `cast`
+                 (Sym (Data.Functor.Identity.N:Identity[0]
+                           <((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer,
+                               ZMidi.Core.Datatypes.MidiEvent)])>_R)) }) -}
+59fd0c34ff0e7ac0b9385f3d3686d23d
+  notes ::
+    MusiCompoNator.Core.Beat
+    -> [MusiCompoNator.Composition.PhraseControl]
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.Core.Beat
+    -> MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int
+  {- Arity: 4, Strictness: <L,U><S,1*U><L,U><L,U>m, Inline: [2],
+     Unfolding: InlineRule (4, True, False)
+                (\ (w :: MusiCompoNator.Core.Beat)
+                   (w1 :: [MusiCompoNator.Composition.PhraseControl])
+                   (w2 :: [MusiCompoNator.Core.Pitch])
+                   (w3 :: MusiCompoNator.Core.Beat) ->
+                 case MusiCompoNator.GeneralMidi.$wnotes
+                        w
+                        w1
+                        w2
+                        w3 of ww { (#,,#) ww1 ww2 ww3 ->
+                 MusiCompoNator.GeneralMidi.Event @ GHC.Types.Int ww1 ww2 ww3 }) -}
+2704b9c62e94b106a1f969ebff07f167
+  pbSteps ::
+    GHC.Integer.Type.Integer
+    -> GHC.Word.Word8
+    -> GHC.Word.Word8
+    -> MusiCompoNator.Core.Pitch
+    -> [ZMidi.Core.Datatypes.Word14]
+  {- Arity: 4, Strictness: <L,1*U><L,U(U)><L,U(U)><L,1*U(U,U)>,
+     Unfolding: (\ (n :: GHC.Integer.Type.Integer)
+                   (key :: GHC.Word.Word8)
+                   (sense :: GHC.Word.Word8)
+                   (value :: MusiCompoNator.Core.Pitch) ->
+                 let {
+                   m :: GHC.Real.Ratio GHC.Integer.Type.Integer
+                   = case GHC.Real.$w$s$cfromRational
+                            n
+                            MusiCompoNator.GeneralMidi.pbSteps1 of ww { (#,#) ww1 ww2 ->
+                     GHC.Real.:% @ GHC.Integer.Type.Integer ww1 ww2 }
+                 } in
+                 let {
+                   pivot :: MusiCompoNator.Core.Pitch
+                   = case key of wild { GHC.Word.W8# x# ->
+                     case GHC.Integer.Type.wordToInteger x# of dt1 { DEFAULT ->
+                     GHC.Real.:%
+                       @ GHC.Integer.Type.Integer
+                       dt1
+                       GHC.Real.$fEnumRatio1 } }
+                 } in
+                 let {
+                   lvl19 :: GHC.Real.Ratio GHC.Integer.Type.Integer
+                   = case value of ww { GHC.Real.:% ww1 ww2 ->
+                     case pivot of ww3 { GHC.Real.:% ww4 ww5 ->
+                     case GHC.Real.$w$s$c- ww1 ww2 ww4 ww5 of ww6 { (#,#) ww7 ww8 ->
+                     GHC.Real.:% @ GHC.Integer.Type.Integer ww7 ww8 } } }
+                 } in
+                 letrec {
+                   $wgo2 :: [GHC.Real.Ratio GHC.Integer.Type.Integer]
+                            -> [ZMidi.Core.Datatypes.Word14]
+                     {- Arity: 1, Strictness: <S,1*U>, Inline: [2] -}
+                   = \ (w :: [GHC.Real.Ratio GHC.Integer.Type.Integer]) ->
+                     case w of wild {
+                       [] -> GHC.Types.[] @ ZMidi.Core.Datatypes.Word14
+                       : y ys
+                       -> GHC.Types.:
+                            @ ZMidi.Core.Datatypes.Word14
+                            (case key of ww { GHC.Word.W8# ww1 ->
+                             case sense of ww2 { GHC.Word.W8# ww3 ->
+                             case lvl19 of ww4 { GHC.Real.:% ww5 ww6 ->
+                             case y of ww7 { GHC.Real.:% ww8 ww9 ->
+                             case m of ww10 { GHC.Real.:% ww11 ww12 ->
+                             case GHC.Real.$w$s$c/
+                                    ww8
+                                    ww9
+                                    ww11
+                                    ww12 of ww13 { (#,#) ww14 ww15 ->
+                             case GHC.Real.$w$sreduce
+                                    (GHC.Integer.Type.timesInteger ww5 ww14)
+                                    (GHC.Integer.Type.timesInteger
+                                       ww6
+                                       ww15) of ww16 { (#,#) ww17 ww18 ->
+                             case pivot of ww19 { GHC.Real.:% ww20 ww21 ->
+                             case GHC.Real.$w$s$c+
+                                    ww17
+                                    ww18
+                                    ww20
+                                    ww21 of ww22 { (#,#) ww23 ww24 ->
+                             case MusiCompoNator.GeneralMidi.$wpbValue
+                                    ww1
+                                    ww3
+                                    ww23
+                                    ww24 of ww25 { DEFAULT ->
+                             (GHC.Word.W16# ww25)
+                               `cast`
+                             (Sym (ZMidi.Core.Datatypes.N:Word14[0])) } } } } } } } } } })
+                            ($wgo2 ys) }
+                 } in
+                 $wgo2
+                   (GHC.Real.$w$snumericEnumFromTo
+                      MusiCompoNator.GeneralMidi.pbSteps1
+                      GHC.Real.$fEnumRatio1
+                      m)) -}
+75404bc03df4799934a2f6a14ba46a59
+  pbSteps1 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (1) -}
+ad30655f93596ed327a5cb0c134ab3b0
+  pbValue ::
+    GHC.Word.Word8
+    -> GHC.Word.Word8
+    -> MusiCompoNator.Core.Pitch
+    -> ZMidi.Core.Datatypes.Word14
+  {- Arity: 3,
+     Strictness: <S(S),1*U(U)><S(S),1*U(U)><S(SS),1*U(U,U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (3, True, False)
+                (\ (w :: GHC.Word.Word8)
+                   (w1 :: GHC.Word.Word8)
+                   (w2 :: MusiCompoNator.Core.Pitch) ->
+                 case w of ww { GHC.Word.W8# ww1 ->
+                 case w1 of ww2 { GHC.Word.W8# ww3 ->
+                 case w2 of ww4 { GHC.Real.:% ww5 ww6 ->
+                 case MusiCompoNator.GeneralMidi.$wpbValue
+                        ww1
+                        ww3
+                        ww5
+                        ww6 of ww7 { DEFAULT ->
+                 (GHC.Word.W16# ww7)
+                   `cast`
+                 (Sym (ZMidi.Core.Datatypes.N:Word14[0])) } } } }) -}
+71770cefdb2b11f06108e84a2cb451c6
+  pbValue1 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (8192) -}
+010936cf4d5ca8eeff8f724eda918847
+  pbValue2 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (8191) -}
+8c6329230920e318c480600b520fa622
+  pb_sense ::
+    MusiCompoNator.GeneralMidi.MidiState
+    -> [(GHC.Word.Word8, GHC.Word.Word8)]
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLLSLLLLLLL),1*U(A,A,A,1*U,A,A,A,A,A,A,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds4 }) -}
+8c6329230920e318c480600b520fa622
+  pending ::
+    MusiCompoNator.GeneralMidi.MidiState
+    -> [(MusiCompoNator.Core.Beat, GHC.Word.Word8)]
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LSLLLLLLLLL),1*U(A,1*U,A,A,A,A,A,A,A,A,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds2 }) -}
+294bba0e597acb7a6b1df4b9df1a9d57
+  phrase2eventMidi ::
+    i
+    -> [MusiCompoNator.Composition.Phrase2]
+    -> [MusiCompoNator.GeneralMidi.EventMidi (i, GHC.Types.Int)]
+  {- Arity: 2, Strictness: <L,U><S,1*U>,
+     Unfolding: (\ @ i
+                   (i1 :: i)
+                   (phs :: [MusiCompoNator.Composition.Phrase2]) ->
+                 letrec {
+                   go :: [MusiCompoNator.Composition.Phrase
+                            MusiCompoNator.Composition.PhraseControl
+                            (MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch)
+                            MusiCompoNator.Core.Beat]
+                         -> [MusiCompoNator.GeneralMidi.EventMidi (i, GHC.Types.Int)]
+                     {- Arity: 1, Strictness: <S,1*U> -}
+                   = \ (ds :: [MusiCompoNator.Composition.Phrase
+                                 MusiCompoNator.Composition.PhraseControl
+                                 (MusiCompoNator.Core.Simultanity MusiCompoNator.Core.Pitch)
+                                 MusiCompoNator.Core.Beat]) ->
+                     case ds of wild {
+                       []
+                       -> GHC.Types.[]
+                            @ (MusiCompoNator.GeneralMidi.EventMidi (i, GHC.Types.Int))
+                       : y ys
+                       -> let {
+                            ys1 :: [MusiCompoNator.GeneralMidi.EventMidi (i, GHC.Types.Int)]
+                            = go ys
+                          } in
+                          letrec {
+                            go1 :: [MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int]
+                                   -> [MusiCompoNator.GeneralMidi.EventMidi (i, GHC.Types.Int)]
+                              {- Arity: 1, Strictness: <S,1*U> -}
+                            = \ (ds1 :: [MusiCompoNator.GeneralMidi.EventMidi
+                                           GHC.Types.Int]) ->
+                              case ds1 of wild1 {
+                                [] -> ys1
+                                : y1 ys2
+                                -> GHC.Types.:
+                                     @ (MusiCompoNator.GeneralMidi.EventMidi (i, GHC.Types.Int))
+                                     (case y1 of wild2 { MusiCompoNator.GeneralMidi.Event b a e ->
+                                      MusiCompoNator.GeneralMidi.Event
+                                        @ (i, GHC.Types.Int)
+                                        b
+                                        (i1, a)
+                                        e })
+                                     (go1 ys2) }
+                          } in
+                          go1 (MusiCompoNator.GeneralMidi.events y) }
+                 } in
+                 go phs) -}
+decf05c5018d3bf9281c0eefff647f56
+  putChannels ::
+    [GHC.Word.Word8] -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,U><L,A><L,1*U(A,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.putChannels1
+                  `cast`
+                (<[GHC.Word.Word8]>_R
+                 ->_R (<[MusiCompoNator.Core.Pitch]>_R
+                       ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                       ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                     <((), MusiCompoNator.GeneralMidi.MidiState,
+                                       [(GHC.Integer.Type.Integer,
+                                         ZMidi.Core.Datatypes.MidiEvent)])>_R)) ; Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                                                                           <[MusiCompoNator.Core.Pitch]>_R
+                                                                                           <[(GHC.Integer.Type.Integer,
+                                                                                              ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                                                                           <MusiCompoNator.GeneralMidi.MidiState>_N
+                                                                                           <Data.Functor.Identity.Identity>_R
+                                                                                           <()>_N)) -}
+462c86cfdba597f252f6879e2ebbe5a6
+  putChannels1 ::
+    [GHC.Word.Word8]
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> ((), MusiCompoNator.GeneralMidi.MidiState,
+        [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,U><L,A><L,1*U(A,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (3, True, False)
+                (\ (chs :: [GHC.Word.Word8])
+                   (eta :: [MusiCompoNator.Core.Pitch])
+                   (eta1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 (GHC.Tuple.(),
+                  case eta1 of wild { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                  MusiCompoNator.GeneralMidi.MPS
+                    chs
+                    ds1
+                    ds2
+                    ds3
+                    ds4
+                    ds5
+                    ds6
+                    ds7
+                    ds8
+                    ds9
+                    ds10 },
+                  GHC.Types.[]
+                    @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent))) -}
+5f702e4428ad37bd41163aa28199755e
+  putCursor ::
+    MusiCompoNator.Core.Beat
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,U><L,A><L,1*U(U,U,U,U,A,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.putCursor1
+                  `cast`
+                (<MusiCompoNator.Core.Beat>_R
+                 ->_R (<[MusiCompoNator.Core.Pitch]>_R
+                       ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                       ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                     <((), MusiCompoNator.GeneralMidi.MidiState,
+                                       [(GHC.Integer.Type.Integer,
+                                         ZMidi.Core.Datatypes.MidiEvent)])>_R)) ; Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                                                                           <[MusiCompoNator.Core.Pitch]>_R
+                                                                                           <[(GHC.Integer.Type.Integer,
+                                                                                              ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                                                                           <MusiCompoNator.GeneralMidi.MidiState>_N
+                                                                                           <Data.Functor.Identity.Identity>_R
+                                                                                           <()>_N)) -}
+5ab9f4fbdaa6a4ff0d6fa56af481ce8d
+  putCursor1 ::
+    MusiCompoNator.Core.Beat
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> ((), MusiCompoNator.GeneralMidi.MidiState,
+        [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,U><L,A><L,1*U(U,U,U,U,A,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (3, True, False)
+                (\ (b :: MusiCompoNator.Core.Beat)
+                   (eta :: [MusiCompoNator.Core.Pitch])
+                   (eta1 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 (GHC.Tuple.(),
+                  case eta1 of wild { MusiCompoNator.GeneralMidi.MPS ds ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ->
+                  MusiCompoNator.GeneralMidi.MPS
+                    ds
+                    ds1
+                    ds2
+                    ds3
+                    b
+                    ds5
+                    ds6
+                    ds7
+                    ds8
+                    ds9
+                    ds10 },
+                  GHC.Types.[]
+                    @ (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent))) -}
+8c6329230920e318c480600b520fa622
+  quater :: MusiCompoNator.GeneralMidi.MidiState -> GHC.Types.Int
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLLLLLLLLSL),1*U(A,A,A,A,A,A,A,A,A,1*U(U),A)>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds10 }) -}
+636f35a7b779b5c9cfddf83473323279
+  resolveDep ::
+    [MusiCompoNator.Composition.PhraseControl]
+    -> MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int
+    -> [MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int]
+    -> [MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int]
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,1*U><L,U(U,U(U),U)><S,1*U>m2, Inline: [2],
+     Unfolding: InlineRule (3, True, False)
+                (\ (w :: [MusiCompoNator.Composition.PhraseControl])
+                   (w1 :: MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int)
+                   (w2 :: [MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int]) ->
+                 case MusiCompoNator.GeneralMidi.$wresolveDep
+                        w
+                        w1
+                        w2 of ww { (#,#) ww1 ww2 ->
+                 GHC.Types.:
+                   @ (MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int)
+                   ww1
+                   ww2 }) -}
+2bad39f851212038019204b8639b4a11
+  resolvePhrasing ::
+    MusiCompoNator.Core.Beat
+    -> [([MusiCompoNator.Composition.PhraseControl],
+         [MusiCompoNator.Core.Pitch], MusiCompoNator.Core.Beat)]
+    -> [MusiCompoNator.GeneralMidi.EventMidi GHC.Types.Int]
+  {- Arity: 2, Strictness: <L,U(U,U)><S,1*U> -}
+360858f87999646edfd72f7163642fe2
+  runMidiComposition ::
+    MusiCompoNator.Core.Scale
+    -> MusiCompoNator.GeneralMidi.MidiComposition a
+    -> (ZMidi.Core.Datatypes.MidiFile, a)
+  {- Arity: 2,
+     Strictness: <L,U><L,1*C1(C1(U(1*U,U(A,A,A,A,A,A,A,U,1*U,1*U(U),A),1*U)))>m,
+     Inline: [2],
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a
+                   (w :: MusiCompoNator.Core.Scale)
+                   (w1 :: MusiCompoNator.GeneralMidi.MidiComposition a) ->
+                 case MusiCompoNator.GeneralMidi.$wrunMidiComposition
+                        @ a
+                        w
+                        w1 of ww { (#,#) ww1 ww2 ->
+                 (ww1, ww2) }) -}
+cfe5566f41ad27bde77859a92d905645
+  runMidiComposition1 ::
+    [(ZMidi.Core.Datatypes.DeltaTime, ZMidi.Core.Datatypes.MidiEvent)]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (ZMidi.Core.Datatypes.DeltaTime, ZMidi.Core.Datatypes.MidiEvent)
+                   MusiCompoNator.GeneralMidi.runMidiComposition2
+                   (GHC.Types.[]
+                      @ (ZMidi.Core.Datatypes.DeltaTime,
+                         ZMidi.Core.Datatypes.MidiEvent))) -}
+93536ec8d22f5a7b62d55bbb9dfd0bb4
+  runMidiComposition10 :: GHC.Word.Word16
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Word.W16# 1##) -}
+3959f882b7acc59e81ec8b88a0508263
+  runMidiComposition2 ::
+    (ZMidi.Core.Datatypes.DeltaTime, ZMidi.Core.Datatypes.MidiEvent)
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: ((MusiCompoNator.GeneralMidi.runMidiComposition4
+                    `cast`
+                  (Sym (ZMidi.Core.Datatypes.N:DeltaTime[0])),
+                  MusiCompoNator.GeneralMidi.runMidiComposition3)) -}
+365c2f8929a7d20d78d6561eaf193e4a
+  runMidiComposition3 :: ZMidi.Core.Datatypes.MidiEvent
+  {- HasNoCafRefs, Strictness: m6,
+     Unfolding: (ZMidi.Core.Datatypes.MetaEvent
+                   ZMidi.Core.Datatypes.EndOfTrack) -}
+a85d2cbf8fc57880ab01e6849236b782
+  runMidiComposition4 :: GHC.Word.Word32
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Word.W32# 0##) -}
+4796ce56ef37363feff9a068150b721b
+  runMidiComposition5 ::
+    (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)
+    -> (GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)
+    -> GHC.Types.Ordering
+  {- Arity: 2, HasNoCafRefs,
+     Strictness: <S(SL),1*U(1*U,A)><S(SL),1*U(1*U,A)>,
+     Unfolding: InlineRule (2, True, False)
+                (\ (x1 :: (GHC.Integer.Type.Integer,
+                           ZMidi.Core.Datatypes.MidiEvent))
+                   (y :: (GHC.Integer.Type.Integer,
+                          ZMidi.Core.Datatypes.MidiEvent))[OneShot] ->
+                 case x1 of wild { (,) x2 ds1 ->
+                 case y of wild1 { (,) x3 ds2 ->
+                 GHC.Integer.Type.compareInteger x2 x3 } }) -}
+e2411e86ed21dc675c56023e98b7aec2
+  runMidiComposition6 :: GHC.Types.Double
+  {- Unfolding: (case MusiCompoNator.GeneralMidi.$w$s^
+                        MusiCompoNator.GeneralMidi.runMidiComposition8
+                        MusiCompoNator.GeneralMidi.runMidiComposition7 of ww { DEFAULT ->
+                 GHC.Types.D# ww }) -}
+e82b085f2614b76ed28481b7663f82d7
+  runMidiComposition7 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (6) -}
+454a8a5d6c44b581480241e6212cb3a2
+  runMidiComposition8 :: GHC.Types.Double
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.D# 10.0##) -}
+23f863ed6d798b6490ff4aa17d28c1b2
+  runMidiComposition9 :: GHC.Real.Ratio GHC.Integer.Type.Integer
+  {- Unfolding: (case GHC.Real.$w$s$cfromRational
+                        MusiCompoNator.GeneralMidi.pbSteps1
+                        MusiCompoNator.GeneralMidi.beatSize1 of ww { (#,#) ww1 ww2 ->
+                 GHC.Real.:% @ GHC.Integer.Type.Integer ww1 ww2 }) -}
+be611a304beb840441e787b617c7c65a
+  runMidiComposition_deltaTime ::
+    GHC.Integer.Type.Integer
+    -> [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]
+    -> [(ZMidi.Core.Datatypes.DeltaTime,
+         ZMidi.Core.Datatypes.MidiEvent)]
+  {- Arity: 2, Strictness: <L,U><S,1*U> -}
+66b8725c828fbab475486cb88b99b35d
+  setBend ::
+    MusiCompoNator.Core.Beat
+    -> GHC.Word.Word8
+    -> GHC.Maybe.Maybe GHC.Word.Word8
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 5,
+     Strictness: <L,U(U,U)><L,U><S,1*U><L,A><L,U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.setBend1
+                  `cast`
+                (<MusiCompoNator.Core.Beat>_R
+                 ->_R <GHC.Word.Word8>_R
+                 ->_R <GHC.Maybe.Maybe GHC.Word.Word8>_R
+                 ->_R Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                               <MusiCompoNator.Core.Scale>_R
+                               <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                               <MusiCompoNator.GeneralMidi.MidiState>_N
+                               <Data.Functor.Identity.Identity>_R
+                               <()>_N)) -}
+4a43fc26245be0a65756e24f7197222a
+  setBend1 ::
+    MusiCompoNator.Core.Beat
+    -> GHC.Word.Word8
+    -> GHC.Maybe.Maybe GHC.Word.Word8
+    -> MusiCompoNator.Core.Scale
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> Data.Functor.Identity.Identity
+         ((), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 5,
+     Strictness: <L,U(U,U)><L,U><S,1*U><L,A><L,U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (5, True, False)
+                (\ (w :: MusiCompoNator.Core.Beat)
+                   (w1 :: GHC.Word.Word8)
+                   (w2 :: GHC.Maybe.Maybe GHC.Word.Word8)
+                   (w3 :: MusiCompoNator.Core.Scale)
+                   (w4 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case MusiCompoNator.GeneralMidi.$wsetBend
+                        w
+                        w1
+                        w2
+                        w4 of ww { (#,,#) ww1 ww2 ww3 ->
+                 (ww1, ww2, ww3)
+                   `cast`
+                 (Sym (Data.Functor.Identity.N:Identity[0]
+                           <((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer,
+                               ZMidi.Core.Datatypes.MidiEvent)])>_R)) }) -}
+f0ae4ec9ac74c1115436f99f47d7944b
+  setBend2 :: GHC.Word.Word8
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Word.W8# 6##) -}
+1527494cbabbc1af9d99e11a82e9af05
+  setBend3 :: GHC.Word.Word8
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Word.W8# 100##) -}
+74035bc258cf23af01d4a36512e0711e
+  setBend4 :: GHC.Word.Word8
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Word.W8# 101##) -}
+902cf14b2fb9fed8a50aac57350379a8
+  setSounding ::
+    GHC.Word.Word8
+    -> GHC.Word.Word8 -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <L,U(U)><L,U><L,A><L,1*U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.setSounding1
+                  `cast`
+                (<GHC.Word.Word8>_R
+                 ->_R <GHC.Word.Word8>_R
+                 ->_R (<[MusiCompoNator.Core.Pitch]>_R
+                       ->_R <MusiCompoNator.GeneralMidi.MidiState>_R
+                       ->_R Sym (Data.Functor.Identity.N:Identity[0]
+                                     <((), MusiCompoNator.GeneralMidi.MidiState,
+                                       [(GHC.Integer.Type.Integer,
+                                         ZMidi.Core.Datatypes.MidiEvent)])>_R)) ; Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                                                                                           <[MusiCompoNator.Core.Pitch]>_R
+                                                                                           <[(GHC.Integer.Type.Integer,
+                                                                                              ZMidi.Core.Datatypes.MidiEvent)]>_N
+                                                                                           <MusiCompoNator.GeneralMidi.MidiState>_N
+                                                                                           <Data.Functor.Identity.Identity>_R
+                                                                                           <()>_N)) -}
+c055632bda5ce6b68bb68e2abe0bfd2c
+  setSounding1 ::
+    GHC.Word.Word8
+    -> GHC.Word.Word8
+    -> [MusiCompoNator.Core.Pitch]
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> ((), MusiCompoNator.GeneralMidi.MidiState,
+        [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <L,U(U)><L,U><L,A><L,1*U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (4, True, False)
+                (\ (w :: GHC.Word.Word8)
+                   (w1 :: GHC.Word.Word8)
+                   (w2 :: [MusiCompoNator.Core.Pitch])
+                   (w3 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case MusiCompoNator.GeneralMidi.$wsetSounding
+                        w
+                        w1
+                        w3 of ww { (#,,#) ww1 ww2 ww3 ->
+                 (ww1, ww2, ww3) }) -}
+8c6329230920e318c480600b520fa622
+  sounding ::
+    MusiCompoNator.GeneralMidi.MidiState
+    -> [(GHC.Word.Word8, [GHC.Word.Word8])]
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLSLLLLLLLL),1*U(A,A,1*U,A,A,A,A,A,A,A,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds3 }) -}
+f44c2c94c4204530f48fea2d459684fc
+  startPitch ::
+    MusiCompoNator.GeneralMidi.EffectMidi
+    -> [MusiCompoNator.Core.Pitch]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U> -}
+8c6329230920e318c480600b520fa622
+  subdivision ::
+    MusiCompoNator.GeneralMidi.MidiState -> GHC.Integer.Type.Integer
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLLLLLLSLLL),1*U(A,A,A,A,A,A,A,1*U,A,A,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds8 }) -}
+915158e73ec4c6a9f1c48e6a9628cfd8
+  ticks ::
+    GHC.Integer.Type.Integer
+    -> MusiCompoNator.Core.Beat -> GHC.Integer.Type.Integer
+  {- Arity: 2, Strictness: <S,U><S(SS),1*U(U,U)>, Inline: [2],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w :: GHC.Integer.Type.Integer)
+                   (w1 :: MusiCompoNator.Core.Beat) ->
+                 case w1 of ww { GHC.Real.:% ww1 ww2 ->
+                 MusiCompoNator.GeneralMidi.$wticks w ww1 ww2 }) -}
+8c6329230920e318c480600b520fa622
+  title :: MusiCompoNator.GeneralMidi.MidiState -> GHC.Base.String
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLLLLLLLSLL),1*U(A,A,A,A,A,A,A,A,1*U,A,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds9 }) -}
+d91164a39f2325d2860a1471d3f23d0c
+  ve ::
+    ZMidi.Core.Datatypes.MidiVoiceEvent
+    -> ZMidi.Core.Datatypes.MidiEvent
+  {- Arity: 1, HasNoCafRefs,
+     Unfolding: (ZMidi.Core.Datatypes.VoiceEvent
+                   ZMidi.Core.Datatypes.RS_OFF) -}
+8c6329230920e318c480600b520fa622
+  velocity :: MusiCompoNator.GeneralMidi.MidiState -> GHC.Word.Word8
+  RecSel Left MusiCompoNator.GeneralMidi.MidiState
+  {- Arity: 1, HasNoCafRefs,
+     Strictness: <S(LLLLLLSLLLL),1*U(A,A,A,A,A,A,1*U(U),A,A,A,A)>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case ds of wild { MusiCompoNator.GeneralMidi.MPS ds1 ds2 ds3 ds4 ds5 ds6 ds7 ds8 ds9 ds10 ds11 ->
+                 ds7 }) -}
+80ff3fc4fda29b23a6e5e3211e0346f9
+  writeEvent ::
+    MusiCompoNator.Core.Beat
+    -> MusiCompoNator.GeneralMidi.MidiInstrument
+    -> [GHC.Maybe.Maybe GHC.Word.Word8]
+    -> MusiCompoNator.GeneralMidi.EffectMidi
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 4, Strictness: <L,U(U,U)><L,A><S,1*U><L,U>, Inline: [2],
+     Unfolding: InlineRule (4, True, True)
+                (\ (w :: MusiCompoNator.Core.Beat)
+                   (w1 :: MusiCompoNator.GeneralMidi.MidiInstrument)
+                   (w2 :: [GHC.Maybe.Maybe GHC.Word.Word8])
+                   (w3 :: MusiCompoNator.GeneralMidi.EffectMidi) ->
+                 MusiCompoNator.GeneralMidi.$wwriteEvent w w2 w3) -}
+ea09e212cc5bb8e5ace082e4d2c0bfc5
+  writeEvents ::
+    [MusiCompoNator.GeneralMidi.EventMidi
+       (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)]
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 3,
+     Strictness: <S,1*U><L,U><L,U(U,U,U,U,U(U,U),U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.writeEvents1
+                  `cast`
+                (<[MusiCompoNator.GeneralMidi.EventMidi
+                     (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)]>_R
+                 ->_R Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                               <MusiCompoNator.Core.Scale>_R
+                               <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                               <MusiCompoNator.GeneralMidi.MidiState>_N
+                               <Data.Functor.Identity.Identity>_R
+                               <()>_N)) -}
+054d05da6036992a0d2c512997dcd4ed
+  writeEvents1 ::
+    [MusiCompoNator.GeneralMidi.EventMidi
+       (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)]
+    -> MusiCompoNator.Core.Scale
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> Data.Functor.Identity.Identity
+         ((), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 3,
+     Strictness: <S,1*U><L,U><L,U(U,U,U,U,U(U,U),U,U,U,U,U,U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (3, True, False)
+                (\ (w :: [MusiCompoNator.GeneralMidi.EventMidi
+                            (MusiCompoNator.GeneralMidi.MidiInstrument, GHC.Types.Int)])
+                   (w1 :: MusiCompoNator.Core.Scale)
+                   (w2 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case MusiCompoNator.GeneralMidi.$wwriteEvents
+                        w
+                        w1
+                        w2 of ww { (#,,#) ww1 ww2 ww3 ->
+                 (ww1, ww2, ww3)
+                   `cast`
+                 (Sym (Data.Functor.Identity.N:Identity[0]
+                           <((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer,
+                               ZMidi.Core.Datatypes.MidiEvent)])>_R)) }) -}
+0480b182b4c1a1a9482970935c4f8a43
+  writeOff ::
+    MusiCompoNator.Core.Beat
+    -> [GHC.Maybe.Maybe GHC.Word.Word8]
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 4,
+     Strictness: <L,U(U,U)><S,1*U><L,A><L,U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                MusiCompoNator.GeneralMidi.writeOff1
+                  `cast`
+                (<MusiCompoNator.Core.Beat>_R
+                 ->_R <[GHC.Maybe.Maybe GHC.Word.Word8]>_R
+                 ->_R Sym (Control.Monad.Trans.RWS.Lazy.N:RWST[0]
+                               <MusiCompoNator.Core.Scale>_R
+                               <[(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)]>_N
+                               <MusiCompoNator.GeneralMidi.MidiState>_N
+                               <Data.Functor.Identity.Identity>_R
+                               <()>_N)) -}
+a4d428bdf03178bff29d270149a6d893
+  writeOff1 ::
+    MusiCompoNator.Core.Beat
+    -> [GHC.Maybe.Maybe GHC.Word.Word8]
+    -> MusiCompoNator.Core.Scale
+    -> MusiCompoNator.GeneralMidi.MidiState
+    -> Data.Functor.Identity.Identity
+         ((), MusiCompoNator.GeneralMidi.MidiState,
+          [(GHC.Integer.Type.Integer, ZMidi.Core.Datatypes.MidiEvent)])
+  {- Arity: 4,
+     Strictness: <L,U(U,U)><S,1*U><L,A><L,U(U,U,U,U,U,U,U,U,U,U,U)>m,
+     Inline: [2],
+     Unfolding: InlineRule (4, True, False)
+                (\ (w :: MusiCompoNator.Core.Beat)
+                   (w1 :: [GHC.Maybe.Maybe GHC.Word.Word8])
+                   (w2 :: MusiCompoNator.Core.Scale)
+                   (w3 :: MusiCompoNator.GeneralMidi.MidiState) ->
+                 case MusiCompoNator.GeneralMidi.$wwriteOff
+                        w
+                        w1
+                        w3 of ww { (#,,#) ww1 ww2 ww3 ->
+                 (ww1, ww2, ww3)
+                   `cast`
+                 (Sym (Data.Functor.Identity.N:Identity[0]
+                           <((), MusiCompoNator.GeneralMidi.MidiState,
+                             [(GHC.Integer.Type.Integer,
+                               ZMidi.Core.Datatypes.MidiEvent)])>_R)) }) -}
+d30ddc9bd90d095d75e332f5bba2e67c
+  writeOn ::
+    MusiCompoNator.Core.Beat
+    -> [MusiCompoNator.Core.Pitch]
+    -> [GHC.Maybe.Maybe GHC.Word.Word8]
+    -> MusiCompoNator.GeneralMidi.MidiComposition ()
+  {- Arity: 3, Strictness: <L,U(U,U)><S,1*U><L,1*U> -}
+instance GHC.Base.Functor [MusiCompoNator.GeneralMidi.EventMidi]
+  = MusiCompoNator.GeneralMidi.$fFunctorEventMidi
+instance GHC.Show.Show [MusiCompoNator.GeneralMidi.EffectMidi]
+  = MusiCompoNator.GeneralMidi.$fShowEffectMidi
+instance GHC.Show.Show [MusiCompoNator.GeneralMidi.EventMidi]
+  = MusiCompoNator.GeneralMidi.$fShowEventMidi
+"SPEC beatSize @ (Phrase PhraseControl (Simultanity Pitch))" forall ($dMeasurable :: MusiCompoNator.Core.Measurable
+                                                                                       (MusiCompoNator.Composition.Phrase
+                                                                                          MusiCompoNator.Composition.PhraseControl
+                                                                                          (MusiCompoNator.Core.Simultanity
+                                                                                             MusiCompoNator.Core.Pitch)))
+  MusiCompoNator.GeneralMidi.beatSize @ (MusiCompoNator.Composition.Phrase
+                                           MusiCompoNator.Composition.PhraseControl
+                                           (MusiCompoNator.Core.Simultanity
+                                              MusiCompoNator.Core.Pitch))
+                                      $dMeasurable
+  = MusiCompoNator.GeneralMidi.beatSize_$sbeatSize
+"SPEC/MusiCompoNator.GeneralMidi $fEqMaybe @ Word8" [orphan] forall (v :: GHC.Classes.Eq
+                                                                            GHC.Word.Word8)
+  GHC.Maybe.$fEqMaybe @ GHC.Word.Word8 v
+  = MusiCompoNator.GeneralMidi.$s$fEqMaybe
+"SPEC/MusiCompoNator.GeneralMidi $fEqMaybe_$c/= @ Word8" [orphan] forall ($dEq :: GHC.Classes.Eq
+                                                                                    GHC.Word.Word8)
+  GHC.Maybe.$fEqMaybe_$c/= @ GHC.Word.Word8 $dEq
+  = MusiCompoNator.GeneralMidi.$s$fEqMaybe_$s$fEqMaybe_$c/=
+trusted: none
+require own pkg trusted: False
+module header:
+  Nothing
+declaration docs:
+arg docs:
+
