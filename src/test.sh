@@ -1,6 +1,6 @@
 # usage : ./test.sh ./Samples/songname.mid
 
-# stack build
+stack build
 # stack haddock
 
 rm -f ./Samples/*.mid
