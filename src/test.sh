@@ -1,5 +1,13 @@
+# usage : ./test.sh ./Samples/songname.mid
 
-rm ./*.mid
-stack runhaskell -- ./MusiCompoNator/Songbook/Twinkle.hs
-stack runhaskell -- ./MusiCompoNator/Songbook/PopCorn.hs
-fluidsynth --verbose --audio-driver=alsa -o audio.alsa.device=hw:0 /usr/share/sounds/sf2/FluidR3_GM.sf2 ./twinkleminor.mid
+# stack build
+# stack haddock
+
+rm -f ./Samples/*.mid
+stack runhaskell -- ./MC/Songbook/Twinkle.hs
+stack runhaskell -- ./MC/Songbook/PopCorn.hs
+stack runhaskell -- ./MC/Songbook/AllTheThingsYouAre.hs
+stack runhaskell -- ./MC/Songbook/DillaFeel101.hs
+mv *.mid ./Samples
+
+fluidsynth --verbose --audio-driver=alsa -o audio.alsa.device=hw:0 /usr/share/sounds/sf2/FluidR3_GM.sf2 $1

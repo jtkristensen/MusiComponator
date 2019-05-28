@@ -1,6 +1,5 @@
-name:                MusiCompoNator
+name:                MC
 version:             0.1.0.0
-github:              "furryRogue/MusiCompoNator"
 license:             BSD3
 author:              "Joachim Tilsted Kristensen"
 maintainer:          "tilsted@di.ku.dk"
@@ -8,16 +7,17 @@ copyright:           "2019 Joachim Tilsted Kristensen"
 
 extra-source-files:
 - README.md
-- ChangeLog.md
 
 # Metadata
-synopsis:    This is a combinator library for composing music.
+synopsis:    A combinator library for composing music.
 category:    Music composition.
-description: Please consult ./README.md
+description: MC is a declarative eDSL for computer aided Music Composition.
+             In which concepts such as harmony and rhythm are separated as
+             different concerns, and phrases may be expressed abstractly.
 
 dependencies:
 - base >= 4.7 && < 5
-- zmidi-core >= 0 && < 1
+- zmidi-core >= 0.9 && < 1
 - mtl
 
 library:
@@ -25,10 +25,9 @@ library:
 
 tests:
   MusiCompoNator-test:
-    main:        Spec.hs
+    main:        Songbook.hs
     source-dirs: test
     ghc-options:
     - -rtsopts
     dependencies:
-    - MusiCompoNator
-    - process
+    - MC
