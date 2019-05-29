@@ -408,15 +408,37 @@ derive s rp = fst $ runState rp s
 -- | Returns the 'mode' that a 'Relative' 'Pitch' is going to
 --   be drawn from, if it was to be drawn from a particular 'Scale'.
 relMode :: Relative Pitch -> (Scale -> Scale)
-relMode rp s = Scale p t
-  where (p, Scale _ t) = runState rp s
+relMode rp s = let (p, Scale _ t) = runState rp s in Scale p t
+
+-- | The relative pitch, that returns the 'root' of its underlying 'Scale'
+relRoot :: Relative Pitch
+relRoot = get >>= return . root
+
+-- | Returns an absolute 'Pitch' to 'Relative' according to The Berklee Method.
+--   If @p@ does not occur in the underlying scale, then @p@ is returned with
+--   the scale inversion whose 'root' is infimum with respect to @p@ in the set
+--   of possible inversions.
+absPitch :: Pitch -> Relative Pitch
+absPitch p = do
+  (offset, scale') <- locate p <$> get
+  modify (const scale')
+  fmap (+offset) relRoot
 
 -- | Modifies the 'Scale' that a @'Relative' pitch@ is drawn from.
 mode :: (Scale -> Scale) -> Relative pitch -> Relative pitch
-mode f rp = do
-  s <- get
-  put (f s)
-  rp
+mode f = (>>) $ modify f
+
+-- | Computes the 'Scale' inversion rooted as close to @p@ from below as
+--   possible, returns @p@s 'Semitone' off-set the root in that 'Scale'.
+locate :: Pitch -> Scale -> (Semitone, Scale)
+locate p s =
+  case (p `compare` s1, p `compare` s2) of
+    (LT, _ ) -> locate p $ invertl s
+    (EQ,  _) -> (0     , s)
+    (GT, LT) -> (p - s1, s)
+    (GT, _ ) -> locate p $ invertr s
+  where s1 = root $ step 1 s
+        s2 = root $ step 2 s
 
 -- | Modifies a @'Relative' pitch@ to be drawn from the scale underlying a 'Chord'
 chord2mode :: Chord -> Relative pitch -> Relative pitch

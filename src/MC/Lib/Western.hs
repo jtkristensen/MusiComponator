@@ -85,8 +85,8 @@ c''  = up   <$> c' ; d''  = up   <$> d' ; e''  = up   <$> e'; f'' = up   <$> f'
 g''  = up   <$> g' ; a''  = up   <$> a' ; b''  = up   <$> b'
 c'   = up   <$> c  ; d'   = up   <$> d  ; e'   = up   <$> e ; f'  = up   <$> f
 g'   = up   <$> g  ; a'   = up   <$> a  ; b'   = up   <$> b
-c    = return 0    ; d    = return 2    ; e    = return    4; f   = return 5;
-g    = return 7    ; a    = return 9    ; b    = return   11
+c    = absPitch 0  ; d    = absPitch 2  ; e    = absPitch  4; f   = absPitch 5
+g    = absPitch 7  ; a    = absPitch 9  ; b    = absPitch 11
 c_   = down <$> c  ; d_   = down <$> d  ; e_   = down <$> e ; f_  = down <$> f
 g_   = down <$> g  ; a_   = down <$> a  ; b_   = down <$> b
 c__  = down <$> c_ ; d__  = down <$> d_ ; e__  = down <$> e_; f__ = down <$> f_
@@ -111,7 +111,6 @@ cs_  = c_  <> sharp; ds_  = d_  <> sharp; es_  = e_  <> sharp; fs_  = f_  <> sha
 gs_  = g_  <> sharp; as_  = a_  <> sharp; bs_  = b_  <> sharp
 cs__ = c__ <> sharp; ds__ = d__ <> sharp; es__ = e__ <> sharp; fs__ = f__ <> sharp
 gs__ = g__ <> sharp; as__ = a__ <> sharp; bs__ = b__ <> sharp
-
 
 absolute :: Relative Pitch -> (Pitch -> Scale) -> Scale
 absolute rp f = f $ derive (chromatic 0) rp
