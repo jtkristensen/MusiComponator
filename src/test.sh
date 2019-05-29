@@ -1,7 +1,6 @@
 # usage : ./test.sh ./Samples/songname.mid
 
 stack build
-# stack haddock
 
 rm -f ./Samples/*.mid
 stack runhaskell -- ./MC/Songbook/Twinkle.hs

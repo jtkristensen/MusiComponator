@@ -112,17 +112,16 @@ gs_  = g_  <> sharp; as_  = a_  <> sharp; bs_  = b_  <> sharp
 cs__ = c__ <> sharp; ds__ = d__ <> sharp; es__ = e__ <> sharp; fs__ = f__ <> sharp
 gs__ = g__ <> sharp; as__ = a__ <> sharp; bs__ = b__ <> sharp
 
-absolute :: Relative Pitch -> (Pitch -> Scale) -> Scale
-absolute rp f = f $ derive (chromatic 0) rp
-
 -- | A common operaions on 'Pitch' in westen music.
 sharp, flat :: Relative Pitch
 sharp = do
-  modify $ \(Scale r t) -> Scale (r + 1) t
-  get >>= return . root
-flat = do
-  modify $ \(Scale r t) -> Scale (r - 1) t
-  get >>= return . root
+  s <- get
+  let (o, s') = locate (root s + 1) s
+  absPitch $ root s' + o
+flat  = do
+  s <- get
+  let (o, s') = locate (root s - 1) s
+  absPitch $ root s' + o
 
 -- | Common diatonic 'mode's.
 ionian, dorian, phrygian, lydian, mixolydian, aeolian, locrian :: Pitch -> Scale
@@ -136,23 +135,15 @@ locrian    p = Scale p [1, 2, 2, 1, 2, 2, 2]
 
 -- | Left and right motions for the inner and outer circles of fifths.
 c5outerr, c5outerl, c5innerr, c5innerl :: Voice ()
-c5outerr = do
-  s <- get
-  put $ s { vsKey = (relMode (v <> major4)) (vsKey s)}
-c5outerl = do
-  s <- get
-  put $ s { vsKey = (relMode (iv <> perfect4)) (vsKey s)}
+c5outerr = modify $ \s -> s { vsKey = (relMode (v <> major4)) (vsKey s)}
+c5outerl = modify $ \s -> s { vsKey = (relMode (iv <> perfect4)) (vsKey s)}
 c5innerr = relativeMinor >> c5outerr >> relativeMajor
 c5innerl = relativeMinor >> c5outerl >> relativeMajor
 
 -- | Relative major and minor 'mode's
 relativeMajor, relativeMinor           :: Voice ()
-relativeMajor = do
-  s <- get
-  put $ s { vsKey = relMode iii (vsKey s)}
-relativeMinor = do
-  s <- get
-  put $ s { vsKey = relMode vi_ (vsKey s)}
+relativeMajor = modify $ \s -> s {vsKey = relMode iii (vsKey s)}
+relativeMinor = modify $ \s -> s {vsKey = relMode vi_ (vsKey s)}
 
 -- | Alters a single interval on diatonic 'mode's
 minor2, major2, minor3, major3, perfect4, major4 :: Chord
@@ -226,19 +217,14 @@ modifyDiatonic 2 s = do
   return r
 modifyDiatonic m s = do
   s'@(Scale _ t) <- get
-  if   m < 2
-    then do put (invertl s')
-            modifyDiatonic (m + 1) (s + head t)
-            modify invertr
-            get >>= return . root
-    else do put (invertr s')
-            modifyDiatonic (m - 1) (s - head t)
-            modify invertl
-            get >>= return . root
+  if     m < 2
+    then modify invertl >> modifyDiatonic (m + 1) (s + head t) >> modify invertr
+    else modify invertr >> modifyDiatonic (m - 1) (s - head t) >> modify invertl
+  relRoot
 
 -- | Short hand for the 'Relative' 'Pitch' from step @n@ of some underlying 'Scale'.
 rp :: Int -> Relative Pitch
-rp n = (modify $ step n) >> get >>= return . root
+rp n = (modify $ step n) >> relRoot
 
 -- | A common 'Scale' abstrations (Nasville style).
 i, ii, iii, iiv, iv, v, vi, vii, viii, iix, ix, x              :: Relative Pitch
