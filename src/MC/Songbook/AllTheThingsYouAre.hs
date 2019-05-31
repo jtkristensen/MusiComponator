@@ -11,7 +11,6 @@
 module MC.Songbook.AllTheThingsYouAre where
 
 import MC.Midi.Compose
-import MC.Lib.Western
 
 -- We wish to explore different strategies for comping for this standard.
 type Strategy = [Chord] -> Voice AbstractPhrase

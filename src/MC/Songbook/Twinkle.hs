@@ -11,7 +11,6 @@
 module MC.Songbook.Twinkle where
 
 import MC.Midi.Compose
-import MC.Lib.Western
 
 melody :: Voice AbstractPhrase
 melody = return $ a <> b <> c <> c <> a <> b :<: r

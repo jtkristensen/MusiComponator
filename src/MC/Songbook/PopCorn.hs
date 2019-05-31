@@ -11,7 +11,6 @@
 module MC.Songbook.PopCorn where
 
 import MC.Midi.Compose
-import MC.Lib.Western
 
 -- Midway through the theme we change key to a relative major.
 -- In this case a maj#11 chord, that we can draw from the lydian major mode.

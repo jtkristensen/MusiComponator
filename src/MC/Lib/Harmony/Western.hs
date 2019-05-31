@@ -1,5 +1,5 @@
 {-|
-  Module      : MC.Lib.Western
+  Module      : MC.Lib.Harmony.Western
   Description : A library that describes common consructions in western music.
   Copyright   : (c) Joachim Tilsted Kristensen, 2019
   License     : BSD3
@@ -8,7 +8,7 @@
   Portability : POSIX
 -}
 
-module MC.Lib.Western where
+module MC.Lib.Harmony.Western where
 
 import MC.Core
 import Control.Monad.State
@@ -115,13 +115,9 @@ gs__ = g__ <> sharp; as__ = a__ <> sharp; bs__ = b__ <> sharp
 -- | A common operaions on 'Pitch' in westen music.
 sharp, flat :: Relative Pitch
 sharp = do
-  s <- get
-  let (o, s') = locate (root s + 1) s
-  absPitch $ root s' + o
+  get >>= (\(o, s') -> absPitch $ root s' + o) . (\s -> locate (root s + 1) s)
 flat  = do
-  s <- get
-  let (o, s') = locate (root s - 1) s
-  absPitch $ root s' + o
+  get >>= (\(o, s') -> absPitch $ root s' + o) . (\s -> locate (root s - 1) s)
 
 -- | Common diatonic 'mode's.
 ionian, dorian, phrygian, lydian, mixolydian, aeolian, locrian :: Pitch -> Scale
@@ -216,7 +212,7 @@ modifyDiatonic 2 s = do
   put $ Scale r $ s : (y + (x - s)) : ys
   return r
 modifyDiatonic m s = do
-  s'@(Scale _ t) <- get
+  (Scale _ t) <- get
   if     m < 2
     then modify invertl >> modifyDiatonic (m + 1) (s + head t) >> modify invertr
     else modify invertr >> modifyDiatonic (m - 1) (s - head t) >> modify invertl
@@ -286,28 +282,3 @@ chord1 = voicing [i, iii, v, vii]
 chord2 = voicing [iii, v, vii, i']
 chord3 = voicing [v, vii, i', iii']
 chord4 = voicing [vii, i', iii', v']
-
--- | A named beat durations in western music,
---   whole note, half note, quater note, eight note ...
-wn, hn, qn, en, sn, tsn, ssn :: Beat
-wn = 1 %  1; hn  = 1 %  2; qn  = 1 %  4; en = 1 % 8
-sn = 1 % 16; tsn = 1 % 32; ssn = 1 % 64
-
--- | Returns a 'Rhythm' consisting of @n@ consequtive 'Beat's
-wns, hns, qns, ens, sns, tsns, ssns :: Int -> Rhythm Beat
-wns  n = measure $ take n $ repeat  wn
-hns  n = measure $ take n $ repeat  hn
-qns  n = measure $ take n $ repeat  qn
-ens  n = measure $ take n $ repeat  en
-sns  n = measure $ take n $ repeat  sn
-tsns n = measure $ take n $ repeat tsn
-ssns n = measure $ take n $ repeat ssn
-
--- | A generalized tuplet, inspired by 'An Algebra of Music' by Paul Hudak.
-tuplet :: Integer -> Integer -> Rhythm Beat -> Rhythm Beat
-tuplet n d = fmap $ (*)(n % d)
-
--- | A common usages of the generalized tuplet.
-dotted, triplet :: Rhythm Beat -> Rhythm Beat
-dotted  = tuplet 3 2
-triplet = tuplet 2 3
