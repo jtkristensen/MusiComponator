@@ -14,6 +14,7 @@ module MC.Midi.Compose ( module MC.Core
                        , module MC.Lib.Rhythm.Western
                        , module MC.Lib.Harmony.Western
                        , (%)
+                       , modify
                        )
        where
 
@@ -22,4 +23,5 @@ import MC.Midi.Core
 import MC.Midi.Instrument
 import MC.Lib.Rhythm.Western
 import MC.Lib.Harmony.Western
+import Control.Monad.State (modify)
 import Data.Ratio

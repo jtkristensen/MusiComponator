@@ -44,25 +44,17 @@ dillaFeel b dIn dOut r = withSignature (signature r) $ fst $ jScale ratios r'
             (r2', ns' ) = jScale ns'' r2
     jScale _        _             = trace "empty" (beat 0, mempty)
 
-shuffle8, shuffle16, swing8, swing16 :: Rhythm1 -> Rhythm1
--- | Ordinary eight note shuffle (1 % 8 + 1 % 8) ~> (1 % 6 + 1 % 12)
-shuffle8  = dillaFeel (2 %  8) [1, 1] [2, 1]
--- | Ordinary sixteenth note shuffle (1 % 16 + 1 % 16) ~> (1 % 12 + 1 % 24)
-shuffle16 = dillaFeel (2 % 16) [1, 1] [2, 1]
--- | Ordinary eight note swing (1 % 8 + 1 % 8) ~> (3 % 16 + 1 % 16)
-swing8    = dillaFeel (2 %  8) [1, 1] [3, 1]
--- | Ordinary sixteenth note swing (1 % 16 + 1 % 16) ~> (3 % 32 + 1 % 32)
-swing16   = dillaFeel (2 % 16) [1, 1] [3, 1]
+shuffle, swing :: Beat -> Rhythm1 -> Rhythm1
+-- | Ordinary shuffle (b % 2 + b % 2) ~> triplet (b + b % 2)
+shuffle b = dillaFeel b [1, 1] [2, 1]
+-- | Ordinary eight note swing (b % 2 + b % 2) ~> dotted (b % 2) + b % 4
+swing   b = dillaFeel b [1, 1] [3, 1]
 
-unShuffle8, unShuffle16, unSwing8, unSwing16 :: Rhythm1 -> Rhythm1
--- | Ordinary eight note shuffle (1 % 8 + 1 % 8) ~> (1 % 6 + 1 % 12)
-unShuffle8  = dillaFeel (2 %  8) [2, 1] [1, 1]
--- | Ordinary sixteenth note shuffle (1 % 16 + 1 % 16) ~> (1 % 12 + 1 % 24)
-unShuffle16 = dillaFeel (2 % 16) [2, 1] [1, 1]
--- | Ordinary eight note swing (1 % 8 + 1 % 8) ~> (3 % 16 + 1 % 16)
-unSwing8    = dillaFeel (2 %  8) [3, 1] [1, 1]
--- | Ordinary sixteenth note swing (1 % 16 + 1 % 16) ~> (3 % 32 + 1 % 32)
-unSwing16   = dillaFeel (2 % 16) [3, 1] [1, 1]
+unshuffle, unswing :: Beat -> Rhythm1 -> Rhythm1
+-- | unshuffle b (shuffle b r) = shuffle b (unshuffle b r) = id r
+unshuffle b = dillaFeel b [2, 1] [1, 1]
+-- | unswing b (swing b r) = swing b (unswing b r) = id r
+unswing   b = dillaFeel b [3, 1] [1, 1]
 
 -- | A named beat durations in western music,
 --   whole note, half note, quater note, eight note ...
@@ -79,6 +71,14 @@ ens  n = measure $ take n $ repeat  en
 sns  n = measure $ take n $ repeat  sn
 tsns n = measure $ take n $ repeat tsn
 ssns n = measure $ take n $ repeat ssn
+
+-- | Common "rhythmic words" in western music are patterns of 3
+--   eight and sixteenth notes that last (1 % 4) to the meter.
+en_sn_sn = ens 1 <> sns 2          -- 𝆹𝅥𝅮𝆹𝅥𝅯𝆹𝅥𝅯
+sn_sn_en = sns 2 <> ens 1          -- 𝆹𝅥𝅯𝆹𝅥𝅯𝆹𝅥𝅮
+sn_en_sn = sns 1 <> ens 1 <> sns 1 -- 𝆹𝅥𝅯𝆺𝅥𝅮𝆹𝅥𝅯
+den_sn   = dotted (ens 1) <> sns 1 -- 𝆺𝅥𝅮.𝆹𝅥𝅯
+sn_den   = sns 1 <> dotted (ens 1) -- 𝆹𝅥𝅯𝆺𝅥𝅮.
 
 -- | A generalized tuplet, inspired by 'An Algebra of Music' by Paul Hudak.
 tuplet :: Integer -> Integer -> Rhythm Beat -> Rhythm Beat

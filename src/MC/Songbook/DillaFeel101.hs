@@ -1,4 +1,3 @@
-
 {-|
   Module      : MC.Songbook.AllTheThingsYouAre
   Description : A tribute to the greatest Hip Hop producer of all time;

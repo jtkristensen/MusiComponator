@@ -83,7 +83,10 @@ type Relative pitch = State Scale pitch
 --   mode from which @p1@ was drawn, and then derive @p2@ from that mode,
 --   and this happens to be an associative operation.
 instance Semigroup (Relative Pitch) where
-  p1 <> p2 = mode (relMode p1) p2
+  p1 <> p2 = do
+    (o, s') <- locate <$> p1 <*> get
+    modify (const s')
+    fmap (+o) p2
 
 -- | The 'Relative' 'Pitch' that just assumes the 'root' note of a 'Scale',
 --   may be viewed as the neutral element for combining pitches since
@@ -299,15 +302,12 @@ runVoice v s = (a, vsPhrases vs)
 
 -- | Shifts the notes in a voice by @n@ Semitones.
 transpose :: Semitone -> Voice ()
-transpose n = do
-  s <- get
-  put $ s {vsPhrases = map (liftH $ fmap (+n)) $ vsPhrases s}
+transpose n =
+  modify (\s -> s {vsKey = let (Scale r t) = vsKey s in Scale (r + n) t})
 
 -- | Returns the scale from which a voice is currently being derived.
 tonality :: Voice Scale
-tonality = do
-  s <- get
-  return $ vsKey s
+tonality = get >>= return . vsKey
 
 -- | Playing an absolute phrases, corresponds to writing it down
 --   with out caring about the underlying scale.
@@ -519,6 +519,10 @@ note b p = pitch p :<: beat b
 -- | The silent 'Phrase'.
 rest :: (Num b, Ord b) => b -> Phrase p b
 rest b  = silence :<: beat b
+
+-- | A motif is a small melodic entity that has been assigned a rhythm.
+motif :: [a] -> Rhythm b -> Phrase a b
+motif a b = line a :<: b
 
 -- | Apply 'Control's to a phrase.
 modifyCtrl :: Control -> Phrase p b -> Phrase p b

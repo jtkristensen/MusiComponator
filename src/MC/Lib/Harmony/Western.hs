@@ -131,8 +131,8 @@ locrian    p = Scale p [1, 2, 2, 1, 2, 2, 2]
 
 -- | Left and right motions for the inner and outer circles of fifths.
 c5outerr, c5outerl, c5innerr, c5innerl :: Voice ()
-c5outerr = modify $ \s -> s { vsKey = (relMode (v <> major4)) (vsKey s)}
-c5outerl = modify $ \s -> s { vsKey = (relMode (iv <> perfect4)) (vsKey s)}
+c5outerr = modify $ \s -> s { vsKey = (relMode (major4 <> v))     (vsKey s)}
+c5outerl = modify $ \s -> s { vsKey = (relMode (iv_ <> perfect4)) (vsKey s)}
 c5innerr = relativeMinor >> c5outerr >> relativeMajor
 c5innerl = relativeMinor >> c5outerl >> relativeMajor
 

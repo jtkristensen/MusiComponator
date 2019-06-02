@@ -7,6 +7,8 @@ stack runhaskell -- ./MC/Songbook/Twinkle.hs
 stack runhaskell -- ./MC/Songbook/PopCorn.hs
 stack runhaskell -- ./MC/Songbook/AllTheThingsYouAre.hs
 stack runhaskell -- ./MC/Songbook/DillaFeel101.hs
+stack runhaskell -- ./MC/Songbook/FrereJacques.hs
+stack runhaskell -- ./MC/Songbook/EnLilleNisseRejste.hs
 mv *.mid ./Samples
 
 fluidsynth --verbose --audio-driver=alsa -o audio.alsa.device=hw:0 /usr/share/sounds/sf2/FluidR3_GM.sf2 $1
