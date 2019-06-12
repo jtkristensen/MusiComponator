@@ -58,33 +58,33 @@ unswing   b = dillaFeel b [3, 1] [1, 1]
 
 -- | A named beat durations in western music,
 --   whole note, half note, quater note, eight note ...
-wn, hn, qn, en, sn, tsn, ssn :: Beat
-wn = 1 %  1; hn  = 1 %  2; qn  = 1 %  4; en = 1 % 8
-sn = 1 % 16; tsn = 1 % 32; ssn = 1 % 64
+wn, hn, qn, en, sn, tsn, ssn :: Rhythm1
+wn = beat $ 1 %  1; hn  = beat $ 1 %  2; qn  = beat $ 1 %  4; en = beat $ 1 % 8
+sn = beat $ 1 % 16; tsn = beat $ 1 % 32; ssn = beat $ 1 % 64
 
 -- | Returns a 'Rhythm' consisting of @n@ consequtive 'Beat's
 wns, hns, qns, ens, sns, tsns, ssns :: Int -> Rhythm Beat
-wns  n = measure $ take n $ repeat  wn
-hns  n = measure $ take n $ repeat  hn
-qns  n = measure $ take n $ repeat  qn
-ens  n = measure $ take n $ repeat  en
-sns  n = measure $ take n $ repeat  sn
-tsns n = measure $ take n $ repeat tsn
-ssns n = measure $ take n $ repeat ssn
+wns  n = foldr (<>) (measure []) $ map (const wn ) [1..n]
+hns  n = foldr (<>) (measure []) $ map (const hn ) [1..n]
+qns  n = foldr (<>) (measure []) $ map (const qn ) [1..n]
+ens  n = foldr (<>) (measure []) $ map (const en ) [1..n]
+sns  n = foldr (<>) (measure []) $ map (const sn ) [1..n]
+tsns n = foldr (<>) (measure []) $ map (const tsn) [1..n]
+ssns n = foldr (<>) (measure []) $ map (const ssn) [1..n]
 
 -- | Common "rhythmic words" in western music are patterns of 3
 --   eight and sixteenth notes that last (1 % 4) to the meter.
-en_sn_sn = ens 1 <> sns 2          -- 𝆹𝅥𝅮𝆹𝅥𝅯𝆹𝅥𝅯
-sn_sn_en = sns 2 <> ens 1          -- 𝆹𝅥𝅯𝆹𝅥𝅯𝆹𝅥𝅮
-sn_en_sn = sns 1 <> ens 1 <> sns 1 -- 𝆹𝅥𝅯𝆺𝅥𝅮𝆹𝅥𝅯
-den_sn   = dotted (ens 1) <> sns 1 -- 𝆺𝅥𝅮.𝆹𝅥𝅯
-sn_den   = sns 1 <> dotted (ens 1) -- 𝆹𝅥𝅯𝆺𝅥𝅮.
+en_sn_sn = en <> sn  <> sn -- 𝆹𝅥𝅮𝆹𝅥𝅯𝆹𝅥𝅯
+sn_sn_en = sn <> sn  <> en -- 𝆹𝅥𝅯𝆹𝅥𝅯𝆹𝅥𝅮
+sn_en_sn = sn <> en  <> sn -- 𝆹𝅥𝅯𝆺𝅥𝅮𝆹𝅥𝅯
+den_sn   = dotted en <> sn -- 𝆺𝅥𝅮.𝆹𝅥𝅯
+sn_den   = sn <> dotted en -- 𝆹𝅥𝅯𝆺𝅥𝅮.
 
 -- | A generalized tuplet, inspired by 'An Algebra of Music' by Paul Hudak.
 tuplet :: Integer -> Integer -> Rhythm Beat -> Rhythm Beat
 tuplet n d = fmap $ (*)(n % d)
 
 -- | A common usages of the generalized tuplet.
-dotted, triplet :: Rhythm Beat -> Rhythm Beat
+dotted, triplet :: Rhythm1 -> Rhythm1
 dotted  = tuplet 3 2
 triplet = tuplet 2 3

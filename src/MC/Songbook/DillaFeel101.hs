@@ -17,8 +17,8 @@ import MC.Midi.Compose
 hh1, hh2, bd, sd :: AbstractPhrase
 hh1 = rhythm $ qns 4
 hh2 = rhythm $ dillaFeel (2 % 8) [1, 1] [4, 3] $ ens 8
-bd  = rhythm $ measure [hn + en, hn - en]
-sd  = (silence <> hit <> silence <> hit) :<: qns 4
+bd  = rhythm $ hn :-: en :|: qn :-: en
+sd  = (mis <> hit <> mis <> hit) :<: qns 4
 
 dilla101 :: MidiComposition ()
 dilla101 = do

@@ -19,13 +19,13 @@ type Strategy = [Chord] -> Voice AbstractPhrase
 -- that belong to each chord, and then spell them out.
 blocks :: Strategy
 blocks  cs    = return $ (foldr1 (<>) $ map chord1 $ twice cs) :<: r
-  where r     = measure [hn, hn + qn, hn, qn, hn + qn, qn] <> r
+  where r     = hn :|: hn :-: qn :|: hn :|: qn :|: hn :-: qn :|: qn :|: r
         twice = foldr (\x xs -> x : x : xs) []
 
 -- We could also pick some important notes, and play them one at the time.
 walking :: Strategy
 walking [      ] = return $ rest 0
-walking [     c] = return $ note wn c
+walking [     c] = return $ note 1 c
 walking (c : cs) = do
   s   <- tonality
   aPh <- walking cs
@@ -41,7 +41,7 @@ walking (c : cs) = do
 -- Most of the melody in All The Things You Are is just the thirds of the chords.
 thirds :: Strategy
 thirds cs = return $ (foldr1 (<>) $ map (\c -> arpeggio [iii] c) cs) :<: r
-  where r = measure [wn, wn, wn + qn, hn + qn, wn + qn, hn + qn] <> r
+  where r = wn :|: wn :|: wn :-: qn :|: hn :-: qn :|: wn :-: qn :|: hn :-: qn :|: r
 
 -- Here are the chords for All The Things You Are (one chord per bar).
 chords :: [Chord]

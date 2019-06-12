@@ -26,13 +26,14 @@ transposed changekey n v = do
 -- Here is the for a Danish children song about an elf
 -- that traveled around the world.
 melody :: Voice ()
-melody = play $ velocity (4 % 5) $ motif
+melody = play $ fortissimo $ motif
   [ vi, v, iv, iii, ii, i, i, i
   , iv, iii, ii, i, vii_, vi_, v_, v_
   , i, i, i, vi, v, i, ii, iii, i, v, v, i] $
-  ens 1  <>
-  ens 4  <> qns 1 <> ens 2 <> den_sn <> ens 2  <> ens 4 <>
-  den_sn <> ens 2 <> qns 1 <> ens 4  <> den_sn <> dotted (qns 1)
+  foldr1 (<>)
+  [ en -- upbeat.
+  , ens 4, qn, ens 2, den_sn, ens 6, den_sn
+  , ens 2, qn, ens 4, den_sn, dotted qn]
 
 -- Here is a chord progression that follows the melody.
 basicChords :: Chord -> Sequence Chord
@@ -55,24 +56,24 @@ ellaborateChords next = foldr1 (<>) $ map chord1 $
 -- end up at a high or low frequency. So, we map the chords into
 -- the octave around the middle c.
 chords :: Sequence Chord -> Voice ()
-chords cs = between c c' (cs :<: qns 16) >>= play . velocity (2 % 3) . legato
+chords cs = between c c' (cs :<: qns 16) >>= play . mezzoForte . legato
 
 -- We output the melody in all major keys around the circle of fifths,
 -- starting at c ionian in both directions. The instrumentation is mainly
 -- to get out the christmas mood {^_^}.
 main :: IO ()
 main = do
-  midiMC2File "./enLilleNisseRejsteExerciseLeft.mid"   90 c ionian $
+  midiMC2File "./transExeL.mid"  90 c ionian $
     do mv c5outerl melody           `on` drawbarOrgan
        mv c5outerl melody           `on` celesta
        cv c5outerl (chords $ cs iv) `on` electricPiano1
-       play upbeats                 `on` rideBell 1
-  midiMC2File "./enLilleNisseRejsteExerciseRight.mid"  90 c ionian $
+       play (piano upbeats)         `on` rideBell 1
+  midiMC2File "./transExeR.mid"  90 c ionian $
     do mv c5outerr melody           `on` drawbarOrgan
        mv c5outerr melody           `on` celesta
        cv c5outerr (chords $ cs  v) `on` electricPiano1
-       play upbeats                 `on` rideBell 1
+       play (piano upbeats)         `on` rideBell 1
   where cs = ellaborateChords -- Decide on a harmonization (ellaborate/basic).
-        cv changekey v = play (rest en) <> transposed changekey 13 v
-        mv changekey v =                   transposed changekey 13 v
-        upbeats = velocity (3 % 5) $ rest qn <> (rhythm $ qns $ 16 * 13)
+        cv changekey v = play (rest $ duration en) <> transposed changekey 13 v
+        mv changekey v =                              transposed changekey 13 v
+        upbeats        = (rest $ duration qn) <> (rhythm $ qns $ 16 * 13)

@@ -140,7 +140,7 @@ instance (Num b, Ord b) => Monoid (Rhythm b) where
   mappend r1 r2 = measure $ unmeasure r1 <> unmeasure r2
 
 -- | BPM is short for @beats per minute@.
-type BPM      = Int         -- Beats per minute
+type BPM     = Int
 
 -- | 'Beat's are essentially subdivisions of a meter.
 type Beat     = Rational
@@ -469,8 +469,9 @@ pitch :: pitch -> Sequence pitch
 pitch = simultanity . return
 
 -- | Returns a drum hit (does not care about pitch)
-hit :: Sequence (Relative Pitch)
+hit, mis :: Sequence (Relative Pitch)
 hit = line [return 1]
+mis = silence
 
 -- | The single event 'Sequence' consisting of 'Silence'.
 silence :: Sequence pitch
@@ -527,24 +528,6 @@ motif a b = line a :<: b
 -- | Apply 'Control's to a phrase.
 modifyCtrl :: Control -> Phrase p b -> Phrase p b
 modifyCtrl = Ctrl
-
--- | Change the 'Velocity' at which a phrase should be played.
-velocity :: Percentage -> Phrase p b -> Phrase p b
-velocity q = modifyCtrl $ Velocity q
-
--- | Sets on a bound on the sounding 'Duration' of the notes in a 'Phrase'.
-staccato :: Duration -> Phrase p b -> Phrase p b
-staccato b = modifyCtrl $ Staccato b
-
--- | Play the notes more connected, and at a more gentle velocity.
-legato :: Phrase p b -> Phrase p b
-legato = modifyCtrl $ Legato
-
-modulate :: Percentage -> Phrase p b -> Phrase p b
-modulate = modifyCtrl . Modulator
-
-reverb :: Percentage -> Phrase p b -> Phrase p b
-reverb = modifyCtrl . Reverb
 
 -- | Repeats a 'Phrase'.
 times :: Int -> Phrase p b -> Phrase p b

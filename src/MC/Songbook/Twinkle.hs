@@ -18,7 +18,7 @@ melody = return $ a <> b <> c <> c <> a <> b :<: r
     a = line [ i,  i,    v,   v,  vi,  vi,  v] -- Twinkle twinkle ..
     b = line [iv, iv,  iii, iii,  ii,  ii,  i] -- How I wonder    ..
     c = line [ v,  v,   iv,  iv, iii, iii, ii] -- Up above the    ..
-    r = qns 6 <> hns 1 <> r
+    r = qns 6 <> hn <> r
 
 chords :: Voice AbstractPhrase
 chords = return $ a <> b <> c <> c <> a <> b :<: r
@@ -27,7 +27,7 @@ chords = return $ a <> b <> c <> c <> a <> b :<: r
     a = scheme [i, i, iv, i]
     b = scheme [iv, i, v, i]
     c = scheme [i, iv, i, v]
-    r = hns 1 <> r
+    r = hn <> r
 
 twinkle :: MidiComposition ()
 twinkle = do

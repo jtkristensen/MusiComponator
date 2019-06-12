@@ -33,22 +33,22 @@ bassLine = do
     bassRiff   = foldr1 (<>) . map (low . ost)
     low        = liftH $ fmap (mode $ relMode i_ . relMode i__)
     ost (1, c) =  arpeggio [i, iii, v, i'] c :<: sns 4
-    ost (m, c) = (arpeggio [i, i', v] c :<: ens 1 <> sns 2) <> ost (m - 1, c)
+    ost (m, c) = (arpeggio [i, i', v] c      :<: en_sn_sn) <> ost (m - 1, c)
 
 -- The melody is split in two sections as well.
 -- Moreover, the melody is split in parts that only differ on the rhythmic part.
 melody :: Voice ()
 melody = do
-  play $ rest (4 - qn)
+  play $ rest (3 + duration (dotted hn))
   part rhythm1 rhythm1' (arpeggio . ([iii, ii, iii     ]++)) iii
   part rhythm2 rhythm2' (arpeggio . ([iii, ii, iii, iii]++))   v
   where
     arppegios a1 a2 = line [i, ii] <> a1 i <> a1 vii_ <> a2 vi_
-    rhythm1         = ens  6 <> qns 1
-    rhythm1'        = ens 14 <> qns 1
-    rhythm2         = ens 4 <> sns 1 <> ens 1 <> beat (5 % 16)
-    rhythm2'        = ens  2 <> r2'' <> r2'' <> r2'' <> qns 1
-    r2''            = ens 1 <> sns 1 <> ens 2 <> sns 1
+    rhythm1         = ens    6 :|: qn
+    rhythm1'        = ens   14 :|: qn
+    rhythm2         = ens    4 :|: sn_en_sn :-: qn
+    rhythm2'        = ens    2 :|: r2'' :|: r2'' :|: r2'' :|: qn
+    r2''            = en_sn_sn :-: sn_en_sn
     part r r' arp e =
       let a1 = line [  i, vii_,   i, v_, iii_, v_,   i_]     :<: r
           a2 = line [iii,  ii , iii,  i,   v_, i , iii_]     :<: r
@@ -57,8 +57,8 @@ melody = do
           b2 = liftH (fmap (mode $ relMode iii)) b1
           c2 = liftH (fmap (mode $ relMode iii)) c1
       in do
-        play   $ staccato ssn $ a1 <> a1 <> b1 <> a1 <> a1 <> c1
-        relM11 $ staccato ssn $ a2 <> a2 <> b2 <> a2 <> a2 <> c2
+        play   $ staccato (1 % 32) $ a1 <> a1 <> b1 <> a1 <> a1 <> c1
+        relM11 $ staccato (1 % 32) $ a2 <> a2 <> b2 <> a2 <> a2 <> c2
 
 -- Choosing a file-name, tempo and key.
 -- Note that the recording is not in g minor, nor is it in Ab minor.
@@ -69,4 +69,3 @@ main = do
     do instrument synthBass1; voice2midi bassLine
        instrument reedOrgan;  voice2midi bassLine
        instrument synthBass2; voice2midi melody
-

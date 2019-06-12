@@ -12,7 +12,6 @@ module MC.Lib.Harmony.Western where
 
 import MC.Core
 import Control.Monad.State
-import Data.Ratio ((%))
 
 -- | A name for a particular 'Pitch' in western music.
 --   This particular pitch is 'Relative' to the 'chromatic' 'Scale',
@@ -133,8 +132,8 @@ locrian    p = Scale p [1, 2, 2, 1, 2, 2, 2]
 c5outerr, c5outerl, c5innerr, c5innerl :: Voice ()
 c5outerr = modify $ \s -> s { vsKey = (relMode (major4 <> v))     (vsKey s)}
 c5outerl = modify $ \s -> s { vsKey = (relMode (iv_ <> perfect4)) (vsKey s)}
-c5innerr = relativeMinor >> c5outerr >> relativeMajor
-c5innerl = relativeMinor >> c5outerl >> relativeMajor
+c5innerr = relativeMajor >> c5outerr >> relativeMinor
+c5innerl = relativeMajor >> c5outerl >> relativeMinor
 
 -- | Relative major and minor 'mode's
 relativeMajor, relativeMinor           :: Voice ()

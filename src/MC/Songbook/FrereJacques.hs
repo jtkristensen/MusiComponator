@@ -15,14 +15,14 @@ import MC.Midi.Compose
 melody :: Voice ()
 melody = do
   line' [i, ii, iii, i]        $ qns 4
-  line' [iii, iv, v]           $ qns 2  <> hns 1
+  line' [iii, iv, v]           $ qns 2  <> hn
   line' [v, vi, v, iv, iii, i] $ den_sn <> ens 2 <> qns 2
-  line' [i, v_, i]             $ qns 2  <> hns 1
-  where line' notes rhythm = play $ times 2 $ motif notes rhythm
+  line' [i, v_, i]             $ qns 2  <> hn
+  where line' notes rhythm = play . fortissimo $ times 2 $ motif notes rhythm
 
 chords :: Voice ()
 chords = play' $ triad1 i_ <> triad2 v__ <> triad1 i_ :<: qns 2 <> hns 1
-  where play' = play . velocity (2 % 3) . times 8
+  where play' = play . mezzoForte . times 8
 
 main :: IO ()
 main = midiMC2File "./frerejacques.mid" 105 g ionian $
